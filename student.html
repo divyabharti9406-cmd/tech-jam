@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Jam | Student Portal</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f3f6fc;
+  color:#172554;
+}
+header{
+  background:#172554;
+  color:white;
+  padding:20px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header h2{color:#60a5fa;margin:0}
+main{max-width:850px;margin:auto;padding:30px 18px}
+.card{
+  background:white;
+  padding:24px;
+  margin:20px 0;
+  border-radius:14px;
+  box-shadow:0 4px 15px #17255410;
+}
+input,textarea{
+  width:100%;
+  padding:13px;
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+  margin:10px 0;
+}
+textarea{min-height:90px}
+button{
+  padding:12px 18px;
+  border:0;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  margin:5px;
+}
+button:disabled{opacity:.4;cursor:not-allowed}
+.status button{background:#eaf0ff;color:#172554}
+.status button.active{background:#2563eb;color:white}
+.star{background:none;color:#cbd5e1;font-size:30px;padding:3px}
+.star.active{color:#eab308}
+.message{color:#2563eb;font-weight:bold}
+.note{background:#eff6ff;padding:12px;border-radius:8px;color:#1d4ed8}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>TECH JAM</h2>
+  <span>Student Portal</span>
+</header>
+
+<main>
+  <h1>Welcome, Student!</h1>
+  <p>Share your understanding. Improve your learning.</p>
+
+  <div class="note">
+    DEMO MODE: Responses are currently stored only in this browser.
+  </div>
+
+  <section class="card">
+    <h2>Join Classroom</h2>
+    <p>Enter the classroom code provided by your teacher.</p>
+    <input id="classCode" placeholder="Enter classroom code">
+    <button onclick="joinClass()">Join Classroom</button>
+    <p id="joinMessage" class="message"></p>
+  </section>
+
+  <section class="card">
+    <h2>How well did you understand?</h2>
+    <p>Select your understanding level.</p>
+    <div class="status">
+      <button onclick="selectStatus('Clear',this)">Clear</button>
+      <button onclick="selectStatus('Partially Clear',this)">Partially Clear</button>
+      <button onclick="selectStatus('Confused',this)">Confused</button>
+    </div>
+    <button id="statusSubmit" onclick="submitStatus()" disabled>
+      Submit Status
+    </button>
+    <p id="statusMessage" class="message"></p>
+  </section>
+
+  <section class="card">
+    <h2>Request a Poll</h2>
+    <p>Need a quick poll? Ask your teacher for permission.</p>
+    <button onclick="requestPoll()">Request Poll Permission</button>
+    <p id="pollMessage" class="message"></p>
+  </section>
+
+  <section class="card">
+    <h2>Rate Today's Explanation</h2>
+    <p>How helpful was the teacher's explanation?</p>
+    <div id="stars">
+      <button class="star" onclick="rate(1)">★</button>
+      <button class="star" onclick="rate(2)">★</button>
+      <button class="star" onclick="rate(3)">★</button>
+      <button class="star" onclick="rate(4)">★</button>
+      <button class="star" onclick="rate(5)">★</button>
+    </div>
+    <textarea id="suggestion" placeholder="Share your suggestions..."></textarea>
+    <button onclick="submitFeedback()">Submit Feedback</button>
+    <p id="feedbackMessage" class="message"></p>
+  </section>
+
+  <section class="card">
+    <h2>Anonymous Doubt Box</h2>
+    <p>Ask a question related to today's lecture.</p>
+    <textarea id="doubt" maxlength="500"
+      placeholder="Type your doubt here..."></textarea>
+    <button onclick="submitDoubt()">Submit Doubt</button>
+    <p id="doubtMessage" class="message"></p>
+  </section>
+
+</main>
+
+<script>
+let joined = false;
+let selectedStatus = "";
+let selectedRating = 0;
+
+function joinClass(){
+  const code=document.getElementById("classCode").value.trim();
+  if(!code){
+    document.getElementById("joinMessage").textContent=
+      "Please enter a classroom code.";
+    return;
+  }
+  joined=true;
+  document.getElementById("joinMessage").textContent=
+    "Demo: Classroom code entered successfully!";
+}
+
+function selectStatus(status,button){
+  if(!joined){
+    alert("Please join the classroom first.");
+    return;
+  }
+  selectedStatus=status;
+  document.querySelectorAll(".status button").forEach(b=>{
+    b.classList.remove("active");
+  });
+  button.classList.add("active");
+  document.getElementById("statusSubmit").disabled=false;
+}
+
+function submitStatus(){
+  if(!joined || !selectedStatus)return;
+  document.getElementById("statusMessage").textContent=
+    "Demo response: "+selectedStatus+" selected.";
+}
+
+function requestPoll(){
+  if(!joined){
+    alert("Please join the classroom first.");
+    return;
+  }
+  document.getElementById("pollMessage").textContent=
+    "Poll permission requested (demo). Teacher approval is not connected yet.";
+}
+
+function rate(value){
+  if(!joined){
+    alert("Please join the classroom first.");
+    return;
+  }
+  selectedRating=value;
+  document.querySelectorAll(".star").forEach((star,index)=>{
+    star.classList.toggle("active",index<value);
+  });
+}
+
+function submitFeedback(){
+  if(!joined){alert("Please join the classroom first.");return;}
+  if(!selectedRating){alert("Please select a star rating.");return;}
+  document.getElementById("feedbackMessage").textContent=
+    "Thank you! Demo feedback submitted.";
+}
+
+function submitDoubt(){
+  if(!joined){alert("Please join the classroom first.");return;}
+  const doubt=document.getElementById("doubt").value.trim();
+  if(!doubt){alert("Please enter your doubt.");return;}
+  document.getElementById("doubtMessage").textContent=
+    "Demo doubt received. AI moderation is not connected yet.";
+  document.getElementById("doubt").value="";
+}
+</script>
+
+</body>
+</html>
