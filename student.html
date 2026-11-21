@@ -4,7 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Classroom Pulse - Student Portal</title>
+<title>Live Classroom Pulse | Student Portal</title>
+
+<!-- Chart.js for classroom analytics -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 * {
@@ -15,81 +18,86 @@
 }
 
 body {
-    background: #f4f6fb;
-    color: #202b45;
+    background: #101827;
+    color: white;
+    min-height: 100vh;
 }
 
-/* HEADER */
 header {
-    background: #202b45;
-    color: white;
-    padding: 20px 40px;
+    background: #101827;
+    border-bottom: 1px solid #29364b;
+    padding: 22px 6%;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .logo {
-    color: #8ea9ff;
-    font-size: 25px;
+    color: #55c7ff;
+    font-size: 23px;
     font-weight: bold;
 }
 
 .profile {
-    background: #34415f;
-    padding: 10px 18px;
-    border-radius: 20px;
+    background: #1b2b45;
+    padding: 11px 20px;
+    border-radius: 25px;
+    color: #cbd5e1;
+    font-size: 14px;
 }
 
-/* WELCOME */
 .welcome {
-    background: linear-gradient(120deg, #202b45, #536dfe);
-    color: white;
-    margin: 25px 35px;
+    margin: 30px 6%;
     padding: 35px;
-    border-radius: 15px;
+    border-radius: 16px;
+    background: linear-gradient(120deg, #1b2b45, #244e83);
+    border: 1px solid #344761;
 }
 
 .welcome h1 {
-    font-size: 30px;
+    font-size: clamp(25px, 4vw, 36px);
     margin-bottom: 12px;
 }
 
-.welcome p {
-    color: #e0e7ff;
+.welcome h1 span {
+    color: #55c7ff;
 }
 
-/* NAVIGATION */
+.welcome p {
+    color: #bdcce0;
+    line-height: 1.7;
+}
+
 .navbar {
     display: flex;
-    gap: 12px;
-    margin: 25px 35px;
+    gap: 10px;
+    margin: 25px 6%;
     padding: 12px;
-    background: white;
+    background: #1b2b45;
+    border: 1px solid #344761;
     border-radius: 12px;
     overflow-x: auto;
 }
 
 .navbar button {
     background: transparent;
-    color: #53617b;
-    padding: 13px 20px;
     border: none;
-    border-radius: 8px;
+    color: #a5b4cc;
+    padding: 13px 19px;
     cursor: pointer;
+    border-radius: 8px;
     white-space: nowrap;
     font-size: 14px;
 }
 
 .navbar button.active,
 .navbar button:hover {
-    background: #536dfe;
+    background: #2563eb;
     color: white;
 }
 
-/* MAIN CONTENT */
 .container {
-    margin: 30px 35px;
+    margin: 30px 6%;
 }
 
 .section {
@@ -101,64 +109,239 @@ header {
 }
 
 .card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 12px #0000000c;
+    background: #1b2b45;
+    border: 1px solid #344761;
+    padding: 26px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+    box-shadow: 0 5px 20px #0002;
 }
 
 .card h2 {
     margin-bottom: 15px;
+    color: #55c7ff;
 }
 
-input, textarea {
-    width: 100%;
-    padding: 13px;
-    margin: 12px 0;
-    border: 1px solid #d5dbea;
-    border-radius: 8px;
+.card p {
+    color: #b7c5da;
+    line-height: 1.7;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: #1b2b45;
+    border: 1px solid #344761;
+    border-radius: 13px;
+    padding: 22px;
+}
+
+.stat h3 {
+    font-size: 27px;
+    color: #55c7ff;
+    margin-bottom: 8px;
+}
+
+.stat p {
+    color: #a5b4cc;
+    font-size: 13px;
 }
 
 .action {
-    background: #536dfe;
+    background: #2563eb;
     color: white;
-    padding: 12px 22px;
+    padding: 12px 21px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    margin: 7px 5px 7px 0;
+    font-weight: bold;
 }
 
 .action:hover {
-    background: #354bd4;
+    background: #1d4ed8;
+}
+
+.action:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.secondary {
+    background: #344761;
+}
+
+.secondary:hover {
+    background: #405878;
+}
+
+.success {
+    color: #4ade80 !important;
+}
+
+.warning {
+    color: #fbbf24 !important;
+}
+
+.error {
+    color: #f87171 !important;
+}
+
+.message {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+textarea, input[type="text"] {
+    width: 100%;
+    background: #101827;
+    border: 1px solid #40516d;
+    border-radius: 9px;
+    padding: 14px;
+    margin: 13px 0;
+    color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 115px;
+    resize: vertical;
+}
+
+textarea:focus, input:focus {
+    border-color: #55c7ff;
 }
 
 .option {
     display: block;
-    padding: 13px;
-    margin: 10px 0;
-    background: #f3f5fb;
-    border-radius: 8px;
+    background: #101827;
+    border: 1px solid #344761;
+    padding: 15px;
+    border-radius: 9px;
+    margin: 11px 0;
+    cursor: pointer;
+    color: #dbeafe;
 }
 
 .option input {
-    width: auto;
     margin-right: 10px;
+    accent-color: #55c7ff;
 }
 
-.stars {
-    font-size: 30px;
-    color: #ccc;
+.chart-container {
+    background: #101827;
+    border: 1px solid #344761;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+    max-width: 650px;
+}
+
+.chart-container canvas {
+    max-height: 300px;
+}
+
+.tag {
+    display: inline-block;
+    background: #263c5b;
+    color: #55c7ff;
+    padding: 7px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin: 5px 4px 5px 0;
+}
+
+.chat-box {
+    background: #101827;
+    border: 1px solid #344761;
+    padding: 18px;
+    border-radius: 12px;
+    min-height: 220px;
+    max-height: 380px;
+    overflow-y: auto;
+    margin: 18px 0;
+}
+
+.chat-message {
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    max-width: 90%;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.bot {
+    background: #263c5b;
+    color: #dbeafe;
+}
+
+.student {
+    background: #2563eb;
+    color: white;
+    margin-left: auto;
+}
+
+.suggestion-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.suggestion-buttons button {
+    background: #263c5b;
+    border: 1px solid #40516d;
+    color: #55c7ff;
+    border-radius: 20px;
+    padding: 9px 14px;
     cursor: pointer;
 }
 
-.stars span.active {
-    color: orange;
+.notice {
+    padding: 16px;
+    background: #263c5b;
+    border-left: 4px solid #55c7ff;
+    border-radius: 7px;
+    margin-top: 15px;
+    color: #dbeafe;
+    line-height: 1.6;
 }
 
-.message {
-    margin-top: 12px;
-    color: green;
+.lock-screen {
+    background: #301d29;
+    border: 1px solid #a33e52;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+}
+
+.lock-screen h2 {
+    color: #f87171;
+    margin-bottom: 15px;
+}
+
+.lock-screen p {
+    color: #f5c4ce;
+    line-height: 1.8;
+}
+
+footer {
+    text-align: center;
+    border-top: 1px solid #29364b;
+    padding: 25px;
+    margin-top: 50px;
+    color: #8291a9;
+    font-size: 13px;
+}
+
+.hidden {
+    display: none !important;
 }
 
 @media(max-width:600px) {
@@ -173,29 +356,37 @@ input, textarea {
     .container {
         margin: 15px;
     }
+
+    .welcome {
+        padding: 25px;
+    }
+
+    .card {
+        padding: 19px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
-    <div class="logo">Pulse.</div>
-    <div class="profile">👤 Student</div>
+    <div class="logo">⚡ PULSE.</div>
+    <div class="profile">👤 Student Portal</div>
 </header>
 
-<!-- WELCOME SECTION -->
 <div class="welcome">
-    <h1>Welcome to Live Classroom Pulse! 👋</h1>
+    <h1>Welcome to <span>Live Classroom Pulse!</span> 👋</h1>
     <p>Your classroom, your voice, your learning.</p>
-    <p style="margin-top:12px;">
-        Participate in live sessions, share doubts and track your understanding.
+    <p style="margin-top:10px">
+        Participate in lectures, express your difficulties
+        and tell your teachers what helps you learn better.
     </p>
 </div>
 
-<!-- STUDENT NAVIGATION BAR -->
-<nav class="navbar">
+<!-- NAVIGATION -->
+
+<nav class="navbar" id="navbar">
 
     <button class="active" onclick="showTab('home',this)">
         🏠 Home
@@ -209,16 +400,8 @@ input, textarea {
         🔒 Doubts
     </button>
 
-    <button onclick="showTab('poll',this)">
-        🗳️ Live Poll
-    </button>
-
-    <button onclick="showTab('feedback',this)">
-        ⭐ Feedback
-    </button>
-
-    <button onclick="showTab('ai',this)">
-        🤖 AI Assistant
+    <button onclick="showTab('suggestions',this)">
+        🤖 Suggestions
     </button>
 
 </nav>
@@ -226,190 +409,1005 @@ input, textarea {
 <div class="container">
 
 <!-- HOME -->
+
 <section id="home" class="section active">
+
     <div class="card">
-        <h2>Welcome, Student! 🌟</h2>
-        <p>Ready to learn something new today?</p>
-        <br>
-        <p>Use the navigation bar to participate in your classroom activities.</p>
+        <h2>🌟 Your Learning Dashboard</h2>
+        <p>
+            Your feedback helps teachers understand classroom
+            difficulties and improve their teaching methods.
+        </p>
     </div>
+
+    <div class="grid">
+
+        <div class="stat">
+            <h3>📊</h3>
+            <p>Share your understanding through My Pulse.</p>
+        </div>
+
+        <div class="stat">
+            <h3>🔒</h3>
+            <p>Ask academic doubts privately.</p>
+        </div>
+
+        <div class="stat">
+            <h3>🤖</h3>
+            <p>Tell our suggestion assistant what learning
+            resources you need.</p>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h2>📢 Classroom Reminder</h2>
+        <p>
+            Please keep your submissions academic,
+            respectful and related to your classroom.
+            Your feedback helps improve everyone's learning.
+        </p>
+    </div>
+
 </section>
 
+
 <!-- MY PULSE -->
+
 <section id="pulse" class="section">
+
     <div class="card">
         <h2>📊 My Classroom Pulse</h2>
-        <p>How well are you understanding today's lecture?</p>
 
-        <button class="action" onclick="setStatus('Clear')">😊 Clear</button>
-        <button class="action" onclick="setStatus('Confused')">😕 Confused</button>
-        <button class="action" onclick="setStatus('Need Help')">🙋 Need Help</button>
+        <p>
+            How well are you understanding the ongoing lecture?
+        </p>
+
+        <div id="pulseControls">
+
+            <button class="action" onclick="setStatus('Clear')">
+                😊 Clear
+            </button>
+
+            <button class="action" onclick="setStatus('Confused')">
+                😕 Confused
+            </button>
+
+            <button class="action" onclick="setStatus('Need Help')">
+                🙋 Need Help
+            </button>
+
+        </div>
 
         <p id="statusMessage" class="message"></p>
     </div>
-</section>
 
-<!-- DOUBTS -->
-<section id="doubts" class="section">
     <div class="card">
-        <h2>🔒 Anonymous Doubt Box</h2>
-        <p>Ask your question freely. Your identity should not be revealed.</p>
+        <h2>🗳️ Teacher's Classroom Check-in</h2>
 
-        <textarea id="doubt" placeholder="Write your doubt here..."></textarea>
+        <p id="pollQuestion">
+            No classroom poll has been published yet.
+        </p>
 
-        <button class="action" onclick="submitDoubt()">Submit Doubt</button>
-
-        <p id="doubtMessage" class="message"></p>
-    </div>
-</section>
-
-<!-- LIVE POLL -->
-<section id="poll" class="section">
-    <div class="card">
-        <h2>🗳️ Live Classroom Poll</h2>
-        <p>How much of today's topic did you understand?</p>
-
-        <label class="option">
-            <input type="radio" name="poll" value="Fully understood">
-            Fully Understood
-        </label>
-
-        <label class="option">
-            <input type="radio" name="poll" value="Partially understood">
-            Partially Understood
-        </label>
-
-        <label class="option">
-            <input type="radio" name="poll" value="Not understood">
-            Not Understood
-        </label>
-
-        <button class="action" onclick="submitPoll()">Submit Response</button>
-
-        <p id="pollMessage" class="message"></p>
-    </div>
-</section>
-
-<!-- FEEDBACK -->
-<section id="feedback" class="section">
-    <div class="card">
-        <h2>⭐ Topic Feedback</h2>
-        <p>Rate today's teacher explanation.</p>
-
-        <div class="stars" id="stars">
-            <span onclick="rate(1)">★</span>
-            <span onclick="rate(2)">★</span>
-            <span onclick="rate(3)">★</span>
-            <span onclick="rate(4)">★</span>
-            <span onclick="rate(5)">★</span>
+        <div id="teacherPoll">
+            <p class="message">
+                Your teacher's active poll will appear here.
+            </p>
         </div>
 
-        <button class="action" onclick="submitRating()">Submit Rating</button>
-
-        <p id="ratingMessage" class="message"></p>
+        <div id="pollResultMessage" class="message"></div>
     </div>
+
+    <div class="card">
+        <h2>📈 Classroom Understanding Analysis</h2>
+
+        <p>
+            This chart represents the aggregated understanding
+            responses collected by the classroom system.
+        </p>
+
+        <div class="chart-container">
+            <canvas id="pulseChart"></canvas>
+        </div>
+
+        <p class="message warning">
+            Demo chart: real classroom-wide data requires a
+            shared database and teacher-side integration.
+        </p>
+    </div>
+
 </section>
 
-<!-- AI ASSISTANT -->
-<section id="ai" class="section">
-    <div class="card">
-        <h2>🤖 AI Learning Assistant</h2>
-        <p>Ask your doubts and get help with learning.</p>
 
-        <input id="question" placeholder="Ask anything about today's topic...">
+<!-- DOUBTS -->
 
-        <button class="action" onclick="askAI()">Ask AI</button>
+<section id="doubts" class="section">
 
-        <p id="aiMessage" class="message"></p>
+    <div id="doubtContent" class="card">
+
+        <h2>🔒 Anonymous Academic Doubt Box</h2>
+
+        <p>
+            Having difficulty understanding a concept?
+            Submit your academic doubt here.
+        </p>
+
+        <textarea
+            id="doubt"
+            placeholder="Write your subject-related doubt here..."
+        ></textarea>
+
+        <button class="action" onclick="submitDoubt()">
+            Submit Academic Doubt
+        </button>
+
+        <p id="doubtMessage" class="message"></p>
+
     </div>
+
+    <div class="card">
+        <h2>📚 Academic Doubt Categories</h2>
+
+        <span class="tag">Concept clarification</span>
+        <span class="tag">Numerical problems</span>
+        <span class="tag">Lecture difficulties</span>
+        <span class="tag">Assignments</span>
+        <span class="tag">Exam preparation</span>
+
+        <div class="notice">
+            Your doubt will be checked for academic relevance
+            before being accepted.
+        </div>
+    </div>
+
+</section>
+
+
+<!-- AI SUGGESTIONS -->
+
+<section id="suggestions" class="section">
+
+    <div class="card">
+
+        <h2>🤖 Academic Suggestions Assistant</h2>
+
+        <p>
+            What would help you understand today's lecture better?
+            Share your requirements with our academic assistant.
+        </p>
+
+        <div class="notice">
+            The assistant accepts academic suggestions only.
+            Tell it whether you need notes, another explanation,
+            worksheets, tests or additional practice.
+        </div>
+
+        <div class="chat-box" id="chatBox">
+
+            <div class="chat-message bot">
+                Hello! 👋 I'm your Academic Suggestions Assistant.
+                <br><br>
+                Tell me what would improve your learning experience.
+                <br><br>
+                For example:
+                <br>
+                • I need another explanation of this topic.
+                <br>
+                • Please provide notes.
+                <br>
+                • I need practice worksheets.
+                <br>
+                • Can we have a topic test?
+            </div>
+
+        </div>
+
+        <div class="suggestion-buttons">
+
+            <button onclick="quickSuggestion('I need a relecture.')">
+                📖 Relecture
+            </button>
+
+            <button onclick="quickSuggestion('I need study notes.')">
+                📝 Notes
+            </button>
+
+            <button onclick="quickSuggestion('I need practice worksheets.')">
+                📚 Worksheets
+            </button>
+
+            <button onclick="quickSuggestion('I need a topic test.')">
+                📝 Topic Test
+            </button>
+
+        </div>
+
+        <input
+            type="text"
+            id="suggestionInput"
+            placeholder="Describe your academic requirement..."
+            onkeydown="if(event.key==='Enter') sendSuggestion()"
+        >
+
+        <button class="action" onclick="sendSuggestion()">
+            Send Suggestion →
+        </button>
+
+        <p id="suggestionMessage" class="message"></p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📊 AI Suggestion Analysis</h2>
+
+        <p>
+            Academic suggestions can be grouped into categories
+            to identify the most requested learning resources.
+        </p>
+
+        <div class="chart-container">
+            <canvas id="suggestionChart"></canvas>
+        </div>
+
+        <div id="suggestionSummary" class="notice">
+            Suggestions will appear in the analysis after submission.
+        </div>
+
+        <p class="message warning">
+            Demo analytics are stored only in this browser.
+            Teacher-wide analysis requires backend integration.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- TEMPORARY FREEZE SCREEN -->
+
+<section id="frozen" class="section">
+
+    <div class="lock-screen">
+
+        <h2>🔒 Student Portal Temporarily Frozen</h2>
+
+        <p id="freezeReason">
+            Your access to classroom submissions has been temporarily
+            restricted due to a moderation violation.
+        </p>
+
+        <br>
+
+        <p>
+            You cannot submit doubts, suggestions or classroom
+            responses while this restriction is active.
+        </p>
+
+        <br>
+
+        <p>
+            Please meet your teacher during the offline classroom
+            session for verification and restoration of access.
+        </p>
+
+        <br>
+
+        <p id="freezeExpiry"></p>
+
+    </div>
+
 </section>
 
 </div>
 
+<footer>
+    © 2026 Live Classroom Pulse |
+    AI-Powered Classroom Intelligence
+</footer>
+
+
 <script>
 
-// NAVIGATION FUNCTION
+// ========================================
+// BASIC CONFIGURATION
+// ========================================
+
+// DEMO MODE ONLY.
+// Real authentication and moderation must be implemented
+// through a secure backend.
+
+const STORAGE_KEY = "lcp_student_demo";
+const DEMO_POLL_KEY = "lcp_teacher_demo_poll";
+
+let studentData = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || "{}"
+);
+
+studentData.pulseResponses = studentData.pulseResponses || [];
+studentData.suggestions = studentData.suggestions || [];
+studentData.doubts = studentData.doubts || [];
+studentData.freezeUntil = studentData.freezeUntil || null;
+
+let selectedStatus = "";
+let pulseChart = null;
+let suggestionChart = null;
+
+function saveData() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(studentData));
+}
+
+
+// ========================================
+// NAVIGATION
+// ========================================
+
 function showTab(tabId, button) {
 
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-    });
-
-    document.querySelectorAll('.navbar button').forEach(btn => {
-        btn.classList.remove('active');
-    });
-
-    document.getElementById(tabId).classList.add('active');
-    button.classList.add('active');
-}
-
-// UNDERSTANDING STATUS
-function setStatus(status) {
-    document.getElementById('statusMessage').innerText =
-    "Your response: " + status;
-}
-
-// ANONYMOUS DOUBT
-function submitDoubt() {
-    let doubt = document.getElementById('doubt').value.trim();
-
-    if (!doubt) {
-        alert("Please enter your doubt.");
+    if (isFrozen() && tabId !== "frozen") {
+        alert("Your portal is temporarily frozen. Please meet your teacher.");
+        showFrozenScreen();
         return;
     }
 
-    document.getElementById('doubtMessage').innerText =
-    "Your doubt has been submitted anonymously!";
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+    });
 
-    document.getElementById('doubt').value = "";
+    document.querySelectorAll(".navbar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById(tabId).classList.add("active");
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    if (tabId === "pulse") {
+        renderPulseChart();
+        loadTeacherPoll();
+    }
+
+    if (tabId === "suggestions") {
+        renderSuggestionChart();
+    }
 }
 
-// LIVE POLL
-function submitPoll() {
-    let answer = document.querySelector('input[name="poll"]:checked');
+
+// ========================================
+// TEMPORARY FREEZE SYSTEM
+// ========================================
+
+function isFrozen() {
+
+    if (!studentData.freezeUntil) return false;
+
+    if (Date.now() >= studentData.freezeUntil) {
+
+        // Restriction automatically expires at the end
+        // of the local calendar day.
+
+        studentData.freezeUntil = null;
+        studentData.freezeReason = null;
+        saveData();
+
+        return false;
+    }
+
+    return true;
+}
+
+function freezeStudent(reason) {
+
+    // Freeze expires at local midnight.
+    const now = new Date();
+    const midnight = new Date(now);
+
+    midnight.setHours(24, 0, 0, 0);
+
+    studentData.freezeUntil = midnight.getTime();
+    studentData.freezeReason = reason;
+
+    saveData();
+
+    showFrozenScreen();
+}
+
+function showFrozenScreen() {
+
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.getElementById("frozen").classList.add("active");
+
+    document.querySelectorAll(".navbar button").forEach(button => {
+        button.classList.remove("active");
+    });
+
+    document.getElementById("freezeReason").innerText =
+        studentData.freezeReason ||
+        "Your portal has been temporarily restricted.";
+
+    document.getElementById("freezeExpiry").innerText =
+        "Restriction expiry: " +
+        new Date(studentData.freezeUntil).toLocaleString();
+
+    document.getElementById("navbar").classList.add("hidden");
+}
+
+function checkFreeze() {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+    } else {
+        document.getElementById("navbar").classList.remove("hidden");
+    }
+}
+
+
+// ========================================
+// CONTENT MODERATION
+// ========================================
+
+// These lists are only basic demonstration rules.
+// A real AI moderation service must evaluate context,
+// language variations and severity.
+
+const abusiveWords = [
+    "fuck",
+    "fucking",
+    "shit",
+    "bastard",
+    "asshole",
+    "motherfucker"
+];
+
+const inappropriatePhrases = [
+    "kill the teacher",
+    "i will hurt the teacher"
+];
+
+function moderateContent(message) {
+
+    const text = message.toLowerCase().trim();
+
+    // Check explicit abusive language.
+
+    const containsAbuse = abusiveWords.some(word => {
+        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return new RegExp("\\b" + escaped + "\\b", "i").test(text);
+    });
+
+    const containsThreat = inappropriatePhrases.some(phrase =>
+        text.includes(phrase)
+    );
+
+    if (containsAbuse || containsThreat) {
+        return "abusive";
+    }
+
+    // Basic academic relevance check.
+
+    const academicKeywords = [
+        "lecture", "topic", "chapter", "notes", "study",
+        "worksheet", "test", "exam", "subject", "concept",
+        "question", "doubt", "explain", "understand",
+        "revision", "practice", "assignment", "numerical",
+        "formula", "teacher", "class", "relecture",
+        "math", "physics", "chemistry", "biology",
+        "programming", "coding", "homework", "example",
+        "revision", "learning", "lesson"
+    ];
+
+    const academic = academicKeywords.some(word =>
+        text.includes(word)
+    );
+
+    return academic ? "academic" : "irrelevant";
+}
+
+
+// ========================================
+// MY PULSE
+// ========================================
+
+function setStatus(status) {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+        return;
+    }
+
+    selectedStatus = status;
+
+    studentData.pulseResponses.push({
+        status: status,
+        time: Date.now()
+    });
+
+    saveData();
+
+    document.getElementById("statusMessage").innerText =
+        "Your understanding status: " + status;
+
+    renderPulseChart();
+}
+
+
+// ========================================
+// TEACHER POLL INTEGRATION
+// ========================================
+
+// Demo integration: reads a poll saved in the same browser.
+// A shared database is required for different devices.
+
+function loadTeacherPoll() {
+
+    const poll = JSON.parse(
+        localStorage.getItem(DEMO_POLL_KEY) || "null"
+    );
+
+    const container = document.getElementById("teacherPoll");
+
+    if (!poll || !poll.question || !Array.isArray(poll.options)) {
+        document.getElementById("pollQuestion").innerText =
+            "No classroom poll has been published yet.";
+
+        container.innerHTML =
+            '<p class="message">Your teacher’s active poll will appear here.</p>';
+
+        return;
+    }
+
+    document.getElementById("pollQuestion").innerText =
+        poll.question;
+
+    container.innerHTML = "";
+
+    poll.options.forEach((option, index) => {
+
+        const label = document.createElement("label");
+        label.className = "option";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "teacherPoll";
+        radio.value = option;
+
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option));
+
+        container.appendChild(label);
+    });
+
+    const submit = document.createElement("button");
+    submit.className = "action";
+    submit.textContent = "Submit Poll Response";
+
+    submit.onclick = submitTeacherPoll;
+
+    container.appendChild(submit);
+}
+
+function submitTeacherPoll() {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+        return;
+    }
+
+    const answer = document.querySelector(
+        'input[name="teacherPoll"]:checked'
+    );
 
     if (!answer) {
-        alert("Please select an option.");
+        alert("Please select an answer.");
         return;
     }
 
-    document.getElementById('pollMessage').innerText =
-    "Your response has been submitted!";
+    document.getElementById("pollResultMessage").innerText =
+        "Your classroom poll response has been recorded in demo mode.";
+
+    // In production, send answer and poll ID to the backend.
 }
 
-// STAR RATING
-let rating = 0;
 
-function rate(value) {
-    rating = value;
+// ========================================
+// PULSE CHART
+// ========================================
 
-    document.querySelectorAll('#stars span').forEach((star,index) => {
-        star.classList.toggle('active',index < value);
+function renderPulseChart() {
+
+    const counts = {
+        "Clear": 0,
+        "Confused": 0,
+        "Need Help": 0
+    };
+
+    studentData.pulseResponses.forEach(response => {
+        if (counts[response.status] !== undefined) {
+            counts[response.status]++;
+        }
     });
+
+    if (pulseChart) {
+        pulseChart.destroy();
+    }
+
+    pulseChart = new Chart(
+        document.getElementById("pulseChart"),
+        {
+            type: "doughnut",
+
+            data: {
+                labels: Object.keys(counts),
+
+                datasets: [{
+                    data: Object.values(counts),
+                    backgroundColor: [
+                        "#10b981",
+                        "#f59e0b",
+                        "#3b82f6"
+                    ],
+                    borderWidth: 0
+                }]
+            },
+
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "#ffffff"
+                        }
+                    }
+                }
+            }
+        }
+    );
 }
 
-function submitRating() {
-    if (!rating) {
-        alert("Please select a rating.");
+
+// ========================================
+// ANONYMOUS DOUBT SUBMISSION
+// ========================================
+
+function submitDoubt() {
+
+    if (isFrozen()) {
+        showFrozenScreen();
         return;
     }
 
-    document.getElementById('ratingMessage').innerText =
-    "Thank you for your feedback!";
-}
+    const doubt = document.getElementById("doubt").value.trim();
 
-// AI PLACEHOLDER
-function askAI() {
-    let question = document.getElementById('question').value.trim();
-
-    if (!question) {
-        alert("Please enter your question.");
+    if (!doubt) {
+        alert("Please enter your academic doubt.");
         return;
     }
 
-    document.getElementById('aiMessage').innerText =
-    "AI connection is required to answer: " + question;
+    const result = moderateContent(doubt);
+
+    if (result === "abusive") {
+
+        freezeStudent("Abusive or threatening content was detected in a doubt submission.");
+
+        return;
+    }
+
+    if (result !== "academic") {
+
+        document.getElementById("doubtMessage").innerText =
+            "This submission does not appear to be academically related. Please submit a subject-related doubt.";
+
+        return;
+    }
+
+    studentData.doubts.push({
+        text: doubt,
+        category: classifyAcademicNeed(doubt),
+        time: Date.now()
+    });
+
+    saveData();
+
+    document.getElementById("doubt").value = "";
+
+    document.getElementById("doubtMessage").innerText =
+        "Your academic doubt has been accepted in demo mode.";
+
 }
+
+
+// ========================================
+// AI SUGGESTION CHATBOT
+// ========================================
+
+function addChatMessage(message, sender) {
+
+    const chatBox = document.getElementById("chatBox");
+
+    const div = document.createElement("div");
+
+    div.className = "chat-message " + sender;
+
+    // textContent prevents submitted content from being
+    // interpreted as HTML.
+
+    div.textContent = message;
+
+    chatBox.appendChild(div);
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+
+// Classify the academic requirement.
+
+function classifyAcademicNeed(message) {
+
+    const text = message.toLowerCase();
+
+    if (
+        text.includes("relecture") ||
+        text.includes("again") ||
+        text.includes("revision") ||
+        text.includes("revise") ||
+        text.includes("re-explain") ||
+        text.includes("explain again") ||
+        text.includes("reteach")
+    ) {
+        return "Relecture";
+    }
+
+    if (
+        text.includes("note") ||
+        text.includes("pdf") ||
+        text.includes("material") ||
+        text.includes("summary")
+    ) {
+        return "Study Notes";
+    }
+
+    if (
+        text.includes("worksheet") ||
+        text.includes("practice") ||
+        text.includes("exercise") ||
+        text.includes("questions")
+    ) {
+        return "Practice Worksheets";
+    }
+
+    if (
+        text.includes("test") ||
+        text.includes("quiz") ||
+        text.includes("assessment")
+    ) {
+        return "Topic Test";
+    }
+
+    return "General Academic Support";
+}
+
+
+function generateDemoResponse(category) {
+
+    const responses = {
+
+        "Relecture":
+            "I have classified your request as Relecture. You would benefit from another explanation of the difficult topic. Your requirement can be shared with your teacher.",
+
+        "Study Notes":
+            "I have classified your request as Study Notes. You would benefit from additional study material or structured lecture notes.",
+
+        "Practice Worksheets":
+            "I have classified your request as Practice Worksheets. Additional exercises and topic-wise questions may help you strengthen your understanding.",
+
+        "Topic Test":
+            "I have classified your request as Topic Test. A short assessment or quiz could help you evaluate your understanding.",
+
+        "General Academic Support":
+            "Your request appears to be academic. Could you explain whether you need notes, a relecture, practice questions or a topic test?"
+    };
+
+    return responses[category];
+}
+
+
+function sendSuggestion() {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+        return;
+    }
+
+    const input = document.getElementById("suggestionInput");
+
+    const message = input.value.trim();
+
+    if (!message) {
+        alert("Please enter your academic suggestion.");
+        return;
+    }
+
+    const result = moderateContent(message);
+
+    if (result === "abusive") {
+
+        freezeStudent("Abusive or threatening content was detected in a suggestion submission.");
+
+        return;
+    }
+
+    if (result !== "academic") {
+
+        addChatMessage(message, "student");
+
+        addChatMessage(
+            "Please keep our conversation related to academics. I can only consider suggestions about lectures, notes, worksheets, tests and learning difficulties.",
+            "bot"
+        );
+
+        input.value = "";
+
+        return;
+    }
+
+    const category = classifyAcademicNeed(message);
+
+    studentData.suggestions.push({
+        message: message,
+        category: category,
+        time: Date.now()
+    });
+
+    saveData();
+
+    addChatMessage(message, "student");
+
+    addChatMessage(generateDemoResponse(category), "bot");
+
+    input.value = "";
+
+    renderSuggestionChart();
+
+    document.getElementById("suggestionMessage").innerText =
+        "Your academic suggestion has been recorded in demo mode.";
+}
+
+
+function quickSuggestion(message) {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+        return;
+    }
+
+    document.getElementById("suggestionInput").value = message;
+
+    sendSuggestion();
+}
+
+
+// ========================================
+// SUGGESTION ANALYTICS
+// ========================================
+
+function renderSuggestionChart() {
+
+    const categories = {
+        "Relecture": 0,
+        "Study Notes": 0,
+        "Practice Worksheets": 0,
+        "Topic Test": 0,
+        "General Academic Support": 0
+    };
+
+    studentData.suggestions.forEach(item => {
+
+        if (categories[item.category] !== undefined) {
+            categories[item.category]++;
+        }
+
+    });
+
+    if (suggestionChart) {
+        suggestionChart.destroy();
+    }
+
+    suggestionChart = new Chart(
+        document.getElementById("suggestionChart"),
+        {
+            type: "bar",
+
+            data: {
+                labels: Object.keys(categories),
+
+                datasets: [{
+                    label: "Academic Suggestions",
+                    data: Object.values(categories),
+                    backgroundColor: "#3b82f6",
+                    borderRadius: 7
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "#cbd5e1"
+                        },
+                        grid: {
+                            display: false
+                        }
+                    },
+
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: "#cbd5e1",
+                            precision: 0
+                        },
+                        grid: {
+                            color: "#344761"
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "#ffffff"
+                        }
+                    }
+                }
+            }
+        }
+    );
+
+    // Identify the most requested category.
+
+    const sorted = Object.entries(categories)
+        .sort((a, b) => b[1] - a[1]);
+
+    const summary = document.getElementById("suggestionSummary");
+
+    const total = studentData.suggestions.length;
+
+    if (total === 0) {
+        summary.innerText =
+            "No academic suggestions have been submitted yet.";
+        return;
+    }
+
+    summary.innerText =
+        "Most requested category in this browser: " +
+        sorted[0][0] +
+        " (" + sorted[0][1] + " submissions). " +
+        "Total suggestions: " + total + ".";
+}
+
+
+// ========================================
+// INITIALIZATION
+// ========================================
+
+window.addEventListener("DOMContentLoaded", function() {
+
+    checkFreeze();
+
+    renderPulseChart();
+
+    renderSuggestionChart();
+
+    loadTeacherPoll();
+
+});
 
 </script>
 
