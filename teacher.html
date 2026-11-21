@@ -7,550 +7,151 @@
 <title>Live Classroom Pulse | Teacher Portal</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #080f20;
-  color: #f1f5f9;
-  min-height: 100vh;
-}
-
-:root {
-  --panel: #111d33;
-  --panel2: #172640;
-  --cyan: #35d9f5;
-  --purple: #a78bfa;
-  --muted: #91a4bd;
-  --green: #4ade80;
-}
-
-/* SIDEBAR */
-
-.sidebar {
-  width: 245px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #0c172b;
-  border-right: 1px solid #20334e;
-  padding: 25px 16px;
-  z-index: 10;
-}
-
-.logo {
-  font-size: 19px;
-  font-weight: 800;
-  color: var(--cyan);
-  line-height: 1.4;
-  margin-bottom: 7px;
-}
-
-.logo span {
-  color: white;
-}
-
-.tagline {
-  font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 38px;
-}
-
-.menu-title {
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #71839d;
-  margin: 20px 10px 12px;
-}
-
-.nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 12px;
-  margin: 7px 0;
-  border: 1px solid transparent;
-  border-radius: 11px;
-  color: #aebdd1;
-  cursor: pointer;
-  transition: .25s;
-  font-size: 13px;
-}
-
-.nav-btn:hover,
-.nav-btn.active {
-  background: #172c48;
-  border-color: #24516d;
-  color: var(--cyan);
-  box-shadow: inset 3px 0 var(--cyan);
-}
-
-.nav-btn .emoji {
-  font-size: 18px;
-}
-
-.sidebar-bottom {
-  position: absolute;
-  bottom: 25px;
-  left: 17px;
-  right: 17px;
-  padding: 14px;
-  background: #172640;
-  border-radius: 12px;
-  font-size: 12px;
-  color: var(--muted);
-}
-
-/* MAIN */
-
-.main {
-  margin-left: 245px;
-  padding: 28px 35px;
-}
-
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-  gap: 15px;
-}
-
-.topbar h2 {
-  font-size: 21px;
-}
-
-.topbar p {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 5px;
-}
-
-.live {
-  color: var(--green);
-  background: #12372b;
-  border: 1px solid #226345;
-  border-radius: 30px;
-  padding: 8px 14px;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.live::before {
-  content: "● ";
-}
-
-/* WELCOME */
-
-.welcome {
-  background: linear-gradient(115deg, #172e4e, #252052);
-  border: 1px solid #304b73;
-  border-radius: 20px;
-  padding: 29px;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 27px;
-}
-
-.welcome::after {
-  content: "◉";
-  position: absolute;
-  right: 45px;
-  top: -42px;
-  font-size: 180px;
-  color: #ffffff08;
-}
-
-.welcome small {
-  color: var(--cyan);
-  letter-spacing: 2px;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.welcome h1 {
-  font-size: 30px;
-  margin: 13px 0 9px;
-}
-
-.welcome p {
-  color: #b7c8df;
-  font-size: 13px;
-  line-height: 1.6;
-  max-width: 540px;
-}
-
-/* STATISTICS */
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.stat-card {
-  background: var(--panel);
-  border: 1px solid #223650;
-  border-radius: 16px;
-  padding: 20px;
-  transition: .25s;
-}
-
-.stat-card:hover,
-.panel:hover {
-  border-color: #3b7590;
-  transform: translateY(-3px);
-}
-
-.stat-icon {
-  font-size: 23px;
-}
-
-.stat-card h3 {
-  font-size: 27px;
-  margin: 13px 0 4px;
-}
-
-.stat-card p {
-  color: var(--muted);
-  font-size: 11px;
-}
-
-.stat-card small {
-  display: block;
-  color: var(--green);
-  margin-top: 10px;
-  font-size: 10px;
-}
-
-/* GRID */
-
-.grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 18px;
-  margin-bottom: 22px;
-}
-
-.panel {
-  background: var(--panel);
-  border: 1px solid #223650;
-  border-radius: 17px;
-  padding: 21px;
-  transition: .25s;
-  min-width: 0;
-}
-
-.panel h3 {
-  font-size: 15px;
-  margin-bottom: 8px;
-}
-
-.sub {
-  color: var(--muted);
-  font-size: 11px;
-  margin-bottom: 19px;
-}
-
-.pulse-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin: 18px 0 8px;
-  font-size: 12px;
-}
-
-.bar {
-  width: 100%;
-  height: 9px;
-  background: #26364c;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.fill {
-  height: 100%;
-  border-radius: 20px;
-}
-
-.green { background: #4ade80; }
-.yellow { background: #facc15; }
-.red { background: #fb7185; }
-.blue { background: #35d9f5; }
-
-/* ACTIVITY */
-
-.activity {
-  display: flex;
-  gap: 12px;
-  padding: 13px 0;
-  border-bottom: 1px solid #25364d;
-  font-size: 12px;
-}
-
-.activity:last-child {
-  border: none;
-}
-
-.activity-icon {
-  background: #203751;
-  border-radius: 9px;
-  padding: 9px;
-  height: fit-content;
-}
-
-.activity p {
-  color: #d9e5f3;
-  line-height: 1.5;
-}
-
-.activity small {
-  color: var(--muted);
-}
-
-/* CONTENT SECTIONS */
-
-.content {
-  display: none;
-  animation: appear .3s ease;
-}
-
-.content.active {
-  display: block;
-}
-
-@keyframes appear {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-heading {
-  margin: 10px 0 22px;
-}
-
-.section-heading h1 {
-  font-size: 26px;
-  margin-bottom: 7px;
-}
-
-.section-heading p {
-  color: var(--muted);
-  font-size: 13px;
-}
-
-/* BUTTONS */
-
-.action-btn {
-  background: linear-gradient(90deg, #18b9d5, #6477ef);
-  border: none;
-  border-radius: 9px;
-  color: white;
-  padding: 11px 16px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.action-btn:hover {
-  opacity: .85;
-}
-
-.secondary-btn {
-  background: #203751;
-  border: 1px solid #31506e;
-  color: #d9e5f3;
-  border-radius: 9px;
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-/* TABLE */
-
-.table-wrap {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 470px;
-}
-
-th, td {
-  text-align: left;
-  padding: 15px 10px;
-  border-bottom: 1px solid #26364c;
-  font-size: 12px;
-}
-
-th {
-  color: var(--muted);
-  font-weight: 500;
-}
-
-.status {
-  background: #153d31;
-  color: #4ade80;
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 10px;
-}
-
-/* FORMS */
-
-input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  background: #0b172a;
-  border: 1px solid #30445f;
-  border-radius: 9px;
-  color: white;
-  margin: 8px 0 15px;
-  font-family: inherit;
-}
-
-textarea {
-  min-height: 95px;
-  resize: vertical;
-}
-
-label {
-  color: #b6c5d8;
-  font-size: 12px;
-}
-
-/* QUERY CARDS */
-
-.query-card {
-  background: #172640;
-  border: 1px solid #2b4564;
-  border-radius: 13px;
-  padding: 17px;
-  margin-bottom: 14px;
-}
-
-.query-card h4 {
-  margin-bottom: 8px;
-  color: var(--cyan);
-}
-
-.query-card p {
-  color: #c6d2e2;
-  font-size: 13px;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-/* POLLS */
-
-.poll-option {
-  background: #1c304c;
-  padding: 13px;
-  border-radius: 10px;
-  margin: 9px 0;
-  color: #cbd5e1;
-  font-size: 12px;
-}
-
-/* MOBILE */
-
-@media(max-width: 950px) {
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .grid { grid-template-columns: 1fr; }
-}
-
-@media(max-width: 650px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-    padding: 15px;
-  }
-
-  .tagline, .menu-title, .sidebar-bottom {
-    display: none;
-  }
-
-  .sidebar nav {
-    display: flex;
-    overflow-x: auto;
-    gap: 6px;
-  }
-
-  .nav-btn {
-    white-space: nowrap;
-    padding: 10px;
-    margin: 5px 0;
-  }
-
-  .main {
-    margin-left: 0;
-    padding: 18px;
-  }
-
-  .welcome h1 { font-size: 23px; }
-  .stats { gap: 9px; }
-  .stat-card { padding: 14px; }
-  .topbar h2 { font-size: 17px; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#080f20;--panel:#111d33;--panel2:#172640;
+--cyan:#35d9f5;--purple:#a78bfa;
+--green:#4ade80;--yellow:#facc15;--red:#fb7185;
+--muted:#91a4bd;--border:#263b56
+}
+body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:#f1f5f9}
+button,input,textarea,select{font:inherit}
+.sidebar{
+width:245px;height:100vh;position:fixed;left:0;top:0;
+background:#0c172b;border-right:1px solid var(--border);
+padding:25px 16px;z-index:10
+}
+.logo{font-size:20px;font-weight:800;color:var(--cyan);line-height:1.4}
+.logo span{color:white}
+.tagline{font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px}
+.menu-title{font-size:10px;letter-spacing:2px;color:#71839d;margin:35px 10px 12px}
+.nav-btn{
+display:flex;align-items:center;gap:12px;padding:13px 12px;
+margin:7px 0;border:1px solid transparent;border-radius:11px;
+color:#aebdd1;cursor:pointer;font-size:13px;transition:.2s
+}
+.nav-btn:hover,.nav-btn.active{
+background:#172c48;border-color:#24516d;color:var(--cyan);
+box-shadow:inset 3px 0 var(--cyan)
+}
+.nav-btn .emoji{font-size:18px}
+.sidebar-bottom{
+position:absolute;bottom:25px;left:17px;right:17px;padding:14px;
+background:var(--panel2);border-radius:12px;font-size:12px;color:var(--muted)
+}
+.main{margin-left:245px;padding:28px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:12px}
+.topbar h2{font-size:21px}
+.topbar p{font-size:12px;color:var(--muted);margin-top:5px}
+.live{
+color:var(--green);background:#12372b;border:1px solid #226345;
+border-radius:30px;padding:8px 14px;font-size:11px;font-weight:bold;white-space:nowrap
+}
+.welcome{
+background:linear-gradient(115deg,#172e4e,#252052);
+border:1px solid #304b73;border-radius:20px;padding:30px;
+position:relative;overflow:hidden;margin-bottom:25px
+}
+.welcome:after{content:"◉";position:absolute;right:40px;top:-50px;font-size:190px;color:#ffffff08}
+.welcome small{color:var(--cyan);letter-spacing:2px;font-size:11px;font-weight:bold}
+.welcome h1{font-size:30px;margin:13px 0 9px}
+.welcome p{color:#b7c8df;font-size:13px;line-height:1.7;max-width:550px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat-card{
+background:var(--panel);border:1px solid var(--border);
+border-radius:16px;padding:19px;transition:.2s
+}
+.stat-card:hover,.panel:hover{border-color:#3b7590;transform:translateY(-2px)}
+.stat-icon{font-size:23px}
+.stat-card h3{font-size:27px;margin:12px 0 4px}
+.stat-card p{color:var(--muted);font-size:11px}
+.stat-card small{display:block;color:var(--green);margin-top:9px;font-size:10px}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:17px;margin-bottom:20px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:17px;padding:21px;min-width:0;transition:.2s}
+.panel h3{font-size:15px;margin-bottom:8px}
+.sub{color:var(--muted);font-size:11px;margin-bottom:18px}
+.pulse-row{display:flex;justify-content:space-between;gap:10px;margin:17px 0 8px;font-size:12px}
+.bar{width:100%;height:9px;background:#26364c;border-radius:20px;overflow:hidden}
+.fill{height:100%;border-radius:20px}
+.green{background:var(--green)}.yellow{background:var(--yellow)}
+.red{background:var(--red)}.blue{background:var(--cyan)}
+.activity{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--border);font-size:12px}
+.activity:last-child{border:0}
+.activity-icon{background:#203751;border-radius:9px;padding:9px;height:fit-content}
+.activity p{line-height:1.5}
+.activity small{color:var(--muted)}
+.content{display:none;animation:appear .3s}
+.content.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.section-heading{margin:10px 0 22px}
+.section-heading h1{font-size:26px;margin-bottom:7px}
+.section-heading p{color:var(--muted);font-size:13px}
+.action-btn{
+background:linear-gradient(90deg,#18b9d5,#6477ef);border:0;
+border-radius:9px;color:white;padding:11px 16px;font-weight:bold;
+cursor:pointer;font-size:12px
+}
+.action-btn:hover{opacity:.85}
+.secondary-btn{background:#203751;border:1px solid #31506e;color:#d9e5f3;border-radius:9px;padding:10px 14px;cursor:pointer}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--border);font-size:12px}
+th{color:var(--muted);font-weight:500}
+.status{padding:5px 9px;border-radius:20px;font-size:10px;font-weight:bold}
+input,textarea,select{
+width:100%;padding:12px;background:#0b172a;border:1px solid #30445f;
+border-radius:9px;color:white;margin:8px 0 15px;outline:none
+}
+input:focus,textarea:focus,select:focus{border-color:var(--cyan)}
+textarea{min-height:90px;resize:vertical}
+label{color:#b6c5d8;font-size:12px}
+.query-card,.poll-card,.feedback-card{
+background:#172640;border:1px solid #2b4564;border-radius:13px;
+padding:17px;margin-bottom:13px
+}
+.query-card h4,.poll-card h4{color:var(--cyan);margin-bottom:9px}
+.query-card p,.poll-card p{color:#c6d2e2;font-size:13px;line-height:1.6;margin-bottom:10px}
+.empty{color:var(--muted);font-size:13px;padding:15px 0}
+.badge{font-size:10px;color:var(--green);background:#153d31;padding:5px 9px;border-radius:20px}
+.mobile-title{display:none}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:650px){
+.sidebar{width:100%;height:auto;position:relative;padding:15px}
+.tagline,.menu-title,.sidebar-bottom{display:none}
+.sidebar nav{display:flex;overflow-x:auto;gap:6px}
+.nav-btn{white-space:nowrap;padding:10px;margin:5px 0}
+.main{margin:0;padding:17px}
+.welcome h1{font-size:23px}
+.stats{gap:9px}
+.stat-card{padding:14px}
+.topbar h2{font-size:17px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SIDEBAR -->
-
 <aside class="sidebar">
   <div class="logo">LIVE CLASSROOM<br><span>PULSE.</span></div>
   <div class="tagline">AI-POWERED LEARNING INTELLIGENCE</div>
 
   <div class="menu-title">TEACHER WORKSPACE</div>
-
   <nav>
-    <div class="nav-btn active" onclick="showSection('overview',this)">
-      <span class="emoji">⌂</span> Overview
-    </div>
-
-    <div class="nav-btn" onclick="showSection('students',this)">
-      <span class="emoji">♙</span> Students
-    </div>
-
-    <div class="nav-btn" onclick="showSection('monitoring',this)">
-      <span class="emoji">◉</span> Live Monitoring
-    </div>
-
-    <div class="nav-btn" onclick="showSection('analytics',this)">
-      <span class="emoji">▥</span> Analytics
-    </div>
-
-    <div class="nav-btn" onclick="showSection('queries',this)">
-      <span class="emoji">✉</span> Student Queries
-    </div>
-
-    <div class="nav-btn" onclick="showSection('polls',this)">
-      <span class="emoji">▤</span> Poll Management
-    </div>
-
-    <div class="nav-btn" onclick="showSection('feedback',this)">
-      <span class="emoji">★</span> Student Feedback
-    </div>
+    <div class="nav-btn active" onclick="showSection('overview',this)"><span class="emoji">⌂</span>Overview</div>
+    <div class="nav-btn" onclick="showSection('students',this)"><span class="emoji">♙</span>Students</div>
+    <div class="nav-btn" onclick="showSection('monitoring',this)"><span class="emoji">◉</span>Live Monitoring</div>
+    <div class="nav-btn" onclick="showSection('analytics',this)"><span class="emoji">▥</span>Analytics</div>
+    <div class="nav-btn" onclick="showSection('queries',this)"><span class="emoji">✉</span>Student Queries</div>
+    <div class="nav-btn" onclick="showSection('polls',this)"><span class="emoji">▤</span>Poll Management</div>
+    <div class="nav-btn" onclick="showSection('feedback',this)"><span class="emoji">★</span>Student Feedback</div>
   </nav>
 
   <div class="sidebar-bottom">
-    <span style="color:#4ade80">●</span> Classroom system ready
-    <br><br>
-    <b style="color:white">Teacher Workspace</b>
+    <span style="color:#4ade80">●</span> Demo classroom ready
+    <br><br><b style="color:white">Teacher Workspace</b>
     <br>Learning starts with understanding.
   </div>
 </aside>
-
-<!-- MAIN -->
 
 <main class="main">
 
@@ -563,343 +164,319 @@ label {
 </header>
 
 <!-- OVERVIEW -->
-
 <section id="overview" class="content active">
-
-<div class="welcome">
-  <small>YOUR CLASSROOM, REIMAGINED</small>
-  <h1>Welcome, Teacher! 👋</h1>
-  <p>
-    Every student has a voice. Every response tells a story.
-    Understand your classroom through real-time learning intelligence.
-  </p>
-</div>
-
-<div class="stats">
-  <div class="stat-card">
-    <div class="stat-icon">👨‍🎓</div>
-    <h3 id="totalStudents">80</h3>
-    <p>Enrolled Students</p>
-    <small>Class strength</small>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-icon">🟢</div>
-    <h3 id="understood">62</h3>
-    <p>Understanding</p>
-    <small>Clear responses</small>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-icon">⚡</div>
-    <h3 id="confused">18</h3>
-    <p>Need Attention</p>
-    <small>Confusion signals</small>
-  </div>
-
-  <div class="stat-card">
-    <div class="stat-icon">❓</div>
-    <h3 id="pendingQueries">0</h3>
-    <p>Pending Queries</p>
-    <small>Awaiting response</small>
-  </div>
-</div>
-
-<div class="grid">
-
-  <div class="panel">
-    <h3>📡 Classroom Understanding Pulse</h3>
-    <p class="sub">Illustrative sample data – connect Firebase for live results</p>
-
-    <div class="pulse-row">
-      <span>🟢 Concept Understood</span>
-      <b>78%</b>
-    </div>
-    <div class="bar"><div class="fill green" style="width:78%"></div></div>
-
-    <div class="pulse-row">
-      <span>🟡 Partially Understood</span>
-      <b>15%</b>
-    </div>
-    <div class="bar"><div class="fill yellow" style="width:15%"></div></div>
-
-    <div class="pulse-row">
-      <span>🔴 Confused</span>
-      <b>7%</b>
-    </div>
-    <div class="bar"><div class="fill red" style="width:7%"></div></div>
-  </div>
-
-  <div class="panel">
-    <h3>⚡ Classroom Activity</h3>
-    <p class="sub">Recent classroom updates</p>
-
-    <div class="activity">
-      <div class="activity-icon">📊</div>
-      <div>
-        <p>Classroom understanding overview</p>
-        <small>Sample dashboard information</small>
-      </div>
-    </div>
-
-    <div class="activity">
-      <div class="activity-icon">📝</div>
-      <div>
-        <p>Student poll activity</p>
-        <small>Connect Firebase to show live updates</small>
-      </div>
-    </div>
-
-    <div class="activity">
-      <div class="activity-icon">💬</div>
-      <div>
-        <p>Student questions</p>
-        <small>View submitted queries in Student Queries</small>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<div class="panel">
-  <h3>🎯 Today's Teaching Focus</h3>
-  <p class="sub">Make every lecture count</p>
-  <p style="font-size:13px;color:#cbd5e1;line-height:1.8">
-    Identify concepts that need more explanation, encourage participation,
-    and use student responses to improve your teaching strategy.
-  </p>
-</div>
-
-</section>
-
-<!-- STUDENTS -->
-
-<section id="students" class="content">
-  <div class="section-heading">
-    <h1>👨‍🎓 Student Directory</h1>
-    <p>Manage and view classroom participation.</p>
-  </div>
-
-  <div class="panel">
-    <h3>Classroom Students</h3>
-    <p class="sub">Sample student records</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Student</th>
-            <th>Participation</th>
-            <th>Learning Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Student 01</td><td>High</td><td><span class="status">Understood</span></td></tr>
-          <tr><td>Student 02</td><td>Medium</td><td><span class="status">Understood</span></td></tr>
-          <tr><td>Student 03</td><td>Low</td><td>Needs attention</td></tr>
-          <tr><td>Student 04</td><td>High</td><td><span class="status">Understood</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- MONITORING -->
-
-<section id="monitoring" class="content">
-  <div class="section-heading">
-    <h1>📡 Live Classroom Monitoring</h1>
-    <p>Observe student understanding during a lecture.</p>
+  <div class="welcome">
+    <small>YOUR CLASSROOM, REIMAGINED</small>
+    <h1>Welcome, Teacher! 👋</h1>
+    <p>Every student has a voice. Every response tells a story.
+    Understand your classroom through real-time learning intelligence.</p>
   </div>
 
   <div class="stats">
-    <div class="stat-card"><div class="stat-icon">🟢</div><h3>78%</h3><p>Clear</p></div>
-    <div class="stat-card"><div class="stat-icon">🟡</div><h3>15%</h3><p>Partial</p></div>
-    <div class="stat-card"><div class="stat-icon">🔴</div><h3>7%</h3><p>Confused</p></div>
-    <div class="stat-card"><div class="stat-icon">📱</div><h3>80</h3><p>Class size</p></div>
-  </div>
-
-  <div class="panel">
-    <h3>Understanding Status</h3>
-    <p class="sub">Demo values until Firebase is connected</p>
-    <div class="pulse-row"><span>Clear</span><b>78%</b></div>
-    <div class="bar"><div class="fill green" style="width:78%"></div></div>
-    <div class="pulse-row"><span>Partially clear</span><b>15%</b></div>
-    <div class="bar"><div class="fill yellow" style="width:15%"></div></div>
-    <div class="pulse-row"><span>Confused</span><b>7%</b></div>
-    <div class="bar"><div class="fill red" style="width:7%"></div></div>
-  </div>
-</section>
-
-<!-- ANALYTICS -->
-
-<section id="analytics" class="content">
-  <div class="section-heading">
-    <h1>📈 Learning Analytics</h1>
-    <p>Understand classroom learning patterns.</p>
+    <div class="stat-card"><div class="stat-icon">👨‍🎓</div><h3 id="totalStudents">80</h3><p>Enrolled Students</p><small>Class strength</small></div>
+    <div class="stat-card"><div class="stat-icon">🟢</div><h3 id="clearCount">62</h3><p>Understanding</p><small>Clear responses</small></div>
+    <div class="stat-card"><div class="stat-icon">⚡</div><h3 id="confusedCount">6</h3><p>Need Attention</p><small>Confusion signals</small></div>
+    <div class="stat-card"><div class="stat-icon">❓</div><h3 id="pendingCount">0</h3><p>Pending Queries</p><small>Awaiting response</small></div>
   </div>
 
   <div class="grid">
     <div class="panel">
-      <h3>Topic Performance</h3>
-      <p class="sub">Example topic-level understanding</p>
-      <div class="pulse-row"><span>Introduction</span><b>90%</b></div>
-      <div class="bar"><div class="fill green" style="width:90%"></div></div>
-      <div class="pulse-row"><span>Core Concept</span><b>65%</b></div>
-      <div class="bar"><div class="fill yellow" style="width:65%"></div></div>
-      <div class="pulse-row"><span>Advanced Concept</span><b>40%</b></div>
-      <div class="bar"><div class="fill red" style="width:40%"></div></div>
+      <h3>📡 Classroom Understanding Pulse</h3>
+      <p class="sub">Default demonstration data</p>
+      <div class="pulse-row"><span>🟢 Concept Understood</span><b>77.5%</b></div>
+      <div class="bar"><div class="fill green" style="width:77.5%"></div></div>
+      <div class="pulse-row"><span>🟡 Partially Understood</span><b>15%</b></div>
+      <div class="bar"><div class="fill yellow" style="width:15%"></div></div>
+      <div class="pulse-row"><span>🔴 Confused</span><b>7.5%</b></div>
+      <div class="bar"><div class="fill red" style="width:7.5%"></div></div>
     </div>
-
     <div class="panel">
-      <h3>AI Learning Insight</h3>
-      <p class="sub">Illustrative suggestion, not a live AI analysis</p>
-      <p style="font-size:13px;line-height:1.8;color:#cbd5e1">
-        Consider revisiting the advanced concept with another example
-        and a short practice poll to check understanding.
-      </p>
+      <h3>⚡ Classroom Activity</h3>
+      <p class="sub">Demo activity feed</p>
+      <div class="activity"><div class="activity-icon">📊</div><div><p>80 students enrolled</p><small>Default classroom dataset</small></div></div>
+      <div class="activity"><div class="activity-icon">📝</div><div><p>Poll management ready</p><small>Create a classroom poll</small></div></div>
+      <div class="activity"><div class="activity-icon">💬</div><div><p>Student query center ready</p><small>Check incoming questions</small></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>🎯 Today's Teaching Focus</h3>
+    <p class="sub">Make every lecture count</p>
+    <p style="font-size:13px;color:#cbd5e1;line-height:1.8">
+    Identify concepts that need more explanation, encourage participation,
+    and use student responses to improve your teaching strategy.</p>
+  </div>
+</section>
+
+<!-- STUDENTS -->
+<section id="students" class="content">
+  <div class="section-heading"><h1>👨‍🎓 Student Directory</h1><p>80 enrolled students and their sample learning status.</p></div>
+  <div class="stats">
+    <div class="stat-card"><h3>80</h3><p>Total Students</p></div>
+    <div class="stat-card"><h3 style="color:var(--green)">62</h3><p>Clear</p></div>
+    <div class="stat-card"><h3 style="color:var(--yellow)">12</h3><p>Partially Clear</p></div>
+    <div class="stat-card"><h3 style="color:var(--red)">6</h3><p>Confused</p></div>
+  </div>
+  <div class="panel">
+    <h3>All Classroom Students</h3>
+    <p class="sub">Fictional records for demonstration</p>
+    <input id="studentSearch" placeholder="🔍 Search by name or student ID" oninput="renderStudents()">
+    <select id="statusFilter" onchange="renderStudents()">
+      <option value="All">All Students</option>
+      <option value="Clear">Clear</option>
+      <option value="Partial">Partially Clear</option>
+      <option value="Confused">Confused</option>
+    </select>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Student ID</th><th>Name</th><th>Participation</th><th>Understanding</th></tr></thead>
+        <tbody id="studentTable"></tbody>
+      </table>
+    </div>
+    <p id="studentCount" class="sub"></p>
+  </div>
+</section>
+
+<!-- MONITORING -->
+<section id="monitoring" class="content">
+  <div class="section-heading"><h1>📡 Live Classroom Monitoring</h1><p>Classroom understanding at a glance.</p></div>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-icon">🟢</div><h3>62</h3><p>Clear Students</p></div>
+    <div class="stat-card"><div class="stat-icon">🟡</div><h3>12</h3><p>Partial</p></div>
+    <div class="stat-card"><div class="stat-icon">🔴</div><h3>6</h3><p>Confused</p></div>
+    <div class="stat-card"><div class="stat-icon">👥</div><h3>80</h3><p>Total</p></div>
+  </div>
+  <div class="panel">
+    <h3>Understanding Distribution</h3>
+    <p class="sub">Sample values until live Firebase data is connected</p>
+    <div class="pulse-row"><span>Clear</span><b>62 students</b></div>
+    <div class="bar"><div class="fill green" style="width:77.5%"></div></div>
+    <div class="pulse-row"><span>Partially Clear</span><b>12 students</b></div>
+    <div class="bar"><div class="fill yellow" style="width:15%"></div></div>
+    <div class="pulse-row"><span>Confused</span><b>6 students</b></div>
+    <div class="bar"><div class="fill red" style="width:7.5%"></div></div>
+  </div>
+</section>
+
+<!-- ANALYTICS -->
+<section id="analytics" class="content">
+  <div class="section-heading"><h1>📈 Learning Analytics</h1><p>Discover topic-level learning patterns.</p></div>
+  <div class="grid">
+    <div class="panel">
+      <h3>Topic Performance</h3><p class="sub">Illustrative topic scores</p>
+      <div class="pulse-row"><span>Introduction</span><b>90%</b></div><div class="bar"><div class="fill green" style="width:90%"></div></div>
+      <div class="pulse-row"><span>Core Concept</span><b>65%</b></div><div class="bar"><div class="fill yellow" style="width:65%"></div></div>
+      <div class="pulse-row"><span>Advanced Concept</span><b>40%</b></div><div class="bar"><div class="fill red" style="width:40%"></div></div>
+    </div>
+    <div class="panel">
+      <h3>💡 Teaching Recommendation</h3>
+      <p class="sub">Demo suggestion, not a live AI analysis</p>
+      <p style="font-size:13px;color:#cbd5e1;line-height:1.8">Consider revisiting advanced concepts with practical examples and a short practice poll to check student understanding.</p>
     </div>
   </div>
 </section>
 
 <!-- QUERIES -->
-
 <section id="queries" class="content">
-  <div class="section-heading">
-    <h1>💬 Student Queries</h1>
-    <p>Answer student questions and clear their doubts.</p>
-  </div>
-
+  <div class="section-heading"><h1>💬 Student Queries</h1><p>Read student doubts and send responses.</p></div>
   <div class="panel">
     <h3>Incoming Questions</h3>
-    <p class="sub">Questions submitted through the Student Portal will appear here after Firebase integration.</p>
-    <div id="queriesList">
-      <p style="color:#91a4bd;font-size:13px">No connected student queries yet.</p>
-    </div>
+    <p class="sub">Demo query form for testing. Firebase integration is needed for cross-portal sharing.</p>
+    <div id="queriesList"><p class="empty">No questions submitted yet.</p></div>
+  </div>
+  <div class="panel" style="margin-top:17px">
+    <h3>＋ Add Demo Student Query</h3>
+    <label>Topic</label><input id="demoTopic" placeholder="Example: Mathematics">
+    <label>Student Question</label><textarea id="demoQuestion" placeholder="Enter a sample student question"></textarea>
+    <button class="action-btn" onclick="addDemoQuery()">Add Demo Query</button>
   </div>
 </section>
 
 <!-- POLLS -->
-
 <section id="polls" class="content">
-  <div class="section-heading">
-    <h1>📊 Poll Management</h1>
-    <p>Create quick polls to check student understanding.</p>
-  </div>
-
+  <div class="section-heading"><h1>📊 Poll Management</h1><p>Create classroom questions and multiple-choice polls.</p></div>
   <div class="panel">
-    <h3>Create a New Poll</h3>
-
-    <label>Question</label>
-    <input id="pollQuestion" placeholder="Enter your classroom question">
-
-    <label>Option 1</label>
-    <input id="option1" placeholder="First option">
-
-    <label>Option 2</label>
-    <input id="option2" placeholder="Second option">
-
-    <label>Option 3</label>
-    <input id="option3" placeholder="Third option">
-
+    <h3>Create New Poll</h3>
+    <label>Poll Question</label><input id="pollQuestion" placeholder="Enter your question">
+    <label>Option 1</label><input id="option1" placeholder="First option">
+    <label>Option 2</label><input id="option2" placeholder="Second option">
+    <label>Option 3</label><input id="option3" placeholder="Third option">
     <button class="action-btn" onclick="createPoll()">＋ Create Poll</button>
-    <p id="pollMessage" style="color:#4ade80;font-size:12px;margin-top:12px"></p>
+    <p id="pollMessage" class="sub" style="margin-top:12px"></p>
   </div>
-
-  <div class="panel" style="margin-top:18px">
-    <h3>Poll Status</h3>
-    <p class="sub">Your created polls will appear here.</p>
-    <div id="pollList">No polls created yet.</div>
+  <div class="panel" style="margin-top:17px">
+    <h3>Created Polls</h3><p class="sub">Polls created in this browser session</p>
+    <div id="pollList"><p class="empty">No polls created yet.</p></div>
   </div>
 </section>
 
 <!-- FEEDBACK -->
-
 <section id="feedback" class="content">
-  <div class="section-heading">
-    <h1>⭐ Student Feedback</h1>
-    <p>Discover how students feel about your teaching.</p>
-  </div>
-
+  <div class="section-heading"><h1>⭐ Student Feedback</h1><p>Review student opinions about teaching.</p></div>
   <div class="grid">
-    <div class="panel">
-      <h3>Teaching Experience</h3>
-      <p class="sub">Sample feedback overview</p>
-      <h2 style="font-size:36px;color:#facc15">4.6/5</h2>
-      <p style="font-size:12px;color:#91a4bd;margin-top:8px">Illustrative average rating</p>
-    </div>
-
+    <div class="panel"><h3>Teaching Experience</h3><p class="sub">Sample demonstration rating</p><h2 style="font-size:38px;color:var(--yellow)">4.6/5</h2><p class="sub">Illustrative average rating</p></div>
     <div class="panel">
       <h3>Feedback Categories</h3>
-      <div class="pulse-row"><span>Explanation</span><b>90%</b></div>
-      <div class="bar"><div class="fill green" style="width:90%"></div></div>
-      <div class="pulse-row"><span>Interaction</span><b>80%</b></div>
-      <div class="bar"><div class="fill blue" style="width:80%"></div></div>
+      <div class="pulse-row"><span>Explanation</span><b>90%</b></div><div class="bar"><div class="fill green" style="width:90%"></div></div>
+      <div class="pulse-row"><span>Interaction</span><b>80%</b></div><div class="bar"><div class="fill blue" style="width:80%"></div></div>
+      <div class="pulse-row"><span>Class Pace</span><b>75%</b></div><div class="bar"><div class="fill yellow" style="width:75%"></div></div>
     </div>
+  </div>
+  <div class="panel">
+    <h3>Feedback Overview</h3>
+    <p class="sub">Sample feedback comments</p>
+    <div class="feedback-card">"The examples made the topic easier to understand."</div>
+    <div class="feedback-card">"More practice questions would be helpful."</div>
+    <div class="feedback-card">"The interactive polls made the lecture engaging."</div>
   </div>
 </section>
 
 </main>
 
 <script>
-function showSection(id, button) {
-  document.querySelectorAll('.content').forEach(section => {
-    section.classList.remove('active');
-  });
-
-  document.querySelectorAll('.nav-btn').forEach(nav => {
-    nav.classList.remove('active');
-  });
-
+// NAVIGATION
+function showSection(id,button){
+  document.querySelectorAll('.content').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   button.classList.add('active');
 }
 
-function createPoll() {
-  const question = document.getElementById("pollQuestion").value.trim();
-  const options = [
-    document.getElementById("option1").value.trim(),
-    document.getElementById("option2").value.trim(),
-    document.getElementById("option3").value.trim()
-  ].filter(Boolean);
+// DEFAULT 80 DEMO STUDENTS
+const studentNames=[
+"Aarav Sharma","Ananya Verma","Rohan Gupta","Priya Singh","Arjun Mehta",
+"Isha Patel","Kabir Joshi","Sneha Yadav","Aditya Kumar","Meera Shah",
+"Vivaan Rao","Aditi Jain","Reyansh Das","Kavya Mishra","Dev Malhotra",
+"Riya Kapoor","Krish Bansal","Pooja Saini","Manav Arora","Diya Khanna",
+"Yash Thakur","Tanya Roy","Dhruv Saxena","Nisha Chauhan","Samar Gill",
+"Anvi Agarwal","Kunal Nair","Simran Kaur","Atharv Pandey","Muskan Ali",
+"Harsh Tiwari","Neha Reddy","Ishaan Bose","Sakshi Jain","Rahul Soni",
+"Tanvi Goyal","Aryan Malik","Shreya Das","Om Prakash","Navya Sen",
+"Lakshya Jain","Mahi Kapoor","Parth Desai","Khushi Sharma","Ritvik Rao",
+"Anika Roy","Siddharth Pal","Ayesha Khan","Aman Verma","Myra Gupta",
+"Nakul Joshi","Palak Yadav","Viraj Mehta","Sana Sheikh","Rudra Singh",
+"Ira Malhotra","Gaurav Kumar","Tisha Patel","Mohit Arora","Avni Bansal",
+"Rehan Ali","Jiya Saini","Varun Shah","Nandini Rao","Abhay Mishra",
+"Kriti Nair","Raghav Gill","Tara Khanna","Sahil Das","Aarohi Jain",
+"Pranav Roy","Suhani Kapoor","Devika Mehta","Ansh Gupta","Mukul Sharma",
+"Apoorva Singh","Vanshika Verma","Ishita Rao","Naman Joshi","Kartik Yadav"
+];
 
-  const message = document.getElementById("pollMessage");
+const students=studentNames.map((name,i)=>({
+ id:"STU"+String(i+1).padStart(3,"0"),
+ name,
+ participation:["High","Medium","Low"][i%3],
+ status:i<62?"Clear":i<74?"Partial":"Confused"
+}));
 
-  if (!question || options.length < 2) {
-    message.style.color = "#fb7185";
-    message.textContent = "Enter a question and at least two options.";
-    return;
-  }
-
-  const poll = document.createElement("div");
-  poll.className = "poll-option";
-
-  const heading = document.createElement("b");
-  heading.textContent = question;
-  poll.appendChild(heading);
-
-  options.forEach(option => {
-    const item = document.createElement("p");
-    item.style.marginTop = "9px";
-    item.textContent = "○ " + option;
-    poll.appendChild(item);
+function renderStudents(){
+ const search=document.getElementById("studentSearch").value.toLowerCase();
+ const filter=document.getElementById("statusFilter").value;
+ const filtered=students.filter(s=>
+  (s.name.toLowerCase().includes(search)||s.id.toLowerCase().includes(search))&&
+  (filter==="All"||s.status===filter)
+ );
+ const tbody=document.getElementById("studentTable");
+ tbody.innerHTML="";
+ filtered.forEach(s=>{
+  const tr=document.createElement("tr");
+  [s.id,s.name,s.participation,s.status].forEach((v,i)=>{
+   const td=document.createElement("td");
+   td.textContent=v;
+   if(i===3){
+    td.style.color={Clear:"#4ade80",Partial:"#facc15",Confused:"#fb7185"}[s.status];
+    td.style.fontWeight="bold";
+   }
+   tr.appendChild(td);
   });
+  tbody.appendChild(tr);
+ });
+ document.getElementById("studentCount").textContent=
+ "Showing "+filtered.length+" of 80 students";
+}
+renderStudents();
 
-  document.getElementById("pollList").replaceChildren(
-    ...(
-      document.getElementById("pollList").dataset.created
-        ? [document.getElementById("pollList").firstElementChild, poll]
-        : [poll]
-    ).filter(Boolean)
-  );
+// DEMO QUERIES
+let queries=[];
+function updatePending(){
+ document.getElementById("pendingCount").textContent=
+ queries.filter(q=>!q.reply).length;
+}
+function renderQueries(){
+ const list=document.getElementById("queriesList");
+ list.innerHTML="";
+ if(!queries.length){
+  list.innerHTML='<p class="empty">No questions submitted yet.</p>';
+  updatePending();return;
+ }
+ queries.forEach((q,index)=>{
+  const card=document.createElement("div");
+  card.className="query-card";
+  const topic=document.createElement("h4");
+  topic.textContent=q.topic;
+  const question=document.createElement("p");
+  question.textContent=q.question;
+  const status=document.createElement("span");
+  status.className="badge";
+  status.textContent=q.reply?"Answered":"Pending";
+  const reply=document.createElement("textarea");
+  reply.placeholder="Write teacher response...";
+  reply.value=q.reply||"";
+  const send=document.createElement("button");
+  send.className="action-btn";
+  send.textContent="Send Response";
+  send.onclick=()=>{
+   if(!reply.value.trim()){alert("Please write a response.");return;}
+   q.reply=reply.value.trim();
+   renderQueries();
+   alert("Demo response saved on this page.");
+  };
+  card.append(topic,question,status,reply,send);
+  list.appendChild(card);
+ });
+ updatePending();
+}
+function addDemoQuery(){
+ const topic=document.getElementById("demoTopic").value.trim();
+ const question=document.getElementById("demoQuestion").value.trim();
+ if(!topic||!question){alert("Enter both topic and question.");return;}
+ queries.push({topic,question,reply:""});
+ document.getElementById("demoTopic").value="";
+ document.getElementById("demoQuestion").value="";
+ renderQueries();
+}
+renderQueries();
 
-  document.getElementById("pollList").dataset.created = "true";
-  message.style.color = "#4ade80";
-  message.textContent = "Poll added to this page. Firebase connection is still required to share it with students.";
-
-  document.getElementById("pollQuestion").value = "";
-  document.getElementById("option1").value = "";
-  document.getElementById("option2").value = "";
-  document.getElementById("option3").value = "";
+// DEMO POLLS
+function createPoll(){
+ const question=document.getElementById("pollQuestion").value.trim();
+ const options=[
+  document.getElementById("option1").value.trim(),
+  document.getElementById("option2").value.trim(),
+  document.getElementById("option3").value.trim()
+ ].filter(Boolean);
+ const message=document.getElementById("pollMessage");
+ if(!question||options.length<2){
+  message.style.color="#fb7185";
+  message.textContent="Enter a question and at least two options.";
+  return;
+ }
+ const card=document.createElement("div");
+ card.className="poll-card";
+ const heading=document.createElement("h4");
+ heading.textContent=question;
+ card.appendChild(heading);
+ options.forEach(option=>{
+  const p=document.createElement("p");
+  p.textContent="○ "+option;
+  card.appendChild(p);
+ });
+ const list=document.getElementById("pollList");
+ if(list.querySelector(".empty"))list.innerHTML="";
+ list.prepend(card);
+ message.style.color="#4ade80";
+ message.textContent="Poll created in this browser session. Connect Firebase to share with students.";
+ ["pollQuestion","option1","option2","option3"].forEach(id=>document.getElementById(id).value="");
 }
 </script>
 
