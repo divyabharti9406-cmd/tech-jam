@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Jam | Teacher Dashboard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fc;color:#172554}
+header{background:#172554;color:white;padding:20px 6%;display:flex;justify-content:space-between;align-items:center}
+header h2{margin:0;color:#60a5fa}
+button{border:0;border-radius:8px;padding:11px 17px;background:#2563eb;color:white;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+main{max-width:1100px;margin:auto;padding:30px 20px}
+h1{margin-bottom:5px}
+.muted{color:#64748b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin:24px 0}
+.card{background:white;padding:22px;border-radius:13px;box-shadow:0 3px 15px #17255410}
+.number{font-size:32px;font-weight:bold;margin-top:10px}
+.green{color:#16a078}.orange{color:#d69b32}.red{color:#dc6262}
+.bar{height:12px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin:10px 0 18px}
+.fill{height:100%;border-radius:20px}
+.row{display:flex;justify-content:space-between;gap:10px}
+section{margin-top:30px}
+textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:8px;min-height:90px}
+select{padding:10px;border:1px solid #cbd5e1;border-radius:8px}
+.star{font-size:30px;background:none;color:#cbd5e1;padding:3px}
+.star.selected{color:#eab308}
+.notice{background:#eff6ff;padding:14px;border-radius:9px;color:#1d4ed8;margin:16px 0}
+footer{text-align:center;padding:25px;color:#64748b}
+</style>
+</head>
+<body>
+<header>
+  <h2>TECH JAM</h2>
+  <span>Teacher Admin Panel</span>
+</header>
+
+<main>
+  <h1>Classroom Dashboard</h1>
+  <p class="muted">Monitor understanding and classroom feedback.</p>
+  <div class="notice">DEMO MODE — Sample data only. No real students are connected.</div>
+
+  <div class="grid">
+    <div class="card">
+      <p class="muted">Students joined</p>
+      <div class="number">100</div>
+    </div>
+    <div class="card">
+      <p class="muted">Clear</p>
+      <div class="number green">55%</div>
+    </div>
+    <div class="card">
+      <p class="muted">Partially clear</p>
+      <div class="number orange">25%</div>
+    </div>
+    <div class="card">
+      <p class="muted">Confused</p>
+      <div class="number red">20%</div>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Live Understanding Analysis</h2>
+    <p class="muted">Sample clarity distribution</p>
+    <div class="row"><span>Clear</span><b>55%</b></div>
+    <div class="bar"><div class="fill" style="width:55%;background:#16a078"></div></div>
+    <div class="row"><span>Partially clear</span><b>25%</b></div>
+    <div class="bar"><div class="fill" style="width:25%;background:#d69b32"></div></div>
+    <div class="row"><span>Confused</span><b>20%</b></div>
+    <div class="bar"><div class="fill" style="width:20%;background:#dc6262"></div></div>
+  </section>
+
+  <section class="card">
+    <h2>Teacher Control Center</h2>
+    <p id="mode">Classroom mode: OPEN</p>
+    <button id="freezeBtn" onclick="toggleFreeze()">Freeze classroom</button>
+    <p class="muted">Demo control: this only changes this browser's interface.</p>
+  </section>
+
+  <section class="card">
+    <h2>Student Portal</h2>
+    <p>Choose your understanding level:</p>
+    <select id="clarity">
+      <option value="">Select status</option>
+      <option>Clear</option>
+      <option>Partially clear</option>
+      <option>Confused</option>
+    </select>
+    <button onclick="submitStatus()">Submit status</button>
+    <p id="statusMessage" class="muted"></p>
+  </section>
+
+  <section class="card">
+    <h2>Five-Star Topic Feedback</h2>
+    <p>Rate today's explanation:</p>
+    <div id="stars">
+      <button class="star" onclick="rate(1)">★</button>
+      <button class="star" onclick="rate(2)">★</button>
+      <button class="star" onclick="rate(3)">★</button>
+      <button class="star" onclick="rate(4)">★</button>
+      <button class="star" onclick="rate(5)">★</button>
+    </div>
+    <p id="ratingMessage" class="muted">No rating selected.</p>
+    <textarea id="suggestion" placeholder="Share your suggestion..."></textarea>
+    <button onclick="submitFeedback()">Submit feedback</button>
+    <p id="feedbackMessage"></p>
+  </section>
+
+  <section class="card">
+    <h2>Anonymous Doubt Box</h2>
+    <p class="muted">Demo interface — AI moderation is not connected yet.</p>
+    <textarea id="doubt" placeholder="Write your topic-related doubt..."></textarea>
+    <button onclick="submitDoubt()">Submit doubt</button>
+    <p id="doubtMessage"></p>
+  </section>
+</main>
+
+<footer>TECH JAM | Smart Classroom Intelligence</footer>
+
+<script>
+let frozen = false;
+let rating = 0;
+
+function toggleFreeze(){
+  frozen = !frozen;
+  document.getElementById("mode").textContent =
+    frozen ? "Classroom mode: FROZEN" : "Classroom mode: OPEN";
+  document.getElementById("freezeBtn").textContent =
+    frozen ? "Unfreeze classroom" : "Freeze classroom";
+}
+
+function submitStatus(){
+  if(frozen){
+    alert("Classroom is frozen by the teacher.");
+    return;
+  }
+  const value = document.getElementById("clarity").value;
+  document.getElementById("statusMessage").textContent =
+    value ? "Demo response: " + value : "Please select a status.";
+}
+
+function rate(value){
+  if(frozen){alert("Feedback is frozen.");return;}
+  rating = value;
+  document.querySelectorAll(".star").forEach((star,index)=>{
+    star.classList.toggle("selected",index < value);
+  });
+  document.getElementById("ratingMessage").textContent =
+    "You selected " + value + " out of 5 stars.";
+}
+
+function submitFeedback(){
+  if(frozen){alert("Feedback is frozen.");return;}
+  if(!rating){alert("Please select a star rating.");return;}
+  document.getElementById("feedbackMessage").textContent =
+    "Demo feedback submitted. Thank you!";
+}
+
+function submitDoubt(){
+  if(frozen){alert("Classroom is frozen.");return;}
+  const message = document.getElementById("doubt").value.trim();
+  if(!message){alert("Please enter your doubt.");return;}
+  document.getElementById("doubtMessage").textContent =
+    "Demo doubt received. AI moderation is not connected yet.";
+  document.getElementById("doubt").value = "";
+}
+</script>
+</body>
+</html>
