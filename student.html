@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Live Classroom Pulse | Student Portal</title>
 
-<!-- Chart.js for classroom analytics -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -129,7 +128,7 @@ header {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 18px;
     margin-bottom: 20px;
 }
@@ -167,37 +166,11 @@ header {
     background: #1d4ed8;
 }
 
-.action:disabled {
-    opacity: .45;
-    cursor: not-allowed;
-}
-
 .secondary {
     background: #344761;
 }
 
-.secondary:hover {
-    background: #405878;
-}
-
-.success {
-    color: #4ade80 !important;
-}
-
-.warning {
-    color: #fbbf24 !important;
-}
-
-.error {
-    color: #f87171 !important;
-}
-
-.message {
-    margin-top: 15px;
-    font-size: 14px;
-}
-
-textarea, input[type="text"] {
+input[type="text"], textarea {
     width: 100%;
     background: #101827;
     border: 1px solid #40516d;
@@ -214,7 +187,7 @@ textarea {
     resize: vertical;
 }
 
-textarea:focus, input:focus {
+input:focus, textarea:focus {
     border-color: #55c7ff;
 }
 
@@ -240,11 +213,8 @@ textarea:focus, input:focus {
     padding: 20px;
     border-radius: 12px;
     margin-top: 20px;
-    max-width: 650px;
-}
-
-.chart-container canvas {
-    max-height: 300px;
+    position: relative;
+    height: 320px;
 }
 
 .tag {
@@ -275,6 +245,7 @@ textarea:focus, input:focus {
     max-width: 90%;
     line-height: 1.6;
     font-size: 14px;
+    white-space: pre-wrap;
 }
 
 .bot {
@@ -282,7 +253,7 @@ textarea:focus, input:focus {
     color: #dbeafe;
 }
 
-.student {
+.student-message {
     background: #2563eb;
     color: white;
     margin-left: auto;
@@ -313,6 +284,16 @@ textarea:focus, input:focus {
     line-height: 1.6;
 }
 
+.message {
+    margin-top: 13px;
+    font-size: 14px;
+    color: #4ade80;
+}
+
+.warning {
+    color: #fbbf24 !important;
+}
+
 .lock-screen {
     background: #301d29;
     border: 1px solid #a33e52;
@@ -331,6 +312,10 @@ textarea:focus, input:focus {
     line-height: 1.8;
 }
 
+.hidden {
+    display: none !important;
+}
+
 footer {
     text-align: center;
     border-top: 1px solid #29364b;
@@ -340,30 +325,13 @@ footer {
     font-size: 13px;
 }
 
-.hidden {
-    display: none !important;
-}
-
 @media(max-width:600px) {
-    header {
-        padding: 18px;
-    }
-
-    .welcome, .navbar {
-        margin: 15px;
-    }
-
-    .container {
-        margin: 15px;
-    }
-
-    .welcome {
-        padding: 25px;
-    }
-
-    .card {
-        padding: 19px;
-    }
+    header { padding: 18px; }
+    .welcome, .navbar { margin: 15px; }
+    .container { margin: 15px; }
+    .welcome { padding: 25px; }
+    .card { padding: 19px; }
+    .chart-container { height: 280px; }
 }
 </style>
 </head>
@@ -383,8 +351,6 @@ footer {
         and tell your teachers what helps you learn better.
     </p>
 </div>
-
-<!-- NAVIGATION -->
 
 <nav class="navbar" id="navbar">
 
@@ -423,19 +389,23 @@ footer {
     <div class="grid">
 
         <div class="stat">
-            <h3>📊</h3>
-            <p>Share your understanding through My Pulse.</p>
+            <h3>80</h3>
+            <p>Total classroom strength</p>
         </div>
 
         <div class="stat">
-            <h3>🔒</h3>
-            <p>Ask academic doubts privately.</p>
+            <h3>63</h3>
+            <p>Students who submitted My Pulse responses</p>
         </div>
 
         <div class="stat">
-            <h3>🤖</h3>
-            <p>Tell our suggestion assistant what learning
-            resources you need.</p>
+            <h3>42</h3>
+            <p>Academic suggestions received</p>
+        </div>
+
+        <div class="stat">
+            <h3>36</h3>
+            <p>Academic doubts received</p>
         </div>
 
     </div>
@@ -458,62 +428,48 @@ footer {
 
     <div class="card">
         <h2>📊 My Classroom Pulse</h2>
+        <p>How well are you understanding the ongoing lecture?</p>
 
-        <p>
-            How well are you understanding the ongoing lecture?
-        </p>
+        <button class="action" onclick="setStatus('Clear')">
+            😊 Clear
+        </button>
 
-        <div id="pulseControls">
+        <button class="action" onclick="setStatus('Confused')">
+            😕 Confused
+        </button>
 
-            <button class="action" onclick="setStatus('Clear')">
-                😊 Clear
-            </button>
-
-            <button class="action" onclick="setStatus('Confused')">
-                😕 Confused
-            </button>
-
-            <button class="action" onclick="setStatus('Need Help')">
-                🙋 Need Help
-            </button>
-
-        </div>
+        <button class="action" onclick="setStatus('Need Help')">
+            🙋 Need Help
+        </button>
 
         <p id="statusMessage" class="message"></p>
     </div>
 
     <div class="card">
-        <h2>🗳️ Teacher's Classroom Check-in</h2>
-
-        <p id="pollQuestion">
-            No classroom poll has been published yet.
-        </p>
-
-        <div id="teacherPoll">
-            <p class="message">
-                Your teacher's active poll will appear here.
-            </p>
-        </div>
-
-        <div id="pollResultMessage" class="message"></div>
-    </div>
-
-    <div class="card">
         <h2>📈 Classroom Understanding Analysis</h2>
-
         <p>
-            This chart represents the aggregated understanding
-            responses collected by the classroom system.
+            Simulated understanding responses from an 80-student
+            classroom. Non-participating students are included.
         </p>
 
         <div class="chart-container">
             <canvas id="pulseChart"></canvas>
         </div>
 
-        <p class="message warning">
-            Demo chart: real classroom-wide data requires a
-            shared database and teacher-side integration.
+        <div class="notice" id="pulseSummary"></div>
+    </div>
+
+    <div class="card">
+        <h2>🗳️ Teacher's Classroom Poll Results</h2>
+        <p>
+            Results from a simulated teacher-created classroom poll.
         </p>
+
+        <div class="chart-container">
+            <canvas id="pollChart"></canvas>
+        </div>
+
+        <div class="notice" id="pollSummary"></div>
     </div>
 
 </section>
@@ -523,7 +479,7 @@ footer {
 
 <section id="doubts" class="section">
 
-    <div id="doubtContent" class="card">
+    <div class="card" id="doubtContent">
 
         <h2>🔒 Anonymous Academic Doubt Box</h2>
 
@@ -532,10 +488,8 @@ footer {
             Submit your academic doubt here.
         </p>
 
-        <textarea
-            id="doubt"
-            placeholder="Write your subject-related doubt here..."
-        ></textarea>
+        <textarea id="doubt"
+            placeholder="Write your subject-related doubt here..."></textarea>
 
         <button class="action" onclick="submitDoubt()">
             Submit Academic Doubt
@@ -550,20 +504,29 @@ footer {
 
         <span class="tag">Concept clarification</span>
         <span class="tag">Numerical problems</span>
-        <span class="tag">Lecture difficulties</span>
         <span class="tag">Assignments</span>
         <span class="tag">Exam preparation</span>
+    </div>
 
-        <div class="notice">
-            Your doubt will be checked for academic relevance
-            before being accepted.
+    <div class="card">
+        <h2>📊 Classroom Doubt Analysis</h2>
+
+        <p>
+            Classification of 36 academic doubts received
+            from the simulated classroom.
+        </p>
+
+        <div class="chart-container">
+            <canvas id="doubtChart"></canvas>
         </div>
+
+        <div class="notice" id="doubtSummary"></div>
     </div>
 
 </section>
 
 
-<!-- AI SUGGESTIONS -->
+<!-- SUGGESTIONS -->
 
 <section id="suggestions" class="section">
 
@@ -578,26 +541,22 @@ footer {
 
         <div class="notice">
             The assistant accepts academic suggestions only.
-            Tell it whether you need notes, another explanation,
-            worksheets, tests or additional practice.
+            You can request notes, relecture, worksheets,
+            tests and additional practice.
         </div>
 
         <div class="chat-box" id="chatBox">
 
             <div class="chat-message bot">
                 Hello! 👋 I'm your Academic Suggestions Assistant.
-                <br><br>
+
                 Tell me what would improve your learning experience.
-                <br><br>
-                For example:
-                <br>
-                • I need another explanation of this topic.
-                <br>
-                • Please provide notes.
-                <br>
-                • I need practice worksheets.
-                <br>
-                • Can we have a topic test?
+
+                You can request:
+                • Relecture
+                • Study Notes
+                • Practice Worksheets
+                • Topic Tests
             </div>
 
         </div>
@@ -622,12 +581,10 @@ footer {
 
         </div>
 
-        <input
-            type="text"
+        <input type="text"
             id="suggestionInput"
             placeholder="Describe your academic requirement..."
-            onkeydown="if(event.key==='Enter') sendSuggestion()"
-        >
+            onkeydown="if(event.key==='Enter') sendSuggestion()">
 
         <button class="action" onclick="sendSuggestion()">
             Send Suggestion →
@@ -637,35 +594,27 @@ footer {
 
     </div>
 
-
     <div class="card">
 
         <h2>📊 AI Suggestion Analysis</h2>
 
         <p>
-            Academic suggestions can be grouped into categories
-            to identify the most requested learning resources.
+            Analysis of 42 simulated academic suggestions
+            from 80 students.
         </p>
 
         <div class="chart-container">
             <canvas id="suggestionChart"></canvas>
         </div>
 
-        <div id="suggestionSummary" class="notice">
-            Suggestions will appear in the analysis after submission.
-        </div>
-
-        <p class="message warning">
-            Demo analytics are stored only in this browser.
-            Teacher-wide analysis requires backend integration.
-        </p>
+        <div class="notice" id="suggestionSummary"></div>
 
     </div>
 
 </section>
 
 
-<!-- TEMPORARY FREEZE SCREEN -->
+<!-- FREEZE SCREEN -->
 
 <section id="frozen" class="section">
 
@@ -674,8 +623,8 @@ footer {
         <h2>🔒 Student Portal Temporarily Frozen</h2>
 
         <p id="freezeReason">
-            Your access to classroom submissions has been temporarily
-            restricted due to a moderation violation.
+            Your access has been temporarily restricted
+            due to a moderation violation.
         </p>
 
         <br>
@@ -705,69 +654,124 @@ footer {
 <footer>
     © 2026 Live Classroom Pulse |
     AI-Powered Classroom Intelligence
+    <br>
+    <span style="font-size:11px">
+        Demonstration analytics use simulated classroom data.
+    </span>
 </footer>
 
 
 <script>
 
-// ========================================
-// BASIC CONFIGURATION
-// ========================================
+// ==========================================
+// STATIC CLASSROOM DATA - 80 STUDENTS
+// ==========================================
 
-// DEMO MODE ONLY.
-// Real authentication and moderation must be implemented
-// through a secure backend.
+const classroomData = {
+
+    total: 80,
+
+    pulse: {
+        clear: 34,
+        confused: 18,
+        help: 11,
+        absent: 17
+    },
+
+    poll: {
+        fully: 29,
+        partially: 19,
+        notUnderstood: 10,
+        absent: 22
+    },
+
+    suggestions: {
+        relecture: 18,
+        notes: 12,
+        worksheets: 8,
+        tests: 4,
+        absent: 38
+    },
+
+    doubts: {
+        concepts: 14,
+        numericals: 10,
+        assignments: 7,
+        exam: 5,
+        absent: 44
+    }
+
+};
+
+// ==========================================
+// DEMO STUDENT DATA
+// ==========================================
 
 const STORAGE_KEY = "lcp_student_demo";
-const DEMO_POLL_KEY = "lcp_teacher_demo_poll";
 
-let studentData = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || "{}"
-);
+let studentData = {};
 
-studentData.pulseResponses = studentData.pulseResponses || [];
-studentData.suggestions = studentData.suggestions || [];
-studentData.doubts = studentData.doubts || [];
-studentData.freezeUntil = studentData.freezeUntil || null;
+try {
+    studentData = JSON.parse(
+        localStorage.getItem(STORAGE_KEY) || "{}"
+    ) || {};
+} catch {
+    studentData = {};
+}
 
-let selectedStatus = "";
+studentData.pulseResponses =
+    studentData.pulseResponses || [];
+
+studentData.suggestions =
+    studentData.suggestions || [];
+
+studentData.doubts =
+    studentData.doubts || [];
+
+studentData.freezeUntil =
+    studentData.freezeUntil || null;
+
 let pulseChart = null;
+let pollChart = null;
+let doubtChart = null;
 let suggestionChart = null;
 
 function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(studentData));
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(studentData)
+    );
 }
 
 
-// ========================================
+// ==========================================
 // NAVIGATION
-// ========================================
+// ==========================================
 
 function showTab(tabId, button) {
 
     if (isFrozen() && tabId !== "frozen") {
-        alert("Your portal is temporarily frozen. Please meet your teacher.");
         showFrozenScreen();
         return;
     }
 
-    document.querySelectorAll(".section").forEach(section => {
-        section.classList.remove("active");
-    });
+    document.querySelectorAll(".section")
+        .forEach(section => section.classList.remove("active"));
 
-    document.querySelectorAll(".navbar button").forEach(btn => {
-        btn.classList.remove("active");
-    });
+    document.querySelectorAll(".navbar button")
+        .forEach(btn => btn.classList.remove("active"));
 
     document.getElementById(tabId).classList.add("active");
 
-    if (button) {
-        button.classList.add("active");
-    }
+    button.classList.add("active");
 
     if (tabId === "pulse") {
         renderPulseChart();
-        loadTeacherPoll();
+        renderPollChart();
+    }
+
+    if (tabId === "doubts") {
+        renderDoubtChart();
     }
 
     if (tabId === "suggestions") {
@@ -776,9 +780,9 @@ function showTab(tabId, button) {
 }
 
 
-// ========================================
-// TEMPORARY FREEZE SYSTEM
-// ========================================
+// ==========================================
+// FREEZE SYSTEM - FRONTEND DEMONSTRATION
+// ==========================================
 
 function isFrozen() {
 
@@ -786,11 +790,9 @@ function isFrozen() {
 
     if (Date.now() >= studentData.freezeUntil) {
 
-        // Restriction automatically expires at the end
-        // of the local calendar day.
-
         studentData.freezeUntil = null;
         studentData.freezeReason = null;
+
         saveData();
 
         return false;
@@ -801,9 +803,7 @@ function isFrozen() {
 
 function freezeStudent(reason) {
 
-    // Freeze expires at local midnight.
-    const now = new Date();
-    const midnight = new Date(now);
+    const midnight = new Date();
 
     midnight.setHours(24, 0, 0, 0);
 
@@ -817,15 +817,13 @@ function freezeStudent(reason) {
 
 function showFrozenScreen() {
 
-    document.querySelectorAll(".section").forEach(section => {
-        section.classList.remove("active");
-    });
+    document.querySelectorAll(".section")
+        .forEach(section => section.classList.remove("active"));
 
     document.getElementById("frozen").classList.add("active");
 
-    document.querySelectorAll(".navbar button").forEach(button => {
-        button.classList.remove("active");
-    });
+    document.getElementById("navbar")
+        .classList.add("hidden");
 
     document.getElementById("freezeReason").innerText =
         studentData.freezeReason ||
@@ -834,27 +832,19 @@ function showFrozenScreen() {
     document.getElementById("freezeExpiry").innerText =
         "Restriction expiry: " +
         new Date(studentData.freezeUntil).toLocaleString();
-
-    document.getElementById("navbar").classList.add("hidden");
 }
 
 function checkFreeze() {
 
     if (isFrozen()) {
         showFrozenScreen();
-    } else {
-        document.getElementById("navbar").classList.remove("hidden");
     }
 }
 
 
-// ========================================
-// CONTENT MODERATION
-// ========================================
-
-// These lists are only basic demonstration rules.
-// A real AI moderation service must evaluate context,
-// language variations and severity.
+// ==========================================
+// CONTENT MODERATION - DEMO RULES
+// ==========================================
 
 const abusiveWords = [
     "fuck",
@@ -865,54 +855,56 @@ const abusiveWords = [
     "motherfucker"
 ];
 
-const inappropriatePhrases = [
+const threats = [
     "kill the teacher",
     "i will hurt the teacher"
+];
+
+const academicKeywords = [
+    "lecture", "topic", "chapter", "notes", "study",
+    "worksheet", "test", "exam", "subject", "concept",
+    "question", "doubt", "explain", "understand",
+    "revision", "practice", "assignment", "numerical",
+    "formula", "teacher", "class", "relecture",
+    "math", "physics", "chemistry", "biology",
+    "programming", "coding", "homework", "example",
+    "learning", "lesson", "assessment", "quiz",
+    "exercise", "pdf", "material", "revision"
 ];
 
 function moderateContent(message) {
 
     const text = message.toLowerCase().trim();
 
-    // Check explicit abusive language.
+    const hasAbuse = abusiveWords.some(word => {
+        const escaped = word.replace(
+            /[.*+?^${}()|[\]\\]/g, "\\$&"
+        );
 
-    const containsAbuse = abusiveWords.some(word => {
-        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        return new RegExp("\\b" + escaped + "\\b", "i").test(text);
+        return new RegExp(
+            "\\b" + escaped + "\\b", "i"
+        ).test(text);
     });
 
-    const containsThreat = inappropriatePhrases.some(phrase =>
-        text.includes(phrase)
+    const hasThreat = threats.some(
+        phrase => text.includes(phrase)
     );
 
-    if (containsAbuse || containsThreat) {
+    if (hasAbuse || hasThreat) {
         return "abusive";
     }
 
-    // Basic academic relevance check.
-
-    const academicKeywords = [
-        "lecture", "topic", "chapter", "notes", "study",
-        "worksheet", "test", "exam", "subject", "concept",
-        "question", "doubt", "explain", "understand",
-        "revision", "practice", "assignment", "numerical",
-        "formula", "teacher", "class", "relecture",
-        "math", "physics", "chemistry", "biology",
-        "programming", "coding", "homework", "example",
-        "revision", "learning", "lesson"
-    ];
-
-    const academic = academicKeywords.some(word =>
-        text.includes(word)
+    const isAcademic = academicKeywords.some(
+        word => text.includes(word)
     );
 
-    return academic ? "academic" : "irrelevant";
+    return isAcademic ? "academic" : "irrelevant";
 }
 
 
-// ========================================
+// ==========================================
 // MY PULSE
-// ========================================
+// ==========================================
 
 function setStatus(status) {
 
@@ -920,8 +912,6 @@ function setStatus(status) {
         showFrozenScreen();
         return;
     }
-
-    selectedStatus = status;
 
     studentData.pulseResponses.push({
         status: status,
@@ -931,111 +921,21 @@ function setStatus(status) {
     saveData();
 
     document.getElementById("statusMessage").innerText =
-        "Your understanding status: " + status;
+        "Your response: " + status +
+        ". Thank you for participating!";
 
-    renderPulseChart();
 }
 
 
-// ========================================
-// TEACHER POLL INTEGRATION
-// ========================================
-
-// Demo integration: reads a poll saved in the same browser.
-// A shared database is required for different devices.
-
-function loadTeacherPoll() {
-
-    const poll = JSON.parse(
-        localStorage.getItem(DEMO_POLL_KEY) || "null"
-    );
-
-    const container = document.getElementById("teacherPoll");
-
-    if (!poll || !poll.question || !Array.isArray(poll.options)) {
-        document.getElementById("pollQuestion").innerText =
-            "No classroom poll has been published yet.";
-
-        container.innerHTML =
-            '<p class="message">Your teacher’s active poll will appear here.</p>';
-
-        return;
-    }
-
-    document.getElementById("pollQuestion").innerText =
-        poll.question;
-
-    container.innerHTML = "";
-
-    poll.options.forEach((option, index) => {
-
-        const label = document.createElement("label");
-        label.className = "option";
-
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = "teacherPoll";
-        radio.value = option;
-
-        label.appendChild(radio);
-        label.appendChild(document.createTextNode(option));
-
-        container.appendChild(label);
-    });
-
-    const submit = document.createElement("button");
-    submit.className = "action";
-    submit.textContent = "Submit Poll Response";
-
-    submit.onclick = submitTeacherPoll;
-
-    container.appendChild(submit);
-}
-
-function submitTeacherPoll() {
-
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
-
-    const answer = document.querySelector(
-        'input[name="teacherPoll"]:checked'
-    );
-
-    if (!answer) {
-        alert("Please select an answer.");
-        return;
-    }
-
-    document.getElementById("pollResultMessage").innerText =
-        "Your classroom poll response has been recorded in demo mode.";
-
-    // In production, send answer and poll ID to the backend.
-}
-
-
-// ========================================
-// PULSE CHART
-// ========================================
+// ==========================================
+// STATIC PULSE CHART
+// ==========================================
 
 function renderPulseChart() {
 
-    const counts = {
-        "Clear": 0,
-        "Confused": 0,
-        "Need Help": 0
-    };
+    if (pulseChart) pulseChart.destroy();
 
-    studentData.pulseResponses.forEach(response => {
-        if (counts[response.status] !== undefined) {
-            counts[response.status]++;
-        }
-    });
-
-    if (pulseChart) {
-        pulseChart.destroy();
-    }
+    const d = classroomData.pulse;
 
     pulseChart = new Chart(
         document.getElementById("pulseChart"),
@@ -1043,37 +943,137 @@ function renderPulseChart() {
             type: "doughnut",
 
             data: {
-                labels: Object.keys(counts),
+                labels: [
+                    "Clear",
+                    "Confused",
+                    "Need Help",
+                    "No Response"
+                ],
 
                 datasets: [{
-                    data: Object.values(counts),
+                    data: [
+                        d.clear,
+                        d.confused,
+                        d.help,
+                        d.absent
+                    ],
+
                     backgroundColor: [
                         "#10b981",
                         "#f59e0b",
-                        "#3b82f6"
+                        "#3b82f6",
+                        "#64748b"
                     ],
+
                     borderWidth: 0
                 }]
             },
 
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
+
                 plugins: {
                     legend: {
+                        position: "bottom",
                         labels: {
-                            color: "#ffffff"
+                            color: "#ffffff",
+                            padding: 16
                         }
+                    },
+
+                    title: {
+                        display: true,
+                        text: "Understanding Status - 80 Students",
+                        color: "#55c7ff"
                     }
                 }
             }
         }
     );
+
+    document.getElementById("pulseSummary").innerText =
+        "63 of 80 students participated (78.75%). " +
+        "29 students (36.25% of the class) selected Confused or Need Help. " +
+        "Teachers may consider revisiting difficult topics.";
 }
 
 
-// ========================================
-// ANONYMOUS DOUBT SUBMISSION
-// ========================================
+// ==========================================
+// STATIC TEACHER POLL CHART
+// ==========================================
+
+function renderPollChart() {
+
+    if (pollChart) pollChart.destroy();
+
+    const d = classroomData.poll;
+
+    pollChart = new Chart(
+        document.getElementById("pollChart"),
+        {
+            type: "doughnut",
+
+            data: {
+                labels: [
+                    "Fully Understood",
+                    "Partially Understood",
+                    "Not Understood",
+                    "No Response"
+                ],
+
+                datasets: [{
+                    data: [
+                        d.fully,
+                        d.partially,
+                        d.notUnderstood,
+                        d.absent
+                    ],
+
+                    backgroundColor: [
+                        "#10b981",
+                        "#f59e0b",
+                        "#ef4444",
+                        "#64748b"
+                    ],
+
+                    borderWidth: 0
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            color: "#ffffff",
+                            padding: 14
+                        }
+                    },
+
+                    title: {
+                        display: true,
+                        text: "Teacher Poll - 80 Students",
+                        color: "#55c7ff"
+                    }
+                }
+            }
+        }
+    );
+
+    document.getElementById("pollSummary").innerText =
+        "58 students participated (72.5%). " +
+        "29 fully understood, 19 partially understood and " +
+        "10 did not understand. 22 students did not participate.";
+}
+
+
+// ==========================================
+// DOUBT SUBMISSION
+// ==========================================
 
 function submitDoubt() {
 
@@ -1082,7 +1082,9 @@ function submitDoubt() {
         return;
     }
 
-    const doubt = document.getElementById("doubt").value.trim();
+    const input = document.getElementById("doubt");
+
+    const doubt = input.value.trim();
 
     if (!doubt) {
         alert("Please enter your academic doubt.");
@@ -1093,7 +1095,9 @@ function submitDoubt() {
 
     if (result === "abusive") {
 
-        freezeStudent("Abusive or threatening content was detected in a doubt submission.");
+        freezeStudent(
+            "Abusive or threatening content was detected."
+        );
 
         return;
     }
@@ -1101,234 +1105,59 @@ function submitDoubt() {
     if (result !== "academic") {
 
         document.getElementById("doubtMessage").innerText =
-            "This submission does not appear to be academically related. Please submit a subject-related doubt.";
+            "Please submit an academic question related to your subject.";
 
         return;
     }
 
     studentData.doubts.push({
         text: doubt,
-        category: classifyAcademicNeed(doubt),
         time: Date.now()
     });
 
     saveData();
-
-    document.getElementById("doubt").value = "";
-
-    document.getElementById("doubtMessage").innerText =
-        "Your academic doubt has been accepted in demo mode.";
-
-}
-
-
-// ========================================
-// AI SUGGESTION CHATBOT
-// ========================================
-
-function addChatMessage(message, sender) {
-
-    const chatBox = document.getElementById("chatBox");
-
-    const div = document.createElement("div");
-
-    div.className = "chat-message " + sender;
-
-    // textContent prevents submitted content from being
-    // interpreted as HTML.
-
-    div.textContent = message;
-
-    chatBox.appendChild(div);
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-
-// Classify the academic requirement.
-
-function classifyAcademicNeed(message) {
-
-    const text = message.toLowerCase();
-
-    if (
-        text.includes("relecture") ||
-        text.includes("again") ||
-        text.includes("revision") ||
-        text.includes("revise") ||
-        text.includes("re-explain") ||
-        text.includes("explain again") ||
-        text.includes("reteach")
-    ) {
-        return "Relecture";
-    }
-
-    if (
-        text.includes("note") ||
-        text.includes("pdf") ||
-        text.includes("material") ||
-        text.includes("summary")
-    ) {
-        return "Study Notes";
-    }
-
-    if (
-        text.includes("worksheet") ||
-        text.includes("practice") ||
-        text.includes("exercise") ||
-        text.includes("questions")
-    ) {
-        return "Practice Worksheets";
-    }
-
-    if (
-        text.includes("test") ||
-        text.includes("quiz") ||
-        text.includes("assessment")
-    ) {
-        return "Topic Test";
-    }
-
-    return "General Academic Support";
-}
-
-
-function generateDemoResponse(category) {
-
-    const responses = {
-
-        "Relecture":
-            "I have classified your request as Relecture. You would benefit from another explanation of the difficult topic. Your requirement can be shared with your teacher.",
-
-        "Study Notes":
-            "I have classified your request as Study Notes. You would benefit from additional study material or structured lecture notes.",
-
-        "Practice Worksheets":
-            "I have classified your request as Practice Worksheets. Additional exercises and topic-wise questions may help you strengthen your understanding.",
-
-        "Topic Test":
-            "I have classified your request as Topic Test. A short assessment or quiz could help you evaluate your understanding.",
-
-        "General Academic Support":
-            "Your request appears to be academic. Could you explain whether you need notes, a relecture, practice questions or a topic test?"
-    };
-
-    return responses[category];
-}
-
-
-function sendSuggestion() {
-
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
-
-    const input = document.getElementById("suggestionInput");
-
-    const message = input.value.trim();
-
-    if (!message) {
-        alert("Please enter your academic suggestion.");
-        return;
-    }
-
-    const result = moderateContent(message);
-
-    if (result === "abusive") {
-
-        freezeStudent("Abusive or threatening content was detected in a suggestion submission.");
-
-        return;
-    }
-
-    if (result !== "academic") {
-
-        addChatMessage(message, "student");
-
-        addChatMessage(
-            "Please keep our conversation related to academics. I can only consider suggestions about lectures, notes, worksheets, tests and learning difficulties.",
-            "bot"
-        );
-
-        input.value = "";
-
-        return;
-    }
-
-    const category = classifyAcademicNeed(message);
-
-    studentData.suggestions.push({
-        message: message,
-        category: category,
-        time: Date.now()
-    });
-
-    saveData();
-
-    addChatMessage(message, "student");
-
-    addChatMessage(generateDemoResponse(category), "bot");
 
     input.value = "";
 
-    renderSuggestionChart();
+    document.getElementById("doubtMessage").innerText =
+        "Your doubt has been accepted in demonstration mode.";
 
-    document.getElementById("suggestionMessage").innerText =
-        "Your academic suggestion has been recorded in demo mode.";
 }
 
 
-function quickSuggestion(message) {
+// ==========================================
+// STATIC DOUBT CHART
+// ==========================================
 
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
+function renderDoubtChart() {
 
-    document.getElementById("suggestionInput").value = message;
+    if (doubtChart) doubtChart.destroy();
 
-    sendSuggestion();
-}
+    const d = classroomData.doubts;
 
-
-// ========================================
-// SUGGESTION ANALYTICS
-// ========================================
-
-function renderSuggestionChart() {
-
-    const categories = {
-        "Relecture": 0,
-        "Study Notes": 0,
-        "Practice Worksheets": 0,
-        "Topic Test": 0,
-        "General Academic Support": 0
-    };
-
-    studentData.suggestions.forEach(item => {
-
-        if (categories[item.category] !== undefined) {
-            categories[item.category]++;
-        }
-
-    });
-
-    if (suggestionChart) {
-        suggestionChart.destroy();
-    }
-
-    suggestionChart = new Chart(
-        document.getElementById("suggestionChart"),
+    doubtChart = new Chart(
+        document.getElementById("doubtChart"),
         {
             type: "bar",
 
             data: {
-                labels: Object.keys(categories),
+                labels: [
+                    "Concept Clarification",
+                    "Numerical Problems",
+                    "Assignments",
+                    "Exam Preparation"
+                ],
 
                 datasets: [{
-                    label: "Academic Suggestions",
-                    data: Object.values(categories),
+                    label: "Doubts Submitted",
+
+                    data: [
+                        d.concepts,
+                        d.numericals,
+                        d.assignments,
+                        d.exam
+                    ],
+
                     backgroundColor: "#3b82f6",
                     borderRadius: 7
                 }]
@@ -1336,25 +1165,20 @@ function renderSuggestionChart() {
 
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
 
                 scales: {
                     x: {
                         ticks: {
-                            color: "#cbd5e1"
-                        },
-                        grid: {
-                            display: false
+                            color: "#ffffff"
                         }
                     },
 
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            color: "#cbd5e1",
+                            color: "#ffffff",
                             precision: 0
-                        },
-                        grid: {
-                            color: "#344761"
                         }
                     }
                 },
@@ -1370,32 +1194,254 @@ function renderSuggestionChart() {
         }
     );
 
-    // Identify the most requested category.
-
-    const sorted = Object.entries(categories)
-        .sort((a, b) => b[1] - a[1]);
-
-    const summary = document.getElementById("suggestionSummary");
-
-    const total = studentData.suggestions.length;
-
-    if (total === 0) {
-        summary.innerText =
-            "No academic suggestions have been submitted yet.";
-        return;
-    }
-
-    summary.innerText =
-        "Most requested category in this browser: " +
-        sorted[0][0] +
-        " (" + sorted[0][1] + " submissions). " +
-        "Total suggestions: " + total + ".";
+    document.getElementById("doubtSummary").innerText =
+        "36 out of 80 students submitted academic doubts. " +
+        "Concept clarification leads with 14 submissions, " +
+        "followed by numerical problems with 10.";
 }
 
 
-// ========================================
+// ==========================================
+// SUGGESTION CHATBOT
+// ==========================================
+
+function addChatMessage(message, sender) {
+
+    const box = document.getElementById("chatBox");
+
+    const div = document.createElement("div");
+
+    div.className = "chat-message " + sender;
+
+    div.textContent = message;
+
+    box.appendChild(div);
+
+    box.scrollTop = box.scrollHeight;
+}
+
+function classifyAcademicNeed(message) {
+
+    const text = message.toLowerCase();
+
+    if (
+        /relecture|again|revision|revise|re-explain|explain again|reteach|repeat/.test(text)
+    ) {
+        return "Relecture";
+    }
+
+    if (
+        /notes|pdf|material|summary/.test(text)
+    ) {
+        return "Study Notes";
+    }
+
+    if (
+        /worksheet|practice|exercise|questions/.test(text)
+    ) {
+        return "Practice Worksheets";
+    }
+
+    if (
+        /test|quiz|assessment/.test(text)
+    ) {
+        return "Topic Test";
+    }
+
+    return "General Academic Support";
+}
+
+function generateDemoResponse(category) {
+
+    const responses = {
+
+        "Relecture":
+            "Your request has been classified as Relecture. A second explanation of the difficult topic may help you understand it better.",
+
+        "Study Notes":
+            "Your request has been classified as Study Notes. Additional structured notes may support your revision.",
+
+        "Practice Worksheets":
+            "Your request has been classified as Practice Worksheets. More topic-wise practice could improve your understanding.",
+
+        "Topic Test":
+            "Your request has been classified as Topic Test. A short assessment could help you evaluate your preparation.",
+
+        "General Academic Support":
+            "Your request appears academic. Please specify whether you need notes, a relecture, worksheets or a test."
+    };
+
+    return responses[category];
+}
+
+function sendSuggestion() {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+        return;
+    }
+
+    const input = document.getElementById("suggestionInput");
+
+    const message = input.value.trim();
+
+    if (!message) {
+        alert("Please enter your suggestion.");
+        return;
+    }
+
+    const result = moderateContent(message);
+
+    if (result === "abusive") {
+
+        freezeStudent(
+            "Abusive or threatening content was detected."
+        );
+
+        return;
+    }
+
+    addChatMessage(message, "student-message");
+
+    input.value = "";
+
+    if (result === "irrelevant") {
+
+        addChatMessage(
+            "Please keep the conversation related to academics. I can only consider requests about lectures, notes, worksheets, tests and learning difficulties.",
+            "bot"
+        );
+
+        return;
+    }
+
+    const category = classifyAcademicNeed(message);
+
+    studentData.suggestions.push({
+        message: message,
+        category: category,
+        time: Date.now()
+    });
+
+    saveData();
+
+    addChatMessage(
+        generateDemoResponse(category),
+        "bot"
+    );
+
+    document.getElementById("suggestionMessage").innerText =
+        "Your academic suggestion has been recorded in demo mode.";
+
+}
+
+function quickSuggestion(message) {
+
+    if (isFrozen()) {
+        showFrozenScreen();
+        return;
+    }
+
+    document.getElementById("suggestionInput").value = message;
+
+    sendSuggestion();
+}
+
+
+// ==========================================
+// STATIC SUGGESTION CHART
+// ==========================================
+
+function renderSuggestionChart() {
+
+    if (suggestionChart) suggestionChart.destroy();
+
+    const d = classroomData.suggestions;
+
+    suggestionChart = new Chart(
+        document.getElementById("suggestionChart"),
+        {
+            type: "bar",
+
+            data: {
+                labels: [
+                    "Relecture",
+                    "Study Notes",
+                    "Worksheets",
+                    "Topic Tests"
+                ],
+
+                datasets: [{
+                    label: "Student Requests",
+
+                    data: [
+                        d.relecture,
+                        d.notes,
+                        d.worksheets,
+                        d.tests
+                    ],
+
+                    backgroundColor: [
+                        "#3b82f6",
+                        "#06b6d4",
+                        "#8b5cf6",
+                        "#10b981"
+                    ],
+
+                    borderRadius: 7
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "#ffffff"
+                        }
+                    },
+
+                    y: {
+                        beginAtZero: true,
+                        max: 20,
+
+                        ticks: {
+                            color: "#ffffff",
+                            precision: 0
+                        }
+                    }
+                },
+
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "#ffffff"
+                        }
+                    },
+
+                    title: {
+                        display: true,
+                        text: "42 Academic Suggestions",
+                        color: "#55c7ff"
+                    }
+                }
+            }
+        }
+    );
+
+    document.getElementById("suggestionSummary").innerText =
+        "CLASSROOM AI ANALYSIS (SIMULATED): " +
+        "Relecture is the most requested resource with 18 requests " +
+        "(42.86% of suggestions). Study notes follow with 12 requests. " +
+        "Teachers should prioritize another explanation of difficult topics.";
+}
+
+
+// ==========================================
 // INITIALIZATION
-// ========================================
+// ==========================================
 
 window.addEventListener("DOMContentLoaded", function() {
 
@@ -1403,9 +1449,11 @@ window.addEventListener("DOMContentLoaded", function() {
 
     renderPulseChart();
 
-    renderSuggestionChart();
+    renderPollChart();
 
-    loadTeacherPoll();
+    renderDoubtChart();
+
+    renderSuggestionChart();
 
 });
 
