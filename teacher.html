@@ -14,6 +14,43 @@
 --green:#4ade80;--yellow:#facc15;--red:#fb7185;
 --muted:#91a4bd;--border:#263b56
 }
+  <div id="studentQueries"></div>
+
+<script type="module">
+import { listenData, updateData } from "./firebase.js";
+
+listenData("studentQueries", (data) => {
+  const container = document.getElementById("studentQueries");
+  container.innerHTML = "";
+
+  Object.entries(data).forEach(([id, item]) => {
+    const card = document.createElement("div");
+
+    const question = document.createElement("p");
+    question.textContent = item.studentName + ": " + item.question;
+
+    const answer = document.createElement("textarea");
+    answer.placeholder = "Write teacher response";
+
+    const button = document.createElement("button");
+    button.textContent = "Send Answer";
+
+    button.onclick = async () => {
+      if (!answer.value.trim()) return alert("Enter an answer");
+
+      await updateData("studentQueries/" + id, {
+        answer: answer.value,
+        status: "Answered"
+      });
+
+      alert("Answer sent to student!");
+    };
+
+    card.append(question, answer, button);
+    container.appendChild(card);
+  });
+});
+</script>
 body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:#f1f5f9}
 button,input,textarea,select{font:inherit}
 .sidebar{
