@@ -2,95 +2,558 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech jam | Smart Classroom</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6ff;
-      color: #172554;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Classroom Pulse | Teacher Portal</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f5fb;
+    color: #202b45;
+}
+
+header {
+    background: #202b45;
+    color: white;
+    padding: 20px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #91aaff;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.teacher {
+    background: #34415f;
+    padding: 10px 18px;
+    border-radius: 20px;
+}
+
+.welcome {
+    margin: 25px;
+    padding: 30px;
+    background: linear-gradient(120deg,#202b45,#536dfe);
+    color: white;
+    border-radius: 15px;
+}
+
+.welcome h1 {
+    margin-bottom: 12px;
+}
+
+/* NAVIGATION */
+
+.navbar {
+    display: flex;
+    gap: 12px;
+    background: white;
+    padding: 15px;
+    margin: 25px;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.navbar button {
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    color: #53617b;
+    cursor: pointer;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+.navbar button.active,
+.navbar button:hover {
+    background: #536dfe;
+    color: white;
+}
+
+/* CONTENT */
+
+.container {
+    margin: 25px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 20px;
+    border-radius: 13px;
+    box-shadow: 0 3px 12px #0001;
+}
+
+.card h2 {
+    margin-bottom: 15px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 18px;
+}
+
+.stat {
+    background: #f4f6ff;
+    padding: 22px;
+    border-radius: 12px;
+}
+
+.stat h2 {
+    color: #536dfe;
+    font-size: 30px;
+}
+
+/* QUERY CARDS */
+
+.query-card {
+    background: #f8f9ff;
+    border: 1px solid #e1e5f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 18px;
+}
+
+.query-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.topic {
+    color: #536dfe;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.question {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 13px;
+    border: 1px solid #d5dbea;
+    border-radius: 8px;
+    resize: vertical;
+    margin: 10px 0;
+}
+
+button.action {
+    background: #536dfe;
+    color: white;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button.action:hover {
+    background: #354bd4;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    background: #fff0d5;
+    color: #a36500;
+}
+
+.status.answered {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.response {
+    background: #eaf0ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    color: #7b8499;
+}
+
+@media(max-width:650px) {
+    .stats {
+        grid-template-columns: 1fr;
     }
-    header {
-      background: white;
-      padding: 22px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
+    .welcome, .navbar {
+        margin: 15px;
     }
-    header h2 { color: #2563eb; }
-    .hero {
-      text-align: center;
-      padding: 100px 20px;
+
+    .container {
+        margin: 15px;
     }
-    .hero h1 { font-size: 45px; }
-    .hero p { color: #64748b; line-height: 1.7; }
-    button {
-      padding: 14px 24px;
-      background: #2563eb;
-      color: white;
-      border: 0;
-      border-radius: 8px;
-      margin: 10px;
-      cursor: pointer;
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 30px 8%;
-    }
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      text-align: center;
-    }
-  </style>
+}
+</style>
 </head>
+
 <body>
 
-  <header>
-    <h2>PulseIQ</h2>
-    <span>Smart Classroom Intelligence</span>
-  </header>
+<!-- HEADER -->
 
-  <section class="hero">
-    <h1>Understand Every Student.</h1>
-    <p>AI-powered classroom understanding, feedback and doubt analysis.</p>
+<header>
+    <div class="logo">Pulse.</div>
+    <div class="teacher">👨‍🏫 Teacher Portal</div>
+</header>
 
-    
-<a href="dashboard.html">
-  <button>Teacher Portal</button>
-</a>
+<!-- WELCOME -->
 
-<a href="student.html">
-  <button>Student Portal</button>
-</a>
+<div class="welcome">
+    <h1>Welcome, Teacher! 👋</h1>
+    <p>Monitor classroom understanding and support students in real time.</p>
+</div>
 
-  </section>
+<!-- NAVIGATION -->
 
-  <h2 style="text-align:center">Our Features</h2>
+<nav class="navbar">
 
-  <section class="cards">
+    <button class="active" onclick="showTab('dashboard',this)">
+        🏠 Dashboard
+    </button>
+
+    <button onclick="showTab('queries',this)">
+        💬 Student Queries
+    </button>
+
+    <button onclick="showTab('analytics',this)">
+        📊 Class Analytics
+    </button>
+
+</nav>
+
+<div class="container">
+
+<!-- DASHBOARD -->
+
+<section id="dashboard" class="section active">
+
     <div class="card">
-      <h3>Live Classroom Pulse</h3>
-      <p>Understand student confusion in real time.</p>
+        <h2>Classroom Overview</h2>
+        <p>Monitor student questions and classroom participation.</p>
+        <br>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h2 id="totalQueries">0</h2>
+                <p>Total Student Queries</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="pendingQueries">0</h2>
+                <p>Pending Queries</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="answeredQueries">0</h2>
+                <p>Answered Queries</p>
+            </div>
+
+        </div>
     </div>
+
     <div class="card">
-      <h3>AI Feedback</h3>
-      <p>Analyze five-star ratings and suggestions.</p>
+        <h2>Recent Student Queries</h2>
+        <div id="recentQueries"></div>
     </div>
+
+</section>
+
+<!-- STUDENT QUERIES -->
+
+<section id="queries" class="section">
+
     <div class="card">
-      <h3>AI Doubt Assistant</h3>
-      <p>Identify common student doubts.</p>
+
+        <h2>💬 Student Queries</h2>
+
+        <p>Read student questions and provide explanations.</p>
+
+        <div id="queryList">
+            <div class="empty">
+                No student queries received yet.
+            </div>
+        </div>
+
     </div>
+
+</section>
+
+<!-- ANALYTICS -->
+
+<section id="analytics" class="section">
+
     <div class="card">
-      <h3>suggestion</h3>
-      <p>Keep classroom interactions focused.</p>
+
+        <h2>📊 Class Analytics</h2>
+
+        <p>Overview of student queries and response progress.</p>
+
+        <div class="stats">
+
+            <div class="stat">
+                <h2 id="totalAnalytics">0</h2>
+                <p>Total Queries</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="pendingAnalytics">0</h2>
+                <p>Awaiting Response</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="resolvedAnalytics">0</h2>
+                <p>Resolved Queries</p>
+            </div>
+
+        </div>
+
+        <br>
+        <h3>Response Progress</h3>
+        <br>
+
+        <div style="background:#e5e7eb;height:13px;border-radius:10px;overflow:hidden;">
+            <div id="progressBar"
+                 style="height:13px;width:0%;background:#536dfe;">
+            </div>
+        </div>
+
+        <p id="progressText" style="margin-top:12px;">
+            0% queries answered
+        </p>
+
     </div>
-  </section>
+
+</section>
+
+</div>
+
+<script>
+
+// NAVIGATION
+
+function showTab(tabId, button) {
+
+    document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.querySelectorAll(".navbar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById(tabId).classList.add("active");
+    button.classList.add("active");
+}
+
+// SHARED LOCAL STORAGE
+
+const STORAGE_KEY = "lcp_queries";
+
+function getQueries() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+// CREATE QUERY CARD SAFELY
+
+function createQueryCard(query) {
+
+    const card = document.createElement("div");
+    card.className = "query-card";
+
+    const top = document.createElement("div");
+    top.className = "query-top";
+
+    const student = document.createElement("strong");
+    student.textContent = "Student: " + (query.studentName || "Anonymous");
+
+    const status = document.createElement("span");
+    status.className = "status" +
+        (query.status === "Answered" ? " answered" : "");
+    status.textContent = query.status || "Pending";
+
+    top.append(student, status);
+
+    const topic = document.createElement("p");
+    topic.className = "topic";
+    topic.textContent = "Topic: " + query.topic;
+
+    const question = document.createElement("p");
+    question.className = "question";
+    question.textContent = query.question;
+
+    card.append(top, topic, question);
+
+    if (query.reply) {
+
+        const response = document.createElement("div");
+        response.className = "response";
+
+        const heading = document.createElement("strong");
+        heading.textContent = "Your Response:";
+
+        const answer = document.createElement("p");
+        answer.textContent = query.reply;
+
+        response.append(heading, answer);
+        card.append(response);
+
+    } else {
+
+        const textarea = document.createElement("textarea");
+        textarea.placeholder = "Write your response to the student...";
+
+        const send = document.createElement("button");
+        send.className = "action";
+        send.textContent = "Send Response";
+
+        send.addEventListener("click", () => {
+            sendResponse(query.id, textarea.value);
+        });
+
+        card.append(textarea, send);
+    }
+
+    return card;
+}
+
+// DISPLAY QUERIES
+
+function renderQueries() {
+
+    const queries = getQueries();
+
+    const pending = queries.filter(q => q.status !== "Answered").length;
+    const answered = queries.length - pending;
+
+    // DASHBOARD COUNTS
+
+    document.getElementById("totalQueries").textContent = queries.length;
+    document.getElementById("pendingQueries").textContent = pending;
+    document.getElementById("answeredQueries").textContent = answered;
+
+    // ANALYTICS
+
+    document.getElementById("totalAnalytics").textContent = queries.length;
+    document.getElementById("pendingAnalytics").textContent = pending;
+    document.getElementById("resolvedAnalytics").textContent = answered;
+
+    const percentage = queries.length
+        ? Math.round(answered / queries.length * 100)
+        : 0;
+
+    document.getElementById("progressBar").style.width =
+        percentage + "%";
+
+    document.getElementById("progressText").textContent =
+        percentage + "% queries answered";
+
+    // QUERY LIST
+
+    const list = document.getElementById("queryList");
+    list.replaceChildren();
+
+    if (queries.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No student queries received yet.";
+        list.append(empty);
+    } else {
+        queries.forEach(query => {
+            list.append(createQueryCard(query));
+        });
+    }
+
+    // RECENT QUERIES
+
+    const recent = document.getElementById("recentQueries");
+    recent.replaceChildren();
+
+    if (queries.length === 0) {
+        recent.textContent = "No queries available.";
+    } else {
+        queries.slice(-3).reverse().forEach(query => {
+            recent.append(createQueryCard(query));
+        });
+    }
+}
+
+// TEACHER SENDS RESPONSE
+
+function sendResponse(id, answer) {
+
+    if (!answer.trim()) {
+        alert("Please write a response first.");
+        return;
+    }
+
+    const queries = getQueries();
+
+    const index = queries.findIndex(q => q.id === id);
+
+    if (index === -1) {
+        alert("Query not found. Please refresh.");
+        return;
+    }
+
+    queries[index].reply = answer.trim();
+    queries[index].status = "Answered";
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(queries));
+
+    renderQueries();
+
+    alert("Response sent successfully!");
+}
+
+// AUTOMATIC UPDATES WHEN STUDENT SUBMITS OR TEACHER REPLIES
+
+window.addEventListener("storage", event => {
+    if (event.key === STORAGE_KEY) {
+        renderQueries();
+    }
+});
+
+// INITIAL LOAD
+
+renderQueries();
+
+</script>
 
 </body>
 </html>
