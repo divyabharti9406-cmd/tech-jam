@@ -4,199 +4,582 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Live Classroom Pulse | Student Portal</title>
+<title>Live Classroom Pulse | Student</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
---bg:#080f20;--panel:#111d33;--panel2:#172640;
---cyan:#35d9f5;--purple:#a78bfa;
---green:#4ade80;--yellow:#facc15;--red:#fb7185;
---muted:#91a4bd;--border:#263b56
+  --bg:#0b1220;
+  --sidebar:#101c30;
+  --card:#15243b;
+  --card2:#1b2e49;
+  --card3:#213957;
+  --text:#f2f6ff;
+  --muted:#a9bad1;
+  --border:#2b4261;
+  --cyan:#54d8ed;
+  --blue:#6798ff;
+  --purple:#ae91ff;
+  --green:#51d6a0;
+  --yellow:#ffd16a;
+  --red:#ff7588;
+  --shadow:0 12px 35px rgba(0,0,0,.20);
 }
-  <script type="module">
-import { addData, listenData } from "./firebase.js";
 
-// Example: Submit student doubt
-window.submitStudentDoubt = async function() {
-  const question = document.getElementById("question").value;
-
-  try {
-    await addData("studentQueries", {
-      studentId: "STU001",
-      studentName: "Aarav Sharma",
-      topic: "Mathematics",
-      question: question,
-      status: "Pending"
-    });
-
-    alert("Doubt sent successfully!");
-  } catch (error) {
-    console.error(error);
-    alert("Error: " + error.message);
-  }
-};
-</script>
-body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:#f1f5f9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:
+    radial-gradient(ellipse at 75% 0%,rgba(57,110,184,.13),transparent 35%),
+    var(--bg);
+  color:var(--text);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  min-height:100vh;
+}
 button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.layout{display:flex;min-height:100vh}
+
+/* SIDEBAR */
 .sidebar{
-width:245px;height:100vh;position:fixed;left:0;top:0;
-background:#0c172b;border-right:1px solid var(--border);
-padding:25px 16px;z-index:10
+  width:250px;
+  position:fixed;
+  inset:0 auto 0 0;
+  background:linear-gradient(180deg,#14243c,#101a2c);
+  border-right:1px solid var(--border);
+  padding:25px 17px;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
 }
-.logo{font-size:20px;font-weight:800;color:var(--cyan);line-height:1.4}
-.logo span{color:white}
-.tagline{font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px}
-.menu-title{font-size:10px;letter-spacing:2px;color:#71839d;margin:35px 10px 12px}
+.brand{
+  padding:5px 10px 28px;
+}
+.brand-mark{
+  display:inline-grid;
+  place-items:center;
+  width:37px;height:37px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  color:#071727;
+  border-radius:12px;
+  font-size:20px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+.brand h2{font-size:17px;letter-spacing:.4px}
+.brand h2 span{color:var(--cyan)}
+.brand p{
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:1.3px;
+  margin-top:6px;
+}
+.nav-label{
+  font-size:10px;
+  letter-spacing:1.7px;
+  color:#8197b5;
+  font-weight:800;
+  padding:0 12px;
+  margin:12px 0;
+}
 .nav-btn{
-display:flex;align-items:center;gap:12px;padding:13px 12px;
-margin:7px 0;border:1px solid transparent;border-radius:11px;
-color:#aebdd1;cursor:pointer;font-size:13px;transition:.2s
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 14px;
+  margin:4px 0;
+  border:1px solid transparent;
+  border-radius:11px;
+  background:transparent;
+  color:#c1cfe1;
+  text-align:left;
+  font-size:13px;
+  transition:.2s;
 }
-.nav-btn:hover,.nav-btn.active{
-background:#172c48;border-color:#24516d;color:var(--cyan);
-box-shadow:inset 3px 0 var(--cyan)
+.nav-btn:hover{background:#1b304d;color:white}
+.nav-btn.active{
+  background:linear-gradient(100deg,#234d70,#263e69);
+  border-color:#3b668a;
+  color:#fff;
+  box-shadow:inset 3px 0 var(--cyan);
 }
-.nav-btn .emoji{font-size:18px}
-.student-profile{
-margin-top:25px;padding:15px;background:var(--panel2);
-border:1px solid var(--border);border-radius:12px
+.nav-icon{font-size:18px;width:23px;text-align:center}
+.side-bottom{
+  margin-top:auto;
+  background:#1b304a;
+  border:1px solid #35516f;
+  padding:15px;
+  border-radius:13px;
 }
-.student-profile p{font-size:11px;color:var(--muted);margin-top:7px}
-.avatar{
-width:43px;height:43px;border-radius:50%;background:#16435a;
-color:var(--cyan);display:grid;place-items:center;
-font-weight:bold;margin-bottom:10px
+.side-bottom small{
+  display:block;
+  color:#a7bad2;
+  font-size:9px;
+  letter-spacing:1.2px;
+  margin-bottom:8px;
 }
-.main{margin-left:245px;padding:28px 35px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px}
-.topbar h2{font-size:21px}
+.side-bottom strong{
+  color:var(--cyan);
+  font-size:16px;
+  letter-spacing:1.2px;
+}
+
+/* MAIN */
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  padding:27px 34px 45px;
+  max-width:1600px;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:25px;
+}
+.topbar h2{font-size:20px}
 .topbar p{font-size:12px;color:var(--muted);margin-top:5px}
-.live{
-color:var(--green);background:#12372b;border:1px solid #226345;
-border-radius:30px;padding:8px 14px;font-size:11px;font-weight:bold
+.live-pill{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid #27644e;
+  color:#7ce5b9;
+  background:#12382e;
+  border-radius:30px;
+  padding:9px 13px;
+  font-size:10px;
+  font-weight:800;
+  white-space:nowrap;
 }
-.welcome{
-background:linear-gradient(115deg,#172e4e,#252052);
-border:1px solid #304b73;border-radius:20px;padding:30px;
-margin-bottom:22px
+.live-dot{
+  width:8px;height:8px;
+  background:#51d6a0;
+  border-radius:50%;
+  box-shadow:0 0 10px #51d6a0;
 }
-.welcome small{color:var(--cyan);letter-spacing:2px;font-size:11px;font-weight:bold}
-.welcome h1{font-size:29px;margin:13px 0 9px}
-.welcome p{color:#b7c8df;font-size:13px;line-height:1.7}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
-.stat-card{
-background:var(--panel);border:1px solid var(--border);
-border-radius:16px;padding:19px
-}
-.stat-icon{font-size:22px}
-.stat-card h3{font-size:26px;margin:12px 0 4px}
-.stat-card p{color:var(--muted);font-size:11px}
-.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:17px;margin-bottom:20px}
-.panel{
-background:var(--panel);border:1px solid var(--border);
-border-radius:17px;padding:21px;min-width:0;margin-bottom:17px
-}
-.panel h3{font-size:15px;margin-bottom:8px}
-.sub{color:var(--muted);font-size:11px;margin-bottom:17px}
-.content{display:none;animation:appear .3s}
+.content{display:none;animation:enter .25s ease}
 .content.active{display:block}
-@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.section-heading{margin:10px 0 22px}
-.section-heading h1{font-size:26px;margin-bottom:7px}
-.section-heading p{color:var(--muted);font-size:13px}
-.action-btn{
-background:linear-gradient(90deg,#18b9d5,#6477ef);border:0;
-border-radius:9px;color:white;padding:11px 16px;font-weight:bold;
-cursor:pointer;font-size:12px;margin-top:8px
+@keyframes enter{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:translateY(0)}
 }
-.action-btn:hover{opacity:.85}
+.hero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid #385c83;
+  border-radius:21px;
+  padding:32px;
+  margin-bottom:20px;
+  background:
+    radial-gradient(circle at 90% 15%,rgba(84,216,237,.22),transparent 28%),
+    linear-gradient(115deg,#1c365b,#253f70 55%,#214c69);
+  box-shadow:var(--shadow);
+}
+.hero:after{
+  content:"✦";
+  position:absolute;
+  right:8%;top:8%;
+  font-size:100px;
+  color:rgba(255,255,255,.07);
+}
+.hero-tag{
+  color:#8de9f5;
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:850;
+}
+.hero h1{
+  font-size:30px;
+  line-height:1.25;
+  margin:13px 0 10px;
+  max-width:680px;
+}
+.hero p{
+  color:#d2e1f3;
+  font-size:13px;
+  line-height:1.8;
+  max-width:670px;
+}
+.hero-actions{margin-top:19px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* CARDS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:19px;
+}
+.stat-card,.panel{
+  background:linear-gradient(145deg,#182a43,#142238);
+  border:1px solid var(--border);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+}
+.stat-card{padding:18px}
+.stat-head{display:flex;justify-content:space-between;align-items:center}
+.stat-icon{
+  display:grid;
+  place-items:center;
+  width:40px;height:40px;
+  border-radius:12px;
+  font-size:19px;
+}
+.icon-blue{background:#203c68}
+.icon-cyan{background:#164251}
+.icon-purple{background:#382d60}
+.icon-green{background:#194b40}
+.stat-card h3{
+  font-size:24px;
+  margin:14px 0 4px;
+  color:#fff;
+  overflow-wrap:anywhere;
+}
+.stat-card p{font-size:11px;color:var(--muted)}
+.stat-card small{display:block;font-size:9px;color:#8298b5;margin-top:6px}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.25fr 1fr;
+  gap:16px;
+  margin-bottom:17px;
+}
+.panel{padding:21px;min-width:0;margin-bottom:16px}
+.panel h3{font-size:15px;margin-bottom:7px}
+.panel-sub{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.65;
+  margin-bottom:17px;
+}
+.section-heading{margin:8px 0 21px}
+.section-heading h1{font-size:25px;margin-bottom:7px}
+.section-heading p{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* BUTTONS */
+.primary-btn{
+  border:0;
+  color:#071827;
+  background:linear-gradient(100deg,#63e2ed,#6ba8ff);
+  border-radius:9px;
+  padding:12px 17px;
+  font-size:12px;
+  font-weight:850;
+  box-shadow:0 5px 15px rgba(75,185,230,.17);
+  transition:.2s;
+}
+.primary-btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .secondary-btn{
-background:#203751;border:1px solid #31506e;color:#d9e5f3;
-border-radius:9px;padding:10px 14px;cursor:pointer;margin-top:8px
+  color:#e6f1ff;
+  background:#263d5b;
+  border:1px solid #45617f;
+  border-radius:9px;
+  padding:11px 15px;
+  font-size:12px;
+  font-weight:750;
+}
+.secondary-btn:hover{background:#314e70}
+.hero .secondary-btn{background:#ffffff16;border-color:#ffffff40}
+
+/* QUICK ACTIONS */
+.quick-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.quick-action{
+  background:#1b304b;
+  border:1px solid #304b6b;
+  color:white;
+  border-radius:13px;
+  text-align:left;
+  padding:16px;
+  transition:.2s;
+}
+.quick-action:hover{
+  background:#223e5e;
+  border-color:#55b8d5;
+  transform:translateY(-2px);
+}
+.quick-action .q-icon{font-size:22px}
+.quick-action strong{display:block;font-size:13px;margin:9px 0 5px}
+.quick-action small{color:#a9bad1;font-size:10px;line-height:1.6}
+
+/* FORMS */
+label{
+  display:block;
+  font-size:12px;
+  color:#dce8f7;
+  font-weight:750;
+  margin:15px 0 7px;
 }
 input,textarea,select{
-width:100%;padding:12px;background:#0b172a;border:1px solid #30445f;
-border-radius:9px;color:white;margin:8px 0 15px;outline:none
+  display:block;
+  width:100%;
+  background:#0e1b2e;
+  color:#f1f6ff;
+  border:1px solid #354e6d;
+  border-radius:9px;
+  padding:12px 13px;
+  outline:none;
+  font-size:13px;
+  margin-bottom:12px;
 }
-input:focus,textarea:focus,select:focus{border-color:var(--cyan)}
-textarea{min-height:90px;resize:vertical}
-label{color:#b6c5d8;font-size:12px}
-.status-options{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--cyan);
+  box-shadow:0 0 0 3px #54d8ed19;
+}
+input::placeholder,textarea::placeholder{color:#8296b2}
+textarea{min-height:100px;resize:vertical;line-height:1.6}
+select option{background:#14243b;color:white}
+
+/* PULSE */
+.status-options{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin:15px 0 18px;
+}
 .status-option{
-background:#172640;border:2px solid #30445f;border-radius:12px;
-padding:18px 10px;text-align:center;cursor:pointer;color:white
+  background:#1a2c44;
+  color:white;
+  border:2px solid #354b68;
+  border-radius:13px;
+  padding:18px 10px;
+  text-align:center;
+  transition:.2s;
 }
-.status-option.selected{border-color:var(--cyan);background:#12364a}
-.status-option strong{display:block;margin-bottom:8px}
-.status-option small{color:var(--muted)}
-.bar{height:9px;background:#26364c;border-radius:20px;overflow:hidden}
-.fill{height:100%;border-radius:20px}
-.green{background:var(--green)}.yellow{background:var(--yellow)}
-.red{background:var(--red)}.blue{background:var(--cyan)}
-.pulse-row{display:flex;justify-content:space-between;gap:10px;margin:17px 0 8px;font-size:12px}
-.message-card{
-background:#172640;border:1px solid #2b4564;
-border-radius:13px;padding:17px;margin-bottom:13px
+.status-option:hover{border-color:#7298c5}
+.status-option.selected{
+  border-color:var(--cyan);
+  background:#164052;
+  box-shadow:0 0 0 3px #54d8ed18;
 }
-.message-card h4{color:var(--cyan);margin-bottom:9px}
-.message-card p{color:#c6d2e2;font-size:13px;line-height:1.6;margin-bottom:8px}
-.empty{color:var(--muted);font-size:13px;padding:15px 0}
-.poll-option{
-display:block;padding:13px;background:#172640;border:1px solid #30445f;
-border-radius:9px;margin:9px 0;cursor:pointer;font-size:13px
+.status-option strong{display:block;font-size:14px;margin-bottom:7px}
+.status-option small{font-size:10px;color:#b2c2d8}
+
+/* CHARTS */
+.chart-wrap{height:260px;position:relative}
+.chart-wrap canvas{max-height:260px}
+.bar-row{margin:15px 0}
+.bar-label{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:11px;
+  margin-bottom:7px;
 }
-.poll-option input{width:auto;margin:0 8px 0 0}
-.stars{display:flex;gap:10px;margin:15px 0}
-.star{font-size:31px;color:#71839d;cursor:pointer}
-.star.selected{color:var(--yellow)}
+.bar-label span{color:#bdcce0}
+.bar-label strong{color:#f4f7ff}
+.bar{
+  height:9px;
+  background:#293b54;
+  border-radius:30px;
+  overflow:hidden;
+}
+.fill{height:100%;border-radius:30px}
+.insight{
+  border:1px solid #3b5273;
+  background:linear-gradient(120deg,#1d3655,#1b2c49);
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+}
+.insight strong{font-size:12px;color:#7de4ee}
+.insight p{font-size:11px;color:#bdcce0;line-height:1.7;margin-top:5px}
+.notice{
+  background:#1c3452;
+  border:1px solid #355678;
+  border-radius:10px;
+  color:#bed1e9;
+  font-size:11px;
+  line-height:1.7;
+  padding:13px 15px;
+  margin:14px 0;
+}
+.privacy{
+  background:#143b35;
+  border:1px solid #286958;
+  color:#b8f0d9;
+  padding:14px 16px;
+  border-radius:11px;
+  font-size:11px;
+  line-height:1.7;
+  margin:15px 0;
+}
+.message{font-size:12px;color:var(--green);margin-top:12px;line-height:1.6}
+.error{color:var(--red)!important}
+
+/* CHATBOT */
 .chat-box{
-height:260px;overflow-y:auto;background:#0b172a;
-border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px
+  height:290px;
+  overflow-y:auto;
+  padding:15px;
+  background:#0d1a2d;
+  border:1px solid #344b69;
+  border-radius:13px;
+  margin-bottom:15px;
 }
 .chat-message{
-background:#172e4e;padding:11px;border-radius:9px;
-margin:8px 0;font-size:13px;line-height:1.6
+  max-width:88%;
+  width:fit-content;
+  padding:12px 14px;
+  border-radius:13px;
+  margin:9px 0;
+  font-size:12px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
-.badge{font-size:10px;padding:5px 9px;border-radius:20px}
-.mobile-title{display:none}
-@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
-@media(max-width:650px){
-.sidebar{width:100%;height:auto;position:relative;padding:15px}
-.tagline,.menu-title,.student-profile{display:none}
-.sidebar nav{display:flex;overflow-x:auto;gap:6px}
-.nav-btn{white-space:nowrap;padding:10px;margin:5px 0}
-.main{margin:0;padding:17px}
-.welcome h1{font-size:23px}
-.topbar h2{font-size:17px}
-.status-options{grid-template-columns:1fr}
+.bot-message{
+  background:#203c60;
+  color:#e0edff;
+  border:1px solid #355a80;
+  border-top-left-radius:4px;
+}
+.user-message{
+  background:#174d4b;
+  color:#d8fff2;
+  border:1px solid #28736a;
+  border-top-right-radius:4px;
+  margin-left:auto;
+}
+.chat-row{display:flex;gap:9px}
+.chat-row input{margin:0;min-width:0;flex:1}
+.chat-row button{white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
+.chip{
+  background:#223c5d;
+  color:#bdeaf2;
+  border:1px solid #385d7b;
+  border-radius:30px;
+  padding:7px 10px;
+  font-size:10px;
+  font-weight:750;
+}
+
+/* SUBMISSION CARDS */
+.list-card{
+  background:#1b304a;
+  border:1px solid #354d6c;
+  border-radius:11px;
+  padding:14px;
+  margin:10px 0;
+}
+.list-card strong{font-size:12px;color:#8ee7f0}
+.list-card p{font-size:12px;color:#d1dced;line-height:1.7;margin:7px 0}
+.list-card small{font-size:10px;color:#8da3bf}
+.empty{font-size:12px;color:#91a5c0;padding:14px 0;line-height:1.7}
+
+/* FREEZE */
+.frozen-screen{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(5,12,24,.97);
+  backdrop-filter:blur(12px);
+}
+.frozen-card{
+  max-width:470px;
+  width:100%;
+  text-align:center;
+  padding:34px;
+  background:#17283f;
+  border:1px solid #754052;
+  border-radius:21px;
+  box-shadow:0 20px 70px #0008;
+}
+.lock-icon{
+  width:75px;height:75px;
+  display:grid;place-items:center;
+  border-radius:22px;
+  margin:0 auto 18px;
+  font-size:34px;
+  background:#512d40;
+}
+.frozen-card h2{color:#ff8798;font-size:23px;margin-bottom:12px}
+.frozen-card p{font-size:13px;color:#c4d1e2;line-height:1.8}
+.frozen-card .freeze-time{
+  color:#ffbdc7;
+  font-weight:800;
+  margin-top:16px;
+}
+.footer{
+  text-align:center;
+  color:#7087a5;
+  font-size:10px;
+  line-height:1.7;
+  padding:15px;
+}
+
+@media(max-width:1050px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+  .layout{display:block}
+  .sidebar{
+    position:relative;
+    width:100%;
+    padding:14px;
+  }
+  .brand{padding:0 5px 12px}
+  .brand-mark{width:30px;height:30px;font-size:16px;margin-bottom:6px}
+  .brand h2{font-size:15px}
+  .brand p{margin-top:3px}
+  .nav-label,.side-bottom{display:none}
+  .sidebar nav{display:flex;gap:5px;overflow-x:auto}
+  .nav-btn{white-space:nowrap;width:auto;padding:10px;font-size:11px}
+  .nav-icon{font-size:15px}
+  .main{width:100%;margin:0;padding:17px 13px 30px}
+  .hero{padding:23px}
+  .hero h1{font-size:23px}
+  .topbar h2{font-size:16px}
+  .stats{gap:9px}
+  .stat-card{padding:13px}
+  .stat-card h3{font-size:19px}
+  .quick-actions{grid-template-columns:1fr}
+  .status-options{grid-template-columns:1fr}
+  .panel{padding:16px}
+  .section-heading h1{font-size:22px}
 }
 </style>
 </head>
 
 <body>
+<div class="layout">
 
 <aside class="sidebar">
-  <div class="logo">LIVE CLASSROOM<br><span>PULSE.</span></div>
-  <div class="tagline">AI-POWERED LEARNING INTELLIGENCE</div>
+  <div class="brand">
+    <div class="brand-mark">✦</div>
+    <h2>LIVE CLASSROOM <span>PULSE</span></h2>
+    <p>LEARN BETTER. TOGETHER.</p>
+  </div>
 
-  <div class="menu-title">STUDENT WORKSPACE</div>
-
+  <div class="nav-label">YOUR WORKSPACE</div>
   <nav>
-    <div class="nav-btn active" onclick="showSection('overview',this)">🏠 Overview</div>
-    <div class="nav-btn" onclick="showSection('understanding',this)">💡 Understanding Status</div>
-    <div class="nav-btn" onclick="showSection('polls',this)">📊 Live Polls</div>
-    <div class="nav-btn" onclick="showSection('questions',this)">❓ Ask a Question</div>
-    <div class="nav-btn" onclick="showSection('responses',this)">📩 Teacher Responses</div>
-    <div class="nav-btn" onclick="showSection('feedback',this)">⭐ Feedback</div>
-    <div class="nav-btn" onclick="showSection('assistant',this)">🤖 Learning Assistant</div>
+    <button class="nav-btn active" data-target="overview">
+      <span class="nav-icon">⌂</span> Overview
+    </button>
+    <button class="nav-btn" data-target="pulse">
+      <span class="nav-icon">◉</span> My Pulse
+    </button>
+    <button class="nav-btn" data-target="doubts">
+      <span class="nav-icon">?</span> Doubts
+    </button>
+    <button class="nav-btn" data-target="suggestions">
+      <span class="nav-icon">✦</span> Suggestions
+    </button>
   </nav>
 
-  <div class="student-profile">
-    <div class="avatar" id="avatar">ST</div>
-    <b id="profileName">Student Name</b>
-    <p id="profileId">Student ID</p>
-    <p id="profileParticipation">Participation</p>
+  <div class="side-bottom">
+    <small>YOUR ANONYMOUS ID</small>
+    <strong id="sidebarId">LC-------</strong>
   </div>
 </aside>
 
@@ -204,485 +587,978 @@ margin:8px 0;font-size:13px;line-height:1.6
 
 <header class="topbar">
   <div>
-    <h2>Student Learning Center</h2>
-    <p>Learn. Participate. Improve.</p>
+    <h2>Your Learning Space</h2>
+    <p>A safe space to participate, ask, and improve.</p>
   </div>
-  <div class="live">● CLASSROOM LIVE</div>
+  <div class="live-pill"><span class="live-dot"></span> CLASSROOM ACTIVE</div>
 </header>
 
 <!-- OVERVIEW -->
 <section id="overview" class="content active">
 
-  <div class="welcome">
-    <small>YOUR LEARNING JOURNEY</small>
-    <h1>Welcome, <span id="welcomeName">Student</span>! 👋</h1>
-    <p>Your voice matters. Share your understanding, ask questions,
-    participate in polls and make every lecture more meaningful.</p>
+  <div class="hero">
+    <div class="hero-tag">✦ YOUR CLASSROOM PULSE</div>
+    <h1>Every voice counts.<br>Every question matters.</h1>
+    <p>
+      Share your understanding, ask questions, and request the resources
+      you need. Participate freely using your anonymous classroom ID.
+    </p>
+    <div class="hero-actions">
+      <button class="primary-btn" data-go="pulse">Update my pulse →</button>
+      <button class="secondary-btn" data-go="doubts">Ask a doubt</button>
+    </div>
   </div>
 
   <div class="stats">
-    <div class="stat-card"><div class="stat-icon">🪪</div><h3 id="myId">STU001</h3><p>Your Student ID</p></div>
-    <div class="stat-card"><div class="stat-icon">💡</div><h3 id="myStatus">Clear</h3><p>Understanding Status</p></div>
-    <div class="stat-card"><div class="stat-icon">❓</div><h3 id="myQuestionCount">0</h3><p>My Questions</p></div>
-    <div class="stat-card"><div class="stat-icon">📊</div><h3 id="myParticipation">High</h3><p>Participation</p></div>
+    <div class="stat-card">
+      <div class="stat-head">
+        <span class="stat-icon icon-blue">🪪</span>
+      </div>
+      <h3 id="myId">LC-------</h3>
+      <p>My anonymous ID</p>
+      <small>Private classroom alias</small>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-head">
+        <span class="stat-icon icon-cyan">💡</span>
+      </div>
+      <h3 id="myStatus">Not set</h3>
+      <p>My latest understanding</p>
+      <small>Update after any lecture</small>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-head">
+        <span class="stat-icon icon-purple">❓</span>
+      </div>
+      <h3 id="myDoubtCount">0</h3>
+      <p>My doubts</p>
+      <small>Submitted privately</small>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-head">
+        <span class="stat-icon icon-green">📚</span>
+      </div>
+      <h3 id="mySuggestionCount">0</h3>
+      <p>My resource requests</p>
+      <small>Academic requests only</small>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>What would you like to do?</h3>
+    <p class="panel-sub">Your most useful classroom actions are just one click away.</p>
+    <div class="quick-actions">
+      <button class="quick-action" data-go="pulse">
+        <span class="q-icon">💡</span>
+        <strong>Share my understanding</strong>
+        <small>Tell the teacher whether the topic is clear or needs more explanation.</small>
+      </button>
+      <button class="quick-action" data-go="doubts">
+        <span class="q-icon">🙋</span>
+        <strong>Ask a question</strong>
+        <small>Submit a question without displaying your real name.</small>
+      </button>
+      <button class="quick-action" data-go="suggestions">
+        <span class="q-icon">📖</span>
+        <strong>Request study material</strong>
+        <small>Ask for notes, revision, worksheets, or practice tests.</small>
+      </button>
+    </div>
   </div>
 
   <div class="grid">
     <div class="panel">
-      <h3>📡 My Learning Status</h3>
-      <p class="sub">Your default classroom record</p>
-      <div class="pulse-row"><span>Understanding level</span><b id="myStatusLabel">Clear</b></div>
-      <div class="bar"><div class="fill green" id="myStatusBar" style="width:100%"></div></div>
-      <p class="sub" style="margin-top:15px">Your current status can be updated after a lecture topic.</p>
+      <h3>📊 Classroom understanding</h3>
+      <p class="panel-sub">How the 80-student demonstration class responded.</p>
+      <div class="chart-wrap"><canvas id="homePulseChart"></canvas></div>
     </div>
-
     <div class="panel">
-      <h3>🎯 Classroom Snapshot</h3>
-      <p class="sub">Default teacher portal dataset</p>
-      <div class="pulse-row"><span>🟢 Clear</span><b>62</b></div>
-      <div class="pulse-row"><span>🟡 Partial</span><b>12</b></div>
-      <div class="pulse-row"><span>🔴 Confused</span><b>6</b></div>
-      <div class="pulse-row"><span>👥 Total</span><b>80</b></div>
+      <h3>📣 Teacher's classroom poll</h3>
+      <p class="panel-sub">Results of a sample teacher-created understanding poll.</p>
+      <div class="chart-wrap"><canvas id="homePollChart"></canvas></div>
+      <div class="notice">
+        These are simulated results for the demonstration. A connected
+        version will show the actual poll results shared by the teacher.
+      </div>
     </div>
   </div>
 
-  <div class="panel">
-    <h3>⚡ Quick Actions</h3>
-    <button class="action-btn" onclick="goTo('understanding')">Update Understanding</button>
-    <button class="secondary-btn" onclick="goTo('questions')">Ask a Doubt</button>
-    <button class="secondary-btn" onclick="goTo('polls')">Participate in Poll</button>
+  <div class="privacy">
+    🔐 <strong>Your privacy matters.</strong>
+    Your student-facing profile uses an anonymous ID instead of your name.
+    Do not include your name, phone number, email, or other identifying
+    information in your messages.
   </div>
 </section>
 
-<!-- UNDERSTANDING -->
-<section id="understanding" class="content">
+<!-- MY PULSE -->
+<section id="pulse" class="content">
   <div class="section-heading">
-    <h1>💡 Understanding Status</h1>
-    <p>Tell your teacher how well you understood the topic.</p>
+    <h1>💡 My Pulse</h1>
+    <p>Help your teacher understand how the class is progressing. Be honest — this is about improving learning, not judging students.</p>
   </div>
 
   <div class="panel">
-    <label>Topic</label>
-    <select id="topic">
-      <option value="">Select topic</option>
-      <option>Introduction</option>
-      <option>Core Concept</option>
-      <option>Advanced Concept</option>
-      <option>Numerical Problems</option>
-    </select>
+    <h3>How did today's lesson go?</h3>
+    <p class="panel-sub">Select the option that describes your understanding.</p>
 
-    <h3 style="margin-top:12px">How well did you understand?</h3>
+    <label for="pulseTopic">What topic did you study?</label>
+    <input id="pulseTopic" placeholder="e.g. Integration, RC circuits, Python loops">
 
     <div class="status-options">
-      <div class="status-option" onclick="selectStatus('Clear',this)">
-        <strong>🟢 Clear</strong><small>I understood</small>
+      <button class="status-option" data-status="Clear">
+        <strong>🟢 Clear</strong>
+        <small>I understood the topic.</small>
+      </button>
+      <button class="status-option" data-status="Confused">
+        <strong>🟡 Confused</strong>
+        <small>I need another explanation.</small>
+      </button>
+      <button class="status-option" data-status="Need Help">
+        <strong>🔴 Need Help</strong>
+        <small>I need more support.</small>
+      </button>
+    </div>
+
+    <label for="pulseComment">Optional comment</label>
+    <textarea id="pulseComment" placeholder="Which part should be explained again?"></textarea>
+
+    <button class="primary-btn" id="submitPulse">Submit my pulse</button>
+    <p class="message" id="pulseMessage" aria-live="polite"></p>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h3>Class understanding snapshot</h3>
+      <p class="panel-sub">Simulated class responses, including students who did not respond.</p>
+      <div class="chart-wrap"><canvas id="pulseChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>What does the class need?</h3>
+      <p class="panel-sub">Response distribution from the demonstration dataset.</p>
+      <div id="pulseBars"></div>
+      <div class="insight">
+        <strong>✦ Classroom insight</strong>
+        <p id="pulseInsight"></p>
       </div>
-      <div class="status-option" onclick="selectStatus('Partial',this)">
-        <strong>🟡 Partial</strong><small>Need some help</small>
-      </div>
-      <div class="status-option" onclick="selectStatus('Confused',this)">
-        <strong>🔴 Confused</strong><small>Need explanation</small>
+    </div>
+  </div>
+</section>
+
+<!-- DOUBTS -->
+<section id="doubts" class="content">
+  <div class="section-heading">
+    <h1>🙋 Doubts & Questions</h1>
+    <p>No question is too small. Submit academic doubts using your anonymous classroom ID.</p>
+  </div>
+
+  <div class="panel">
+    <h3>Ask your question</h3>
+    <p class="panel-sub">Give enough detail so your teacher can understand the difficulty.</p>
+
+    <label for="doubtSubject">Subject</label>
+    <select id="doubtSubject">
+      <option value="">Choose a subject</option>
+      <option>Mathematics</option>
+      <option>Physics</option>
+      <option>Electronics</option>
+      <option>Programming</option>
+      <option>Chemistry</option>
+      <option>Other academic subject</option>
+    </select>
+
+    <label for="doubtTopic">Topic or chapter</label>
+    <input id="doubtTopic" placeholder="e.g. Differentiation, KCL, Python functions">
+
+    <label for="doubtText">Your question</label>
+    <textarea id="doubtText" placeholder="Explain the concept or step you are struggling with..."></textarea>
+
+    <div class="notice">
+      Keep your question academic and respectful. Abusive language or
+      repeated deliberate misuse can lead to a temporary 24-hour restriction.
+    </div>
+
+    <button class="primary-btn" id="submitDoubt">Send my doubt</button>
+    <p class="message" id="doubtMessage" aria-live="polite"></p>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h3>What are students asking?</h3>
+      <p class="panel-sub">Simulated categories of classroom doubts from 80 students.</p>
+      <div class="chart-wrap"><canvas id="doubtChart"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>My submitted doubts</h3>
+      <p class="panel-sub">Your personal submission history.</p>
+      <div id="myDoubts"><p class="empty">No doubts submitted yet.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SUGGESTIONS -->
+<section id="suggestions" class="content">
+  <div class="section-heading">
+    <h1>✦ Learning Support Assistant</h1>
+    <p>Tell us what would make your learning experience better. Request useful academic resources through the assistant.</p>
+  </div>
+
+  <div class="panel">
+    <h3>What do you need help with?</h3>
+    <p class="panel-sub">Try one of these academic requests.</p>
+
+    <div class="chips">
+      <span class="chip">📘 Revision</span>
+      <span class="chip">📝 Notes</span>
+      <span class="chip">📄 Worksheets</span>
+      <span class="chip">📊 Practice tests</span>
+      <span class="chip">✍ Solved examples</span>
+      <span class="chip">🎓 Extra explanation</span>
+    </div>
+
+    <div class="chat-box" id="chatBox" aria-live="polite">
+      <div class="chat-message bot-message">
+        Hey! 👋 I'm your Learning Support Assistant.
+
+        I can help record academic requests such as:
+        • Revision of a chapter
+        • Class notes or summaries
+        • Topic-wise worksheets
+        • Practice tests
+        • Solved examples
+        • Extra explanation
+
+        What would help you learn better?
       </div>
     </div>
 
-    <label>Optional comment</label>
-    <textarea id="statusComment" placeholder="Tell your teacher what you found difficult..."></textarea>
-
-    <button class="action-btn" onclick="submitStatus()">Submit Status</button>
-    <p id="statusMessage" class="sub" style="margin-top:12px"></p>
-  </div>
-</section>
-
-<!-- POLLS -->
-<section id="polls" class="content">
-  <div class="section-heading">
-    <h1>📊 Live Classroom Polls</h1>
-    <p>Participate in classroom questions.</p>
-  </div>
-
-  <div class="panel">
-    <h3>Today's Understanding Poll</h3>
-    <p class="sub">Sample poll for demonstration</p>
-
-    <label class="poll-option"><input type="radio" name="poll" value="Completely"> Yes, I understood completely</label>
-    <label class="poll-option"><input type="radio" name="poll" value="Partially"> I understood partially</label>
-    <label class="poll-option"><input type="radio" name="poll" value="Need Help"> I need more explanation</label>
-
-    <button class="action-btn" onclick="submitPoll()">Submit Vote</button>
-    <p id="pollMessage" class="sub" style="margin-top:12px"></p>
-  </div>
-
-  <div class="panel">
-    <h3>My Poll Participation</h3>
-    <p id="pollHistory" class="empty">You have not voted yet.</p>
-  </div>
-</section>
-
-<!-- QUESTIONS -->
-<section id="questions" class="content">
-  <div class="section-heading">
-    <h1>❓ Ask Your Teacher</h1>
-    <p>Submit doubts and questions from your classroom.</p>
-  </div>
-
-  <div class="panel">
-    <label>Topic</label>
-    <input id="questionTopic" placeholder="Enter topic name">
-
-    <label>Your Question</label>
-    <textarea id="questionText" placeholder="Write your question here..."></textarea>
-
-    <button class="action-btn" onclick="submitQuestion()">Send Question</button>
-    <p id="questionMessage" class="sub" style="margin-top:12px"></p>
-  </div>
-
-  <div class="panel">
-    <h3>My Submitted Questions</h3>
-    <div id="myQuestions"><p class="empty">No questions submitted yet.</p></div>
-  </div>
-</section>
-
-<!-- RESPONSES -->
-<section id="responses" class="content">
-  <div class="section-heading">
-    <h1>📩 Teacher Responses</h1>
-    <p>Read answers sent by your teacher.</p>
-  </div>
-  <div class="panel">
-    <div id="teacherResponses"><p class="empty">No responses available yet.</p></div>
-  </div>
-</section>
-
-<!-- FEEDBACK -->
-<section id="feedback" class="content">
-  <div class="section-heading">
-    <h1>⭐ Lecture Feedback</h1>
-    <p>Your feedback helps improve classroom teaching.</p>
-  </div>
-
-  <div class="panel">
-    <h3>Rate the lecture</h3>
-    <div class="stars">
-      <span class="star" onclick="setRating(1)">★</span>
-      <span class="star" onclick="setRating(2)">★</span>
-      <span class="star" onclick="setRating(3)">★</span>
-      <span class="star" onclick="setRating(4)">★</span>
-      <span class="star" onclick="setRating(5)">★</span>
+    <label for="suggestionInput">Your request</label>
+    <div class="chat-row">
+      <input id="suggestionInput" placeholder="e.g. I need more practice questions on calculus...">
+      <button class="primary-btn" id="sendSuggestion">Send ↗</button>
     </div>
-    <label>Your suggestion</label>
-    <textarea id="feedbackText" placeholder="Share your suggestions..."></textarea>
-    <button class="action-btn" onclick="submitFeedback()">Submit Feedback</button>
-    <p id="feedbackMessage" class="sub" style="margin-top:12px"></p>
-  </div>
-</section>
-
-<!-- ASSISTANT -->
-<section id="assistant" class="content">
-  <div class="section-heading">
-    <h1>🤖 Learning Assistant</h1>
-    <p>Get basic study guidance.</p>
+    <p class="message" id="suggestionMessage" aria-live="polite"></p>
   </div>
 
-  <div class="panel">
-    <div class="chat-box" id="chatBox">
-      <div class="chat-message">Hello! 👋 Ask me a study-related question.</div>
+  <div class="grid">
+    <div class="panel">
+      <h3>📚 Most requested resources</h3>
+      <p class="panel-sub">Simulated classroom requests from 80 students.</p>
+      <div class="chart-wrap"><canvas id="suggestionChart"></canvas></div>
+      <div class="insight">
+        <strong>✦ Class learning insight</strong>
+        <p id="suggestionInsight"></p>
+      </div>
     </div>
-    <input id="chatInput" placeholder="Ask a study question..." onkeydown="if(event.key==='Enter')sendChat()">
-    <button class="action-btn" onclick="sendChat()">Send Message</button>
-    <p class="sub" style="margin-top:15px">This is a predefined demo assistant, not a connected AI model.</p>
+    <div class="panel">
+      <h3>My learning requests</h3>
+      <p class="panel-sub">Your submitted resource requests.</p>
+      <div id="mySuggestions"><p class="empty">No learning requests submitted yet.</p></div>
+    </div>
   </div>
 </section>
+
+<div class="footer">
+  LIVE CLASSROOM PULSE · STUDENT PORTAL DEMO<br>
+  Classroom charts use simulated data until the live database is connected.
+</div>
 
 </main>
+</div>
 
-<script>
-// EXACT SAME 80 STUDENTS AS TEACHER PORTAL
+<!-- 24-HOUR RESTRICTION SCREEN -->
+<div class="frozen-screen" id="frozenScreen">
+  <div class="frozen-card">
+    <div class="lock-icon">🔒</div>
+    <h2>Access Temporarily Restricted</h2>
+    <p>
+      Our moderation system detected abusive language or repeated
+      misuse of the classroom platform.
+    </p>
+    <p style="margin-top:12px">
+      Your student panel is locked for 24 hours. Please meet your
+      teacher in person to discuss the restriction.
+    </p>
+    <p>
+      Only an authorised teacher or administrator can restore access
+      before the restriction expires in the connected system.
+    </p>
+    <p class="freeze-time" id="freezeTime"></p>
+  </div>
+</div>
 
-const studentNames=[
-"Aarav Sharma","Ananya Verma","Rohan Gupta","Priya Singh","Arjun Mehta",
-"Isha Patel","Kabir Joshi","Sneha Yadav","Aditya Kumar","Meera Shah",
-"Vivaan Rao","Aditi Jain","Reyansh Das","Kavya Mishra","Dev Malhotra",
-"Riya Kapoor","Krish Bansal","Pooja Saini","Manav Arora","Diya Khanna",
-"Yash Thakur","Tanya Roy","Dhruv Saxena","Nisha Chauhan","Samar Gill",
-"Anvi Agarwal","Kunal Nair","Simran Kaur","Atharv Pandey","Muskan Ali",
-"Harsh Tiwari","Neha Reddy","Ishaan Bose","Sakshi Jain","Rahul Soni",
-"Tanvi Goyal","Aryan Malik","Shreya Das","Om Prakash","Navya Sen",
-"Lakshya Jain","Mahi Kapoor","Parth Desai","Khushi Sharma","Ritvik Rao",
-"Anika Roy","Siddharth Pal","Ayesha Khan","Aman Verma","Myra Gupta",
-"Nakul Joshi","Palak Yadav","Viraj Mehta","Sana Sheikh","Rudra Singh",
-"Ira Malhotra","Gaurav Kumar","Tisha Patel","Mohit Arora","Avni Bansal",
-"Rehan Ali","Jiya Saini","Varun Shah","Nandini Rao","Abhay Mishra",
-"Kriti Nair","Raghav Gill","Tara Khanna","Sahil Das","Aarohi Jain",
-"Pranav Roy","Suhani Kapoor","Devika Mehta","Ansh Gupta","Mukul Sharma",
-"Apoorva Singh","Vanshika Verma","Ishita Rao","Naman Joshi","Kartik Yadav"
-];
+<script type="module">
+/* OPTIONAL FIREBASE CONNECTION */
+let addData = null;
 
-const students=studentNames.map((name,i)=>({
- id:"STU"+String(i+1).padStart(3,"0"),
- name:name,
- participation:["High","Medium","Low"][i%3],
- status:i<62?"Clear":i<74?"Partial":"Confused"
-}));
+try {
+  const firebase = await import("./firebase.js");
+  addData = firebase.addData || null;
+} catch(error) {
+  console.warn("Firebase unavailable. Running in demo mode.", error);
+}
 
-// DEFAULT CLASSROOM STATISTICS
-const classroomStats={
- total:students.length,
- clear:students.filter(s=>s.status==="Clear").length,
- partial:students.filter(s=>s.status==="Partial").length,
- confused:students.filter(s=>s.status==="Confused").length
+/* SIMULATED CLASSROOM DATA: 80 STUDENTS */
+const CLASS_SIZE = 80;
+
+const data = {
+  pulse:{
+    labels:["Clear","Confused","Need Help","No response"],
+    values:[34,18,11,17],
+    colors:["#51d6a0","#ffd16a","#ff7588","#71839d"]
+  },
+  poll:{
+    labels:["Fully understood","Partially understood","Not understood","No response"],
+    values:[29,19,10,22],
+    colors:["#51d6a0","#ffd16a","#ff7588","#71839d"]
+  },
+  doubts:{
+    labels:["Concept clarification","Numericals","Assignments","Exam preparation","No submission"],
+    values:[14,10,7,5,44],
+    colors:["#6798ff","#ae91ff","#54d8ed","#ffd16a","#71839d"]
+  },
+  suggestions:{
+    labels:["Revision","Notes","Worksheets","Practice tests","No request"],
+    values:[18,12,8,4,38],
+    colors:["#6798ff","#54d8ed","#ae91ff","#ffd16a","#71839d"]
+  }
 };
 
-let currentStudent=null;
-let selectedStatus="";
-let selectedRating=0;
-let questions=[];
-let responses=[];
+let charts = {};
+let selectedStatus = "";
+let myDoubts = [];
+let mySuggestions = [];
 
-function chooseStudent(){
- const saved=localStorage.getItem("lcp_current_student");
- let id=prompt(
-  "Enter your Student ID (STU001 to STU080):",
-  saved||"STU001"
- );
+/*
+  SHORT, PERSISTENT ANONYMOUS ID
+  Example: LC-7K4P2Q
+  Saved in this browser. It does not contain a student name.
+*/
+function generateAnonymousId(){
+  const key = "lcp_permanent_anonymous_id";
+  let id = localStorage.getItem(key);
 
- if(id===null) id=saved||"STU001";
- id=id.trim().toUpperCase();
+  if(!id){
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    const bytes = new Uint8Array(6);
+    crypto.getRandomValues(bytes);
 
- const found=students.find(s=>s.id===id);
+    let suffix = "";
+    for(let i=0;i<6;i++){
+      suffix += alphabet[bytes[i] % alphabet.length];
+    }
 
- if(!found){
-  alert("Invalid ID. Please enter an ID from STU001 to STU080.");
-  currentStudent=students[0];
- }else{
-  currentStudent=found;
- }
+    id = "LC-" + suffix;
+    localStorage.setItem(key,id);
+  }
 
- localStorage.setItem("lcp_current_student",currentStudent.id);
- loadProfile();
+  return id;
 }
+
+const anonymousId = generateAnonymousId();
+const $ = id => document.getElementById(id);
 
 function key(name){
- return "lcp_"+currentStudent.id+"_"+name;
+  return "lcp_" + anonymousId + "_" + name;
 }
 
-function loadProfile(){
- document.getElementById("profileName").textContent=currentStudent.name;
- document.getElementById("profileId").textContent=currentStudent.id;
- document.getElementById("profileParticipation").textContent=
-  "Participation: "+currentStudent.participation;
- document.getElementById("avatar").textContent=
-  currentStudent.name.split(" ").map(x=>x[0]).join("");
- document.getElementById("welcomeName").textContent=currentStudent.name;
- document.getElementById("myId").textContent=currentStudent.id;
- document.getElementById("myParticipation").textContent=currentStudent.participation;
+/* MODERATION RULES */
+const abusiveWords = [
+  "fuck","fucking","motherfucker","bitch","bastard",
+  "asshole","idiot","moron","dumbass","shut up"
+];
 
- const savedStatus=localStorage.getItem(key("status"));
- const status=savedStatus||currentStudent.status;
+const threateningPhrases = [
+  "i will hurt","i will kill","kill you","i will attack",
+  "i will destroy you"
+];
 
- updateStatusDisplay(status);
+const irrelevantPhrases = [
+  "movie gossip","celebrity gossip","cricket score",
+  "dating advice","shopping advice","gaming cheats",
+  "song lyrics","tell me a joke"
+];
 
- questions=JSON.parse(localStorage.getItem(key("questions"))||"[]");
- responses=JSON.parse(localStorage.getItem(key("responses"))||"[]");
+const academicWords = [
+  "math","mathematics","physics","chemistry","electronics",
+  "programming","python","calculus","algebra","integration",
+  "differentiation","equation","chapter","topic","subject",
+  "lecture","class","study","learning","revision","revise",
+  "relecture","notes","worksheet","worksheets","test","tests",
+  "exam","practice","numerical","numericals","assignment",
+  "concept","explanation","example","examples","formula",
+  "question","doubt","understand","understanding","solved",
+  "problem","theory","circuit","code","coding","function",
+  "loop","derivative","integral","mechanics","electricity",
+  "statistics","data","algorithm","teacher","lesson",
+  "homework","course","unit","semester","book","syllabus"
+];
 
- renderQuestions();
- renderResponses();
-
- document.getElementById("myQuestionCount").textContent=questions.length;
-
- const vote=localStorage.getItem(key("poll"));
- if(vote){
-  document.getElementById("pollHistory").textContent="Your last vote: "+vote;
- }
+/*
+  A single ordinary irrelevant message is rejected.
+  Repeated irrelevant messages, repeated spam, or abusive language
+  can trigger the 24-hour restriction.
+*/
+function readStrikeData(){
+  try{
+    return JSON.parse(localStorage.getItem(key("moderation_strikes")) || "[]");
+  }catch{
+    return [];
+  }
 }
 
-function showSection(id,button){
- document.querySelectorAll(".content").forEach(s=>s.classList.remove("active"));
- document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- if(button)button.classList.add("active");
+function saveStrike(type){
+  const now = Date.now();
+  let strikes = readStrikeData().filter(item => now - item.time < 10*60*1000);
+
+  strikes.push({type,time:now});
+  localStorage.setItem(key("moderation_strikes"),JSON.stringify(strikes));
+
+  return strikes;
 }
 
-function goTo(id){
- const buttons=[...document.querySelectorAll(".nav-btn")];
- const ids=["overview","understanding","polls","questions","responses","feedback","assistant"];
- showSection(id,buttons[ids.indexOf(id)]);
+function moderate(text){
+  const message = text.toLowerCase().trim();
+
+  if(abusiveWords.some(word => message.includes(word)) ||
+     threateningPhrases.some(phrase => message.includes(phrase))){
+    return {status:"abusive"};
+  }
+
+  if(irrelevantPhrases.some(phrase => message.includes(phrase))){
+    return {status:"irrelevant"};
+  }
+
+  const words = message.split(/\s+/);
+  const repeated = words.length >= 5 &&
+    new Set(words).size <= 2;
+
+  const mostlySymbols = message.length > 12 &&
+    (message.match(/[^a-z0-9\s]/g) || []).length / message.length > .55;
+
+  if(repeated || mostlySymbols){
+    return {status:"spam"};
+  }
+
+  if(academicWords.some(word => message.includes(word))){
+    return {status:"academic"};
+  }
+
+  return {status:"unclear"};
 }
 
-function updateStatusDisplay(status){
- document.getElementById("myStatus").textContent=status;
- document.getElementById("myStatusLabel").textContent=status;
-
- const bar=document.getElementById("myStatusBar");
- bar.style.width=status==="Clear"?"100%":status==="Partial"?"60%":"25%";
- bar.className="fill "+(status==="Clear"?"green":status==="Partial"?"yellow":"red");
+/* 24-HOUR FREEZE */
+function freezeKey(){
+  return key("freeze_until");
 }
 
-function selectStatus(status,element){
- selectedStatus=status;
- document.querySelectorAll(".status-option").forEach(x=>x.classList.remove("selected"));
- element.classList.add("selected");
+function getFreezeUntil(){
+  return Number(localStorage.getItem(freezeKey()) || 0);
 }
 
-function submitStatus(){
- const topic=document.getElementById("topic").value;
- if(!topic||!selectedStatus){
-  alert("Please select a topic and your status.");
-  return;
- }
-
- const record={
-  topic,
-  status:selectedStatus,
-  comment:document.getElementById("statusComment").value,
-  time:new Date().toLocaleString()
- };
-
- localStorage.setItem(key("status"),selectedStatus);
- localStorage.setItem(key("latestStatus"),JSON.stringify(record));
-
- updateStatusDisplay(selectedStatus);
-
- document.getElementById("statusMessage").textContent=
-  "Your status has been saved for "+topic+".";
- document.getElementById("statusComment").value="";
+function isFrozen(){
+  return Date.now() < getFreezeUntil();
 }
 
-function submitPoll(){
- const choice=document.querySelector('input[name="poll"]:checked');
- if(!choice){alert("Please select an option.");return;}
-
- localStorage.setItem(key("poll"),choice.value);
- document.getElementById("pollMessage").textContent="Your vote has been saved.";
- document.getElementById("pollHistory").textContent="Your last vote: "+choice.value;
+function showFreeze(){
+  const until = getFreezeUntil();
+  $("freezeTime").textContent =
+    "Restriction ends: " + new Date(until).toLocaleString();
+  $("frozenScreen").style.display = "flex";
 }
 
-function submitQuestion(){
- const topic=document.getElementById("questionTopic").value.trim();
- const question=document.getElementById("questionText").value.trim();
+function freezeFor24Hours(reason){
+  const until = Date.now() + 24*60*60*1000;
+  localStorage.setItem(freezeKey(),String(until));
 
- if(!topic||!question){
-  alert("Please enter a topic and question.");
-  return;
- }
+  /* If Firebase is connected, send a moderation event for admin review. */
+  if(addData){
+    addData("moderationEvents",{
+      anonymousId,
+      reason,
+      durationHours:24,
+      createdAt:new Date().toISOString(),
+      status:"Frozen"
+    }).catch(error => console.error("Moderation event save failed",error));
+  }
 
- questions.push({
-  topic,question,
-  time:new Date().toLocaleString()
- });
-
- localStorage.setItem(key("questions"),JSON.stringify(questions));
-
- document.getElementById("questionTopic").value="";
- document.getElementById("questionText").value="";
- document.getElementById("questionMessage").textContent="Question saved in this demo.";
- document.getElementById("myQuestionCount").textContent=questions.length;
-
- renderQuestions();
+  showFreeze();
 }
 
-function renderQuestions(){
- const box=document.getElementById("myQuestions");
- box.innerHTML="";
-
- if(!questions.length){
-  box.innerHTML='<p class="empty">No questions submitted yet.</p>';
-  return;
- }
-
- questions.forEach((q,i)=>{
-  const card=document.createElement("div");
-  card.className="message-card";
-  const title=document.createElement("h4");
-  title.textContent="Question "+(i+1)+" — "+q.topic;
-  const text=document.createElement("p");
-  text.textContent=q.question;
-  const time=document.createElement("small");
-  time.style.color="var(--muted)";
-  time.textContent=q.time;
-  card.append(title,text,time);
-  box.appendChild(card);
- });
+function checkFreeze(){
+  if(isFrozen()){
+    showFreeze();
+    return true;
+  }
+  return false;
 }
 
-function renderResponses(){
- const box=document.getElementById("teacherResponses");
- box.innerHTML="";
+function handleModeration(text){
+  const result = moderate(text);
 
- if(!responses.length){
-  box.innerHTML='<p class="empty">No teacher responses available yet.</p>';
-  return;
- }
+  if(result.status === "abusive"){
+    freezeFor24Hours("Abusive or threatening language");
+    return "frozen";
+  }
 
- responses.forEach((r,i)=>{
-  const card=document.createElement("div");
-  card.className="message-card";
-  const title=document.createElement("h4");
-  title.textContent="Teacher Response "+(i+1);
-  const answer=document.createElement("p");
-  answer.textContent=r.answer;
-  card.append(title,answer);
-  box.appendChild(card);
- });
+  if(result.status === "irrelevant" || result.status === "spam" ||
+     result.status === "unclear"){
+    const strikes = saveStrike(result.status);
+    const misuseCount = strikes.filter(item =>
+      item.type === "irrelevant" ||
+      item.type === "spam" ||
+      item.type === "unclear"
+    ).length;
+
+    if(misuseCount >= 3){
+      freezeFor24Hours("Repeated irrelevant messages or spam");
+      return "frozen";
+    }
+
+    return result.status;
+  }
+
+  return "academic";
 }
 
-function setRating(rating){
- selectedRating=rating;
- document.querySelectorAll(".star").forEach((star,i)=>{
-  star.classList.toggle("selected",i<rating);
- });
+/* FIREBASE STORAGE */
+async function saveToDatabase(collection,record){
+  if(!addData) return false;
+
+  try{
+    await addData(collection,{
+      ...record,
+      anonymousId,
+      createdAt:new Date().toISOString()
+    });
+    return true;
+  }catch(error){
+    console.error("Could not save to Firebase:",error);
+    return false;
+  }
 }
 
-function submitFeedback(){
- if(!selectedRating){
-  alert("Please select a star rating.");
-  return;
- }
-
- const feedback={
-  rating:selectedRating,
-  suggestion:document.getElementById("feedbackText").value,
-  time:new Date().toLocaleString()
- };
-
- localStorage.setItem(key("feedback"),JSON.stringify(feedback));
- document.getElementById("feedbackMessage").textContent="Thank you for your feedback!";
- document.getElementById("feedbackText").value="";
+function setMessage(id,text,error=false){
+  $(id).textContent = text;
+  $(id).classList.toggle("error",error);
 }
 
-function sendChat(){
- const input=document.getElementById("chatInput");
- const message=input.value.trim();
- if(!message)return;
+/* NAVIGATION */
+function showSection(id){
+  if(checkFreeze()) return;
 
- const box=document.getElementById("chatBox");
+  document.querySelectorAll(".content").forEach(section => {
+    section.classList.toggle("active",section.id === id);
+  });
 
- const user=document.createElement("div");
- user.className="chat-message";
- user.textContent="You: "+message;
- box.appendChild(user);
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle("active",button.dataset.target === id);
+  });
 
- const reply=document.createElement("div");
- reply.className="chat-message";
- reply.textContent="Assistant: "+assistantReply(message);
- box.appendChild(reply);
-
- input.value="";
- box.scrollTop=box.scrollHeight;
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function assistantReply(message){
- const m=message.toLowerCase();
+document.querySelectorAll(".nav-btn").forEach(button => {
+  button.addEventListener("click",()=>showSection(button.dataset.target));
+});
 
- if(m.includes("hello")||m.includes("hi"))return "Hello! What topic are you studying?";
- if(m.includes("confused")||m.includes("doubt"))return "You can ask your teacher through the Ask a Question section. Break the topic into smaller steps while revising.";
- if(m.includes("example"))return "Examples connect concepts to real situations. Try applying the definition to a simple everyday situation.";
- if(m.includes("study"))return "Try studying in short sessions, writing key points and solving practice questions.";
- return "Please ask a specific study question. I can also guide you to submit a doubt to your teacher.";
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click",()=>showSection(button.dataset.go));
+});
+
+/* CHARTS */
+function createChart(id,labels,values,colors,type="doughnut"){
+  if(typeof Chart === "undefined") return;
+
+  const canvas = $(id);
+  if(!canvas) return;
+
+  if(charts[id]) charts[id].destroy();
+
+  charts[id] = new Chart(canvas,{
+    type,
+    data:{
+      labels,
+      datasets:[{
+        data:values,
+        backgroundColor:colors,
+        borderColor:"#15243b",
+        borderWidth:3,
+        borderRadius:type==="bar"?6:0
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{
+          position:"bottom",
+          labels:{
+            color:"#c1d0e4",
+            padding:14,
+            boxWidth:10,
+            font:{size:10}
+          }
+        }
+      },
+      scales:type==="bar"?{
+        x:{
+          ticks:{color:"#bdcce0"},
+          grid:{display:false}
+        },
+        y:{
+          beginAtZero:true,
+          ticks:{color:"#bdcce0",precision:0},
+          grid:{color:"#2a3b53"}
+        }
+      }:{}
+    }
+  });
 }
 
-// Start student portal
-chooseStudent();
+function renderCharts(){
+  createChart("homePulseChart",data.pulse.labels,data.pulse.values,data.pulse.colors);
+  createChart("homePollChart",data.poll.labels,data.poll.values,data.poll.colors);
+  createChart("pulseChart",data.pulse.labels,data.pulse.values,data.pulse.colors);
+  createChart("doubtChart",data.doubts.labels,data.doubts.values,data.doubts.colors);
+  createChart("suggestionChart",data.suggestions.labels,data.suggestions.values,data.suggestions.colors);
+}
+
+/* CLASSROOM PULSE BARS */
+function renderPulseBars(){
+  const box = $("pulseBars");
+  box.innerHTML = "";
+
+  data.pulse.labels.forEach((label,index)=>{
+    const count = data.pulse.values[index];
+    const row = document.createElement("div");
+    row.className = "bar-row";
+
+    const top = document.createElement("div");
+    top.className = "bar-label";
+
+    const name = document.createElement("span");
+    name.textContent = label;
+
+    const number = document.createElement("strong");
+    number.textContent = count + " / " + CLASS_SIZE;
+
+    top.append(name,number);
+
+    const bar = document.createElement("div");
+    bar.className = "bar";
+
+    const fill = document.createElement("div");
+    fill.className = "fill";
+    fill.style.width = (count/CLASS_SIZE*100) + "%";
+    fill.style.background = data.pulse.colors[index];
+
+    bar.appendChild(fill);
+    row.append(top,bar);
+    box.appendChild(row);
+  });
+
+  $("pulseInsight").textContent =
+    "63 out of 80 students responded. " +
+    "29 students selected Confused or Need Help. " +
+    "This indicates that additional explanation may be useful.";
+}
+
+/* PERSONAL RECORDS */
+function loadPersonalData(){
+  try{
+    myDoubts = JSON.parse(localStorage.getItem(key("doubts")) || "[]");
+    mySuggestions = JSON.parse(localStorage.getItem(key("suggestions")) || "[]");
+  }catch{
+    myDoubts = [];
+    mySuggestions = [];
+  }
+}
+
+function savePersonalData(type,items){
+  localStorage.setItem(key(type),JSON.stringify(items));
+}
+
+function renderDoubts(){
+  const box = $("myDoubts");
+  box.innerHTML = "";
+
+  if(!myDoubts.length){
+    box.innerHTML = '<p class="empty">No doubts submitted yet.</p>';
+    return;
+  }
+
+  [...myDoubts].reverse().forEach(item=>{
+    const card = document.createElement("div");
+    card.className = "list-card";
+
+    const title = document.createElement("strong");
+    title.textContent = item.subject + " · " + item.topic;
+
+    const question = document.createElement("p");
+    question.textContent = item.question;
+
+    const date = document.createElement("small");
+    date.textContent = item.time;
+
+    card.append(title,question,date);
+    box.appendChild(card);
+  });
+}
+
+function renderSuggestions(){
+  const box = $("mySuggestions");
+  box.innerHTML = "";
+
+  if(!mySuggestions.length){
+    box.innerHTML = '<p class="empty">No learning requests submitted yet.</p>';
+    return;
+  }
+
+  [...mySuggestions].reverse().forEach(item=>{
+    const card = document.createElement("div");
+    card.className = "list-card";
+
+    const title = document.createElement("strong");
+    title.textContent = item.category;
+
+    const request = document.createElement("p");
+    request.textContent = item.request;
+
+    const date = document.createElement("small");
+    date.textContent = item.time;
+
+    card.append(title,request,date);
+    box.appendChild(card);
+  });
+}
+
+function updateDashboard(){
+  $("sidebarId").textContent = anonymousId;
+  $("myId").textContent = anonymousId;
+  $("myStatus").textContent =
+    localStorage.getItem(key("latest_status")) || "Not set";
+  $("myDoubtCount").textContent = myDoubts.length;
+  $("mySuggestionCount").textContent = mySuggestions.length;
+}
+
+/* PULSE SUBMISSION */
+document.querySelectorAll(".status-option").forEach(button=>{
+  button.addEventListener("click",()=>{
+    selectedStatus = button.dataset.status;
+
+    document.querySelectorAll(".status-option").forEach(option=>{
+      option.classList.toggle("selected",option===button);
+    });
+  });
+});
+
+$("submitPulse").addEventListener("click",async()=>{
+  if(checkFreeze()) return;
+
+  const topic = $("pulseTopic").value.trim();
+  const comment = $("pulseComment").value.trim();
+
+  if(!topic || !selectedStatus){
+    setMessage("pulseMessage","Please enter a topic and select your understanding status.",true);
+    return;
+  }
+
+  if(comment){
+    const moderation = handleModeration(comment);
+
+    if(moderation !== "academic"){
+      setMessage("pulseMessage",
+        moderation==="frozen" ? "Your panel has been frozen." :
+        "Please keep your comment relevant to the academic topic.",true);
+      return;
+    }
+  }
+
+  const record = {
+    topic,
+    status:selectedStatus,
+    comment,
+    time:new Date().toLocaleString()
+  };
+
+  localStorage.setItem(key("latest_status"),selectedStatus);
+  localStorage.setItem(key("latest_pulse"),JSON.stringify(record));
+
+  await saveToDatabase("studentPulse",record);
+
+  updateDashboard();
+  setMessage("pulseMessage","✓ Your pulse has been submitted successfully.");
+  $("pulseComment").value = "";
+});
+
+/* DOUBT SUBMISSION */
+$("submitDoubt").addEventListener("click",async()=>{
+  if(checkFreeze()) return;
+
+  const subject = $("doubtSubject").value;
+  const topic = $("doubtTopic").value.trim();
+  const question = $("doubtText").value.trim();
+
+  if(!subject || !topic || !question){
+    setMessage("doubtMessage","Please complete all three fields.",true);
+    return;
+  }
+
+  const moderation = handleModeration(topic+" "+question);
+
+  if(moderation !== "academic"){
+    setMessage("doubtMessage",
+      moderation==="frozen" ? "Your panel has been frozen." :
+      "Please submit a relevant academic question.",true);
+    return;
+  }
+
+  const record = {
+    subject,topic,question,
+    time:new Date().toLocaleString(),
+    status:"Pending"
+  };
+
+  myDoubts.push(record);
+  savePersonalData("doubts",myDoubts);
+
+  await saveToDatabase("studentQueries",{
+    subject,topic,question,status:"Pending"
+  });
+
+  $("doubtSubject").value = "";
+  $("doubtTopic").value = "";
+  $("doubtText").value = "";
+
+  renderDoubts();
+  updateDashboard();
+  setMessage("doubtMessage","✓ Your doubt has been submitted using your anonymous ID.");
+});
+
+/* SUGGESTION CHATBOT */
+function classifyRequest(text){
+  const t = text.toLowerCase();
+
+  if(/revision|revise|relecture|revise again/.test(t)) return "Revision";
+  if(/notes|summary|handout|study material/.test(t)) return "Notes";
+  if(/worksheet|worksheets|practice sheet/.test(t)) return "Worksheets";
+  if(/mock test|practice test|quiz|test|exam paper/.test(t)) return "Practice Tests";
+  if(/solved example|worked example|solution/.test(t)) return "Solved Examples";
+  if(/explain|explanation|teach again|extra class/.test(t)) return "Extra Explanation";
+
+  return "General Academic Support";
+}
+
+function addChat(text,type){
+  const message = document.createElement("div");
+  message.className = "chat-message "+type;
+  message.textContent = text;
+  $("chatBox").appendChild(message);
+  $("chatBox").scrollTop = $("chatBox").scrollHeight;
+}
+
+async function sendSuggestion(){
+  if(checkFreeze()) return;
+
+  const input = $("suggestionInput");
+  const text = input.value.trim();
+
+  if(!text) return;
+
+  addChat(text,"user-message");
+  input.value = "";
+
+  const moderation = handleModeration(text);
+
+  if(moderation==="frozen"){
+    addChat(
+      "Your student panel has been temporarily frozen for 24 hours. Please meet your teacher in person.",
+      "bot-message"
+    );
+    setMessage("suggestionMessage","Access restricted for 24 hours.",true);
+    return;
+  }
+
+  if(moderation!=="academic"){
+    const response = moderation==="irrelevant"
+      ? "I can only help with academic requests. Please ask for revision, notes, worksheets, practice tests, solved examples, or additional explanation."
+      : moderation==="spam"
+      ? "That message looks like spam or repeated text. Please send a clear academic request."
+      : "I couldn't identify an academic request. Please mention your subject, chapter, or the learning resource you need.";
+
+    addChat(response,"bot-message");
+    setMessage("suggestionMessage","Please send a genuine academic request.",true);
+    return;
+  }
+
+  const category = classifyRequest(text);
+
+  const record = {
+    category,
+    request:text,
+    time:new Date().toLocaleString()
+  };
+
+  mySuggestions.push(record);
+  savePersonalData("suggestions",mySuggestions);
+
+  await saveToDatabase("studentSuggestions",{
+    category,
+    request:text
+  });
+
+  renderSuggestions();
+  updateDashboard();
+
+  addChat(
+    "✓ Your request has been recorded under \""+category+"\".\n\nThank you! Your teacher can use the combined classroom requests to identify which learning resources students need most.",
+    "bot-message"
+  );
+
+  setMessage("suggestionMessage","✓ Your academic request has been submitted.");
+}
+
+$("sendSuggestion").addEventListener("click",sendSuggestion);
+
+$("suggestionInput").addEventListener("keydown",event=>{
+  if(event.key==="Enter") sendSuggestion();
+});
+
+/* TOP RESOURCE INSIGHT */
+function renderSuggestionInsight(){
+  const labels = data.suggestions.labels;
+  const values = data.suggestions.values;
+  const requests = values.slice(0,4);
+  const total = requests.reduce((sum,value)=>sum+value,0);
+  const highest = Math.max(...requests);
+  const index = requests.indexOf(highest);
+
+  $("suggestionInsight").textContent =
+    labels[index]+" is the most requested resource: "+
+    highest+" out of "+total+
+    " submitted requests in this simulated classroom dataset.";
+}
+
+/* INITIALISE */
+function initialise(){
+  loadPersonalData();
+  updateDashboard();
+  renderDoubts();
+  renderSuggestions();
+  renderPulseBars();
+  renderSuggestionInsight();
+  renderCharts();
+
+  if(isFrozen()) showFreeze();
+}
+
+initialise();
 </script>
-
 </body>
 </html>
+
+  
