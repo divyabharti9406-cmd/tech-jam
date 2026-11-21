@@ -6,332 +6,311 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Live Classroom Pulse | Student Portal</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    background: #101827;
-    color: white;
-    min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f3f6ff;
+  color: #172554;
 }
 
 header {
-    background: #101827;
-    border-bottom: 1px solid #29364b;
-    padding: 22px 6%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: #101d3a;
+  color: white;
+  padding: 18px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-.logo {
-    color: #55c7ff;
-    font-size: 23px;
-    font-weight: bold;
+header h2 {
+  font-size: 21px;
 }
 
-.profile {
-    background: #1b2b45;
-    padding: 11px 20px;
-    border-radius: 25px;
-    color: #cbd5e1;
-    font-size: 14px;
+header span {
+  color: #38d9f5;
 }
 
-.welcome {
-    margin: 30px 6%;
-    padding: 35px;
-    border-radius: 16px;
-    background: linear-gradient(120deg, #1b2b45, #244e83);
-    border: 1px solid #344761;
-}
-
-.welcome h1 {
-    font-size: clamp(25px, 4vw, 36px);
-    margin-bottom: 12px;
-}
-
-.welcome h1 span {
-    color: #55c7ff;
-}
-
-.welcome p {
-    color: #bdcce0;
-    line-height: 1.7;
-}
-
-.navbar {
-    display: flex;
-    gap: 10px;
-    margin: 25px 6%;
-    padding: 12px;
-    background: #1b2b45;
-    border: 1px solid #344761;
-    border-radius: 12px;
-    overflow-x: auto;
-}
-
-.navbar button {
-    background: transparent;
-    border: none;
-    color: #a5b4cc;
-    padding: 13px 19px;
-    cursor: pointer;
-    border-radius: 8px;
-    white-space: nowrap;
-    font-size: 14px;
-}
-
-.navbar button.active,
-.navbar button:hover {
-    background: #2563eb;
-    color: white;
+header small {
+  color: #cbd5e1;
 }
 
 .container {
-    margin: 30px 6%;
+  display: flex;
+  min-height: calc(100vh - 65px);
 }
 
-.section {
-    display: none;
+.sidebar {
+  width: 245px;
+  background: #172746;
+  color: white;
+  padding: 25px 15px;
 }
 
-.section.active {
-    display: block;
+.profile {
+  text-align: center;
+  padding: 15px 5px 25px;
+  border-bottom: 1px solid #344563;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #20c6e8;
+  color: #10213e;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  font-weight: bold;
+  margin: auto auto 12px;
+}
+
+.profile p {
+  color: #b8c6dc;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.nav-btn {
+  padding: 14px;
+  margin: 7px 0;
+  border-radius: 9px;
+  cursor: pointer;
+  color: #dce8fa;
+  transition: .2s;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background: #263e65;
+  color: #45d8f4;
+}
+
+.nav-btn .emoji {
+  margin-right: 10px;
+}
+
+main {
+  flex: 1;
+  padding: 30px;
+  min-width: 0;
+}
+
+.content {
+  display: none;
+}
+
+.content.active {
+  display: block;
+}
+
+h1 {
+  font-size: 27px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin-bottom: 25px;
 }
 
 .card {
-    background: #1b2b45;
-    border: 1px solid #344761;
-    padding: 26px;
-    border-radius: 14px;
-    margin-bottom: 22px;
-    box-shadow: 0 5px 20px #0002;
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px #1725540c;
+  margin-bottom: 18px;
 }
 
-.card h2 {
-    margin-bottom: 15px;
-    color: #55c7ff;
+.card h3 {
+  font-size: 15px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.big-number {
+  font-size: 28px;
+  font-weight: bold;
+  color: #142b50;
 }
 
 .card p {
-    color: #b7c5da;
-    line-height: 1.7;
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 8px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    gap: 18px;
-    margin-bottom: 20px;
+button {
+  border: none;
+  padding: 11px 17px;
+  border-radius: 8px;
+  background: #087fa8;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
-.stat {
-    background: #1b2b45;
-    border: 1px solid #344761;
-    border-radius: 13px;
-    padding: 22px;
+button:hover {
+  background: #075e80;
 }
 
-.stat h3 {
-    font-size: 27px;
-    color: #55c7ff;
-    margin-bottom: 8px;
+button.secondary {
+  background: #e5edf8;
+  color: #172554;
 }
 
-.stat p {
-    color: #a5b4cc;
-    font-size: 13px;
+button.secondary:hover {
+  background: #d3dfef;
 }
 
-.action {
-    background: #2563eb;
-    color: white;
-    padding: 12px 21px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 7px 5px 7px 0;
-    font-weight: bold;
-}
-
-.action:hover {
-    background: #1d4ed8;
-}
-
-.secondary {
-    background: #344761;
-}
-
-input[type="text"], textarea {
-    width: 100%;
-    background: #101827;
-    border: 1px solid #40516d;
-    border-radius: 9px;
-    padding: 14px;
-    margin: 13px 0;
-    color: white;
-    outline: none;
-    font-size: 14px;
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d4ddec;
+  border-radius: 8px;
+  margin: 8px 0 15px;
+  font-family: inherit;
+  font-size: 14px;
+  background: white;
 }
 
 textarea {
-    min-height: 115px;
-    resize: vertical;
+  min-height: 100px;
+  resize: vertical;
 }
 
-input:focus, textarea:focus {
-    border-color: #55c7ff;
+label {
+  font-weight: bold;
+  font-size: 14px;
 }
 
-.option {
-    display: block;
-    background: #101827;
-    border: 1px solid #344761;
-    padding: 15px;
-    border-radius: 9px;
-    margin: 11px 0;
-    cursor: pointer;
-    color: #dbeafe;
+.status-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 15px 0;
 }
 
-.option input {
-    margin-right: 10px;
-    accent-color: #55c7ff;
+.status-option {
+  border: 2px solid #e0e8f4;
+  background: white;
+  color: #172554;
+  padding: 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
 }
 
-.chart-container {
-    background: #101827;
-    border: 1px solid #344761;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 20px;
-    position: relative;
-    height: 320px;
+.status-option.selected {
+  border-color: #0799c4;
+  background: #e8faff;
 }
 
-.tag {
-    display: inline-block;
-    background: #263c5b;
-    color: #55c7ff;
-    padding: 7px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    margin: 5px 4px 5px 0;
+.status-option strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.question-item, .response-item, .poll-option {
+  background: #f5f8fd;
+  padding: 14px;
+  border-radius: 9px;
+  margin: 10px 0;
+}
+
+.response-item {
+  border-left: 4px solid #0a9cbd;
+}
+
+.muted {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.stars {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.star {
+  font-size: 30px;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+.star.selected {
+  color: #f5b400;
+}
+
+.progress {
+  height: 9px;
+  background: #e4eaf3;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress div {
+  height: 100%;
+  background: #0ba7c9;
+  width: 0;
 }
 
 .chat-box {
-    background: #101827;
-    border: 1px solid #344761;
-    padding: 18px;
-    border-radius: 12px;
-    min-height: 220px;
-    max-height: 380px;
-    overflow-y: auto;
-    margin: 18px 0;
+  height: 250px;
+  overflow-y: auto;
+  border: 1px solid #dce5f1;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #f9fbff;
 }
 
 .chat-message {
-    padding: 12px 15px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    max-width: 90%;
-    line-height: 1.6;
-    font-size: 14px;
-    white-space: pre-wrap;
+  background: #e6f7fc;
+  padding: 10px;
+  border-radius: 9px;
+  margin: 8px 0;
+  max-width: 90%;
+  line-height: 1.5;
 }
 
-.bot {
-    background: #263c5b;
-    color: #dbeafe;
-}
+@media(max-width: 750px) {
+  .container {
+    flex-direction: column;
+  }
 
-.student-message {
-    background: #2563eb;
-    color: white;
-    margin-left: auto;
-}
+  .sidebar {
+    width: 100%;
+  }
 
-.suggestion-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
+  main {
+    padding: 18px;
+  }
 
-.suggestion-buttons button {
-    background: #263c5b;
-    border: 1px solid #40516d;
-    color: #55c7ff;
-    border-radius: 20px;
-    padding: 9px 14px;
-    cursor: pointer;
-}
-
-.notice {
-    padding: 16px;
-    background: #263c5b;
-    border-left: 4px solid #55c7ff;
-    border-radius: 7px;
-    margin-top: 15px;
-    color: #dbeafe;
-    line-height: 1.6;
-}
-
-.message {
-    margin-top: 13px;
-    font-size: 14px;
-    color: #4ade80;
-}
-
-.warning {
-    color: #fbbf24 !important;
-}
-
-.lock-screen {
-    background: #301d29;
-    border: 1px solid #a33e52;
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-}
-
-.lock-screen h2 {
-    color: #f87171;
-    margin-bottom: 15px;
-}
-
-.lock-screen p {
-    color: #f5c4ce;
-    line-height: 1.8;
-}
-
-.hidden {
-    display: none !important;
-}
-
-footer {
-    text-align: center;
-    border-top: 1px solid #29364b;
-    padding: 25px;
-    margin-top: 50px;
-    color: #8291a9;
-    font-size: 13px;
-}
-
-@media(max-width:600px) {
-    header { padding: 18px; }
-    .welcome, .navbar { margin: 15px; }
-    .container { margin: 15px; }
-    .welcome { padding: 25px; }
-    .card { padding: 19px; }
-    .chart-container { height: 280px; }
+  .nav-btn {
+    display: inline-block;
+    padding: 10px;
+  }
 }
 </style>
 </head>
@@ -339,1124 +318,565 @@ footer {
 <body>
 
 <header>
-    <div class="logo">⚡ PULSE.</div>
-    <div class="profile">👤 Student Portal</div>
+  <h2>⚡ LIVE CLASSROOM <span>PULSE</span></h2>
+  <small>Student Learning Portal | LIVE DEMO</small>
 </header>
-
-<div class="welcome">
-    <h1>Welcome to <span>Live Classroom Pulse!</span> 👋</h1>
-    <p>Your classroom, your voice, your learning.</p>
-    <p style="margin-top:10px">
-        Participate in lectures, express your difficulties
-        and tell your teachers what helps you learn better.
-    </p>
-</div>
-
-<nav class="navbar" id="navbar">
-
-    <button class="active" onclick="showTab('home',this)">
-        🏠 Home
-    </button>
-
-    <button onclick="showTab('pulse',this)">
-        📊 My Pulse
-    </button>
-
-    <button onclick="showTab('doubts',this)">
-        🔒 Doubts
-    </button>
-
-    <button onclick="showTab('suggestions',this)">
-        🤖 Suggestions
-    </button>
-
-</nav>
 
 <div class="container">
 
-<!-- HOME -->
+<aside class="sidebar">
 
-<section id="home" class="section active">
+  <div class="profile">
+    <div class="avatar" id="avatar">S</div>
+    <h3 id="profileName">Student</h3>
+    <p id="profileId">Student ID: Not selected</p>
+  </div>
+
+  <div class="nav-btn active" onclick="showSection('overview',this)">
+    <span class="emoji">🏠</span> Overview
+  </div>
+
+  <div class="nav-btn" onclick="showSection('understanding',this)">
+    <span class="emoji">💡</span> Understanding Status
+  </div>
+
+  <div class="nav-btn" onclick="showSection('polls',this)">
+    <span class="emoji">📊</span> Live Polls
+  </div>
+
+  <div class="nav-btn" onclick="showSection('questions',this)">
+    <span class="emoji">❓</span> Ask a Question
+  </div>
+
+  <div class="nav-btn" onclick="showSection('responses',this)">
+    <span class="emoji">📩</span> Teacher Responses
+  </div>
+
+  <div class="nav-btn" onclick="showSection('feedback',this)">
+    <span class="emoji">⭐</span> Give Feedback
+  </div>
+
+  <div class="nav-btn" onclick="showSection('assistant',this)">
+    <span class="emoji">🤖</span> Learning Assistant
+  </div>
+
+</aside>
+
+<main>
+
+<!-- OVERVIEW -->
+<section id="overview" class="content active">
+
+  <h1>Welcome, <span id="welcomeName">Student</span>! 👋</h1>
+  <p class="subtitle">Your classroom learning space. Share your understanding and stay connected with your teacher.</p>
+
+  <div class="cards">
+    <div class="card">
+      <h3>YOUR STUDENT ID</h3>
+      <div class="big-number" id="overviewId">S01</div>
+      <p>Your classroom identity</p>
+    </div>
 
     <div class="card">
-        <h2>🌟 Your Learning Dashboard</h2>
-        <p>
-            Your feedback helps teachers understand classroom
-            difficulties and improve their teaching methods.
-        </p>
-    </div>
-
-    <div class="grid">
-
-        <div class="stat">
-            <h3>80</h3>
-            <p>Total classroom strength</p>
-        </div>
-
-        <div class="stat">
-            <h3>63</h3>
-            <p>Students who submitted My Pulse responses</p>
-        </div>
-
-        <div class="stat">
-            <h3>42</h3>
-            <p>Academic suggestions received</p>
-        </div>
-
-        <div class="stat">
-            <h3>36</h3>
-            <p>Academic doubts received</p>
-        </div>
-
+      <h3>YOUR STATUS</h3>
+      <div class="big-number" id="overviewStatus">Not Set</div>
+      <p>Current understanding status</p>
     </div>
 
     <div class="card">
-        <h2>📢 Classroom Reminder</h2>
-        <p>
-            Please keep your submissions academic,
-            respectful and related to your classroom.
-            Your feedback helps improve everyone's learning.
-        </p>
+      <h3>YOUR QUESTIONS</h3>
+      <div class="big-number" id="questionCount">0</div>
+      <p>Questions submitted</p>
     </div>
+  </div>
+
+  <div class="card">
+    <h2>📢 Classroom Instructions</h2>
+    <p style="margin-top:12px;line-height:1.7">
+      1. Select your understanding status after every topic.<br>
+      2. Participate in live classroom polls.<br>
+      3. Ask doubts whenever you need help.<br>
+      4. Check your teacher's responses.<br>
+      5. Give feedback to improve the lecture.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>⚡ Quick Actions</h2>
+    <button onclick="showSectionById('understanding')">Update Understanding</button>
+    <button class="secondary" onclick="showSectionById('questions')">Ask a Doubt</button>
+    <button class="secondary" onclick="showSectionById('polls')">View Polls</button>
+  </div>
 
 </section>
 
+<!-- UNDERSTANDING -->
+<section id="understanding" class="content">
 
-<!-- MY PULSE -->
+  <h1>Understanding Status</h1>
+  <p class="subtitle">Tell your teacher how well you understood the current topic.</p>
 
-<section id="pulse" class="section">
+  <div class="card">
+    <label>Select Topic</label>
+    <select id="topic">
+      <option value="">Choose a topic</option>
+      <option>Introduction to the Topic</option>
+      <option>Basic Concepts</option>
+      <option>Important Definitions</option>
+      <option>Numerical Problems</option>
+      <option>Advanced Applications</option>
+    </select>
 
-    <div class="card">
-        <h2>📊 My Classroom Pulse</h2>
-        <p>How well are you understanding the ongoing lecture?</p>
+    <h3 style="margin-top:15px">How well did you understand?</h3>
 
-        <button class="action" onclick="setStatus('Clear')">
-            😊 Clear
-        </button>
+    <div class="status-options">
+      <div class="status-option" onclick="selectStatus('Clear',this)">
+        <strong>🟢 Clear</strong>
+        <span class="muted">I understood it</span>
+      </div>
 
-        <button class="action" onclick="setStatus('Confused')">
-            😕 Confused
-        </button>
+      <div class="status-option" onclick="selectStatus('Partial',this)">
+        <strong>🟡 Partial</strong>
+        <span class="muted">I need some help</span>
+      </div>
 
-        <button class="action" onclick="setStatus('Need Help')">
-            🙋 Need Help
-        </button>
-
-        <p id="statusMessage" class="message"></p>
+      <div class="status-option" onclick="selectStatus('Confused',this)">
+        <strong>🔴 Confused</strong>
+        <span class="muted">I need an explanation</span>
+      </div>
     </div>
 
-    <div class="card">
-        <h2>📈 Classroom Understanding Analysis</h2>
-        <p>
-            Simulated understanding responses from an 80-student
-            classroom. Non-participating students are included.
-        </p>
+    <label>Optional comment</label>
+    <textarea id="statusComment" placeholder="Tell your teacher what you found difficult..."></textarea>
 
-        <div class="chart-container">
-            <canvas id="pulseChart"></canvas>
-        </div>
+    <button onclick="submitStatus()">Submit Status</button>
+    <p id="statusMessage" class="muted"></p>
+  </div>
 
-        <div class="notice" id="pulseSummary"></div>
-    </div>
-
-    <div class="card">
-        <h2>🗳️ Teacher's Classroom Poll Results</h2>
-        <p>
-            Results from a simulated teacher-created classroom poll.
-        </p>
-
-        <div class="chart-container">
-            <canvas id="pollChart"></canvas>
-        </div>
-
-        <div class="notice" id="pollSummary"></div>
-    </div>
+  <div class="card">
+    <h3>Your Understanding Progress</h3>
+    <div id="myProgressText">No updates yet</div>
+    <div class="progress"><div id="myProgressBar"></div></div>
+  </div>
 
 </section>
 
+<!-- POLLS -->
+<section id="polls" class="content">
 
-<!-- DOUBTS -->
+  <h1>Live Classroom Polls</h1>
+  <p class="subtitle">Answer quick questions posted by your teacher.</p>
 
-<section id="doubts" class="section">
+  <div class="card">
+    <span class="muted">SAMPLE POLL</span>
+    <h2 style="margin:12px 0">Did you understand today's topic?</h2>
 
-    <div class="card" id="doubtContent">
-
-        <h2>🔒 Anonymous Academic Doubt Box</h2>
-
-        <p>
-            Having difficulty understanding a concept?
-            Submit your academic doubt here.
-        </p>
-
-        <textarea id="doubt"
-            placeholder="Write your subject-related doubt here..."></textarea>
-
-        <button class="action" onclick="submitDoubt()">
-            Submit Academic Doubt
-        </button>
-
-        <p id="doubtMessage" class="message"></p>
-
+    <div class="poll-option">
+      <label><input type="radio" name="poll1" value="Yes" style="width:auto"> Yes, completely</label>
     </div>
 
-    <div class="card">
-        <h2>📚 Academic Doubt Categories</h2>
-
-        <span class="tag">Concept clarification</span>
-        <span class="tag">Numerical problems</span>
-        <span class="tag">Assignments</span>
-        <span class="tag">Exam preparation</span>
+    <div class="poll-option">
+      <label><input type="radio" name="poll1" value="Partially" style="width:auto"> Partially</label>
     </div>
 
-    <div class="card">
-        <h2>📊 Classroom Doubt Analysis</h2>
-
-        <p>
-            Classification of 36 academic doubts received
-            from the simulated classroom.
-        </p>
-
-        <div class="chart-container">
-            <canvas id="doubtChart"></canvas>
-        </div>
-
-        <div class="notice" id="doubtSummary"></div>
+    <div class="poll-option">
+      <label><input type="radio" name="poll1" value="No" style="width:auto"> No, I need help</label>
     </div>
+
+    <button onclick="submitPoll()">Submit Vote</button>
+    <p id="pollMessage" class="muted"></p>
+  </div>
+
+  <div class="card">
+    <h3>Poll participation</h3>
+    <p class="muted">Your vote is stored in this demo browser only.</p>
+  </div>
 
 </section>
 
+<!-- QUESTIONS -->
+<section id="questions" class="content">
 
-<!-- SUGGESTIONS -->
+  <h1>Ask Your Teacher</h1>
+  <p class="subtitle">Ask questions or share doubts about the lecture. You can use your student ID instead of your name.</p>
 
-<section id="suggestions" class="section">
+  <div class="card">
+    <label>Topic</label>
+    <select id="questionTopic">
+      <option value="">Select topic</option>
+      <option>Basic Concepts</option>
+      <option>Definitions</option>
+      <option>Numerical Problems</option>
+      <option>Practical Applications</option>
+      <option>Other</option>
+    </select>
 
-    <div class="card">
+    <label>Your Question</label>
+    <textarea id="studentQuestion" placeholder="Write your question here..."></textarea>
 
-        <h2>🤖 Academic Suggestions Assistant</h2>
+    <button onclick="submitQuestion()">Send Question</button>
+    <p id="questionMessage" class="muted"></p>
+  </div>
 
-        <p>
-            What would help you understand today's lecture better?
-            Share your requirements with our academic assistant.
-        </p>
-
-        <div class="notice">
-            The assistant accepts academic suggestions only.
-            You can request notes, relecture, worksheets,
-            tests and additional practice.
-        </div>
-
-        <div class="chat-box" id="chatBox">
-
-            <div class="chat-message bot">
-                Hello! 👋 I'm your Academic Suggestions Assistant.
-
-                Tell me what would improve your learning experience.
-
-                You can request:
-                • Relecture
-                • Study Notes
-                • Practice Worksheets
-                • Topic Tests
-            </div>
-
-        </div>
-
-        <div class="suggestion-buttons">
-
-            <button onclick="quickSuggestion('I need a relecture.')">
-                📖 Relecture
-            </button>
-
-            <button onclick="quickSuggestion('I need study notes.')">
-                📝 Notes
-            </button>
-
-            <button onclick="quickSuggestion('I need practice worksheets.')">
-                📚 Worksheets
-            </button>
-
-            <button onclick="quickSuggestion('I need a topic test.')">
-                📝 Topic Test
-            </button>
-
-        </div>
-
-        <input type="text"
-            id="suggestionInput"
-            placeholder="Describe your academic requirement..."
-            onkeydown="if(event.key==='Enter') sendSuggestion()">
-
-        <button class="action" onclick="sendSuggestion()">
-            Send Suggestion →
-        </button>
-
-        <p id="suggestionMessage" class="message"></p>
-
+  <div class="card">
+    <h3>My Submitted Questions</h3>
+    <div id="myQuestions">
+      <p class="muted">No questions submitted yet.</p>
     </div>
-
-    <div class="card">
-
-        <h2>📊 AI Suggestion Analysis</h2>
-
-        <p>
-            Analysis of 42 simulated academic suggestions
-            from 80 students.
-        </p>
-
-        <div class="chart-container">
-            <canvas id="suggestionChart"></canvas>
-        </div>
-
-        <div class="notice" id="suggestionSummary"></div>
-
-    </div>
+  </div>
 
 </section>
 
+<!-- TEACHER RESPONSES -->
+<section id="responses" class="content">
 
-<!-- FREEZE SCREEN -->
+  <h1>Teacher Responses</h1>
+  <p class="subtitle">Check the answers and explanations sent by your teacher.</p>
 
-<section id="frozen" class="section">
-
-    <div class="lock-screen">
-
-        <h2>🔒 Student Portal Temporarily Frozen</h2>
-
-        <p id="freezeReason">
-            Your access has been temporarily restricted
-            due to a moderation violation.
-        </p>
-
-        <br>
-
-        <p>
-            You cannot submit doubts, suggestions or classroom
-            responses while this restriction is active.
-        </p>
-
-        <br>
-
-        <p>
-            Please meet your teacher during the offline classroom
-            session for verification and restoration of access.
-        </p>
-
-        <br>
-
-        <p id="freezeExpiry"></p>
-
+  <div class="card">
+    <div id="teacherResponses">
+      <p class="muted">No teacher responses available yet.</p>
     </div>
+  </div>
 
 </section>
 
+<!-- FEEDBACK -->
+<section id="feedback" class="content">
+
+  <h1>Lecture Feedback</h1>
+  <p class="subtitle">Help your teacher understand your learning experience.</p>
+
+  <div class="card">
+    <h3>Rate today's lecture</h3>
+    <div class="stars">
+      <span class="star" onclick="setRating(1)">★</span>
+      <span class="star" onclick="setRating(2)">★</span>
+      <span class="star" onclick="setRating(3)">★</span>
+      <span class="star" onclick="setRating(4)">★</span>
+      <span class="star" onclick="setRating(5)">★</span>
+    </div>
+
+    <label>Suggestions</label>
+    <textarea id="feedbackText" placeholder="What can be improved in the lecture?"></textarea>
+
+    <button onclick="submitFeedback()">Submit Feedback</button>
+    <p id="feedbackMessage" class="muted"></p>
+  </div>
+
+</section>
+
+<!-- LEARNING ASSISTANT -->
+<section id="assistant" class="content">
+
+  <h1>🤖 Learning Assistant</h1>
+  <p class="subtitle">A simple demo assistant to help you revise classroom concepts.</p>
+
+  <div class="card">
+    <div class="chat-box" id="chatBox">
+      <div class="chat-message">
+        Hello! 👋 I am your Learning Assistant. Ask me a basic study question.
+      </div>
+    </div>
+
+    <input id="chatInput" placeholder="Ask a study-related question..." onkeydown="if(event.key==='Enter') sendChat()">
+    <button onclick="sendChat()">Send Message</button>
+  </div>
+
+  <p class="muted">Demo assistant: it uses predefined responses, not a connected AI model.</p>
+
+</section>
+
+</main>
 </div>
 
-<footer>
-    © 2026 Live Classroom Pulse |
-    AI-Powered Classroom Intelligence
-    <br>
-    <span style="font-size:11px">
-        Demonstration analytics use simulated classroom data.
-    </span>
-</footer>
-
-
 <script>
+/* SAME 80 STUDENT IDS AS TEACHER PORTAL */
 
-// ==========================================
-// STATIC CLASSROOM DATA - 80 STUDENTS
-// ==========================================
+const students = Array.from({length:80}, (_,i) => ({
+  id: "S" + String(i+1).padStart(2,"0"),
+  name: "Student " + String(i+1).padStart(2,"0")
+}));
 
-const classroomData = {
+let currentStudent = null;
+let selectedStatus = "";
+let selectedRating = 0;
+let myQuestions = [];
+let myResponses = [];
 
-    total: 80,
+function initializeStudent() {
+  let savedId = localStorage.getItem("lcp_student_id");
 
-    pulse: {
-        clear: 34,
-        confused: 18,
-        help: 11,
-        absent: 17
-    },
+  let enteredId = prompt(
+    "Enter your Student ID (S01 to S80):",
+    savedId || "S01"
+  );
 
-    poll: {
-        fully: 29,
-        partially: 19,
-        notUnderstood: 10,
-        absent: 22
-    },
+  if (enteredId === null) enteredId = "S01";
 
-    suggestions: {
-        relecture: 18,
-        notes: 12,
-        worksheets: 8,
-        tests: 4,
-        absent: 38
-    },
+  enteredId = enteredId.trim().toUpperCase();
 
-    doubts: {
-        concepts: 14,
-        numericals: 10,
-        assignments: 7,
-        exam: 5,
-        absent: 44
-    }
+  const student = students.find(s => s.id === enteredId);
 
-};
+  if (!student) {
+    alert("Invalid Student ID. Please use S01 to S80.");
+    currentStudent = students[0];
+  } else {
+    currentStudent = student;
+  }
 
-// ==========================================
-// DEMO STUDENT DATA
-// ==========================================
+  localStorage.setItem("lcp_student_id", currentStudent.id);
 
-const STORAGE_KEY = "lcp_student_demo";
+  document.getElementById("profileName").textContent = currentStudent.name;
+  document.getElementById("profileId").textContent = "Student ID: " + currentStudent.id;
+  document.getElementById("avatar").textContent = currentStudent.id.slice(1);
+  document.getElementById("welcomeName").textContent = currentStudent.name;
+  document.getElementById("overviewId").textContent = currentStudent.id;
 
-let studentData = {};
-
-try {
-    studentData = JSON.parse(
-        localStorage.getItem(STORAGE_KEY) || "{}"
-    ) || {};
-} catch {
-    studentData = {};
+  loadStudentData();
 }
 
-studentData.pulseResponses =
-    studentData.pulseResponses || [];
+function showSection(id, element) {
+  document.querySelectorAll(".content").forEach(section => {
+    section.classList.remove("active");
+  });
 
-studentData.suggestions =
-    studentData.suggestions || [];
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
 
-studentData.doubts =
-    studentData.doubts || [];
+  document.getElementById(id).classList.add("active");
 
-studentData.freezeUntil =
-    studentData.freezeUntil || null;
-
-let pulseChart = null;
-let pollChart = null;
-let doubtChart = null;
-let suggestionChart = null;
-
-function saveData() {
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(studentData)
-    );
+  if (element) element.classList.add("active");
 }
 
+function showSectionById(id) {
+  const buttons = document.querySelectorAll(".nav-btn");
+  const sections = ["overview","understanding","polls","questions","responses","feedback","assistant"];
+  const index = sections.indexOf(id);
 
-// ==========================================
-// NAVIGATION
-// ==========================================
-
-function showTab(tabId, button) {
-
-    if (isFrozen() && tabId !== "frozen") {
-        showFrozenScreen();
-        return;
-    }
-
-    document.querySelectorAll(".section")
-        .forEach(section => section.classList.remove("active"));
-
-    document.querySelectorAll(".navbar button")
-        .forEach(btn => btn.classList.remove("active"));
-
-    document.getElementById(tabId).classList.add("active");
-
-    button.classList.add("active");
-
-    if (tabId === "pulse") {
-        renderPulseChart();
-        renderPollChart();
-    }
-
-    if (tabId === "doubts") {
-        renderDoubtChart();
-    }
-
-    if (tabId === "suggestions") {
-        renderSuggestionChart();
-    }
+  showSection(id, buttons[index]);
 }
 
-
-// ==========================================
-// FREEZE SYSTEM - FRONTEND DEMONSTRATION
-// ==========================================
-
-function isFrozen() {
-
-    if (!studentData.freezeUntil) return false;
-
-    if (Date.now() >= studentData.freezeUntil) {
-
-        studentData.freezeUntil = null;
-        studentData.freezeReason = null;
-
-        saveData();
-
-        return false;
-    }
-
-    return true;
+function storageKey(name) {
+  return name + "_" + currentStudent.id;
 }
 
-function freezeStudent(reason) {
+function loadStudentData() {
+  const status = localStorage.getItem(storageKey("lcp_status")) || "Not Set";
 
-    const midnight = new Date();
+  document.getElementById("overviewStatus").textContent = status;
 
-    midnight.setHours(24, 0, 0, 0);
+  const questions = JSON.parse(localStorage.getItem(storageKey("lcp_questions")) || "[]");
+  const responses = JSON.parse(localStorage.getItem(storageKey("lcp_responses")) || "[]");
 
-    studentData.freezeUntil = midnight.getTime();
-    studentData.freezeReason = reason;
+  myQuestions = questions;
+  myResponses = responses;
 
-    saveData();
+  renderQuestions();
+  renderResponses();
 
-    showFrozenScreen();
+  document.getElementById("questionCount").textContent = myQuestions.length;
 }
 
-function showFrozenScreen() {
+function selectStatus(status, element) {
+  selectedStatus = status;
 
-    document.querySelectorAll(".section")
-        .forEach(section => section.classList.remove("active"));
+  document.querySelectorAll(".status-option").forEach(option => {
+    option.classList.remove("selected");
+  });
 
-    document.getElementById("frozen").classList.add("active");
-
-    document.getElementById("navbar")
-        .classList.add("hidden");
-
-    document.getElementById("freezeReason").innerText =
-        studentData.freezeReason ||
-        "Your portal has been temporarily restricted.";
-
-    document.getElementById("freezeExpiry").innerText =
-        "Restriction expiry: " +
-        new Date(studentData.freezeUntil).toLocaleString();
+  element.classList.add("selected");
 }
 
-function checkFreeze() {
+function submitStatus() {
+  const topic = document.getElementById("topic").value;
 
-    if (isFrozen()) {
-        showFrozenScreen();
-    }
+  if (!topic || !selectedStatus) {
+    alert("Please select a topic and understanding status.");
+    return;
+  }
+
+  const record = {
+    topic,
+    status: selectedStatus,
+    comment: document.getElementById("statusComment").value,
+    time: new Date().toLocaleString()
+  };
+
+  localStorage.setItem(storageKey("lcp_status"), selectedStatus);
+  localStorage.setItem(storageKey("lcp_latest_status"), JSON.stringify(record));
+
+  document.getElementById("overviewStatus").textContent = selectedStatus;
+  document.getElementById("myProgressText").textContent =
+    topic + " — " + selectedStatus;
+
+  const progress = selectedStatus === "Clear" ? 100 :
+                   selectedStatus === "Partial" ? 60 : 25;
+
+  document.getElementById("myProgressBar").style.width = progress + "%";
+  document.getElementById("statusMessage").textContent = "Your status has been saved successfully.";
+
+  document.getElementById("statusComment").value = "";
 }
 
+function submitPoll() {
+  const choice = document.querySelector('input[name="poll1"]:checked');
 
-// ==========================================
-// CONTENT MODERATION - DEMO RULES
-// ==========================================
+  if (!choice) {
+    alert("Please select an answer.");
+    return;
+  }
 
-const abusiveWords = [
-    "fuck",
-    "fucking",
-    "shit",
-    "bastard",
-    "asshole",
-    "motherfucker"
-];
+  localStorage.setItem(storageKey("lcp_poll"), choice.value);
 
-const threats = [
-    "kill the teacher",
-    "i will hurt the teacher"
-];
-
-const academicKeywords = [
-    "lecture", "topic", "chapter", "notes", "study",
-    "worksheet", "test", "exam", "subject", "concept",
-    "question", "doubt", "explain", "understand",
-    "revision", "practice", "assignment", "numerical",
-    "formula", "teacher", "class", "relecture",
-    "math", "physics", "chemistry", "biology",
-    "programming", "coding", "homework", "example",
-    "learning", "lesson", "assessment", "quiz",
-    "exercise", "pdf", "material", "revision"
-];
-
-function moderateContent(message) {
-
-    const text = message.toLowerCase().trim();
-
-    const hasAbuse = abusiveWords.some(word => {
-        const escaped = word.replace(
-            /[.*+?^${}()|[\]\\]/g, "\\$&"
-        );
-
-        return new RegExp(
-            "\\b" + escaped + "\\b", "i"
-        ).test(text);
-    });
-
-    const hasThreat = threats.some(
-        phrase => text.includes(phrase)
-    );
-
-    if (hasAbuse || hasThreat) {
-        return "abusive";
-    }
-
-    const isAcademic = academicKeywords.some(
-        word => text.includes(word)
-    );
-
-    return isAcademic ? "academic" : "irrelevant";
+  document.getElementById("pollMessage").textContent =
+    "Your vote (" + choice.value + ") has been saved in this demo.";
 }
 
+function submitQuestion() {
+  const topic = document.getElementById("questionTopic").value;
+  const question = document.getElementById("studentQuestion").value.trim();
 
-// ==========================================
-// MY PULSE
-// ==========================================
+  if (!topic || !question) {
+    alert("Please select a topic and enter your question.");
+    return;
+  }
 
-function setStatus(status) {
+  myQuestions.push({
+    topic,
+    question,
+    time: new Date().toLocaleString()
+  });
 
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
+  localStorage.setItem(storageKey("lcp_questions"), JSON.stringify(myQuestions));
 
-    studentData.pulseResponses.push({
-        status: status,
-        time: Date.now()
-    });
+  document.getElementById("studentQuestion").value = "";
+  document.getElementById("questionMessage").textContent = "Your question has been saved.";
+  document.getElementById("questionCount").textContent = myQuestions.length;
 
-    saveData();
-
-    document.getElementById("statusMessage").innerText =
-        "Your response: " + status +
-        ". Thank you for participating!";
-
+  renderQuestions();
 }
 
+function renderQuestions() {
+  const container = document.getElementById("myQuestions");
 
-// ==========================================
-// STATIC PULSE CHART
-// ==========================================
+  if (myQuestions.length === 0) {
+    container.innerHTML = '<p class="muted">No questions submitted yet.</p>';
+    return;
+  }
 
-function renderPulseChart() {
-
-    if (pulseChart) pulseChart.destroy();
-
-    const d = classroomData.pulse;
-
-    pulseChart = new Chart(
-        document.getElementById("pulseChart"),
-        {
-            type: "doughnut",
-
-            data: {
-                labels: [
-                    "Clear",
-                    "Confused",
-                    "Need Help",
-                    "No Response"
-                ],
-
-                datasets: [{
-                    data: [
-                        d.clear,
-                        d.confused,
-                        d.help,
-                        d.absent
-                    ],
-
-                    backgroundColor: [
-                        "#10b981",
-                        "#f59e0b",
-                        "#3b82f6",
-                        "#64748b"
-                    ],
-
-                    borderWidth: 0
-                }]
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                plugins: {
-                    legend: {
-                        position: "bottom",
-                        labels: {
-                            color: "#ffffff",
-                            padding: 16
-                        }
-                    },
-
-                    title: {
-                        display: true,
-                        text: "Understanding Status - 80 Students",
-                        color: "#55c7ff"
-                    }
-                }
-            }
-        }
-    );
-
-    document.getElementById("pulseSummary").innerText =
-        "63 of 80 students participated (78.75%). " +
-        "29 students (36.25% of the class) selected Confused or Need Help. " +
-        "Teachers may consider revisiting difficult topics.";
+  container.innerHTML = myQuestions.map((q,i) => `
+    <div class="question-item">
+      <strong>Q${i+1}: ${escapeHTML(q.topic)}</strong>
+      <p style="margin-top:7px">${escapeHTML(q.question)}</p>
+      <small class="muted">${escapeHTML(q.time)}</small>
+    </div>
+  `).join("");
 }
 
+function renderResponses() {
+  const container = document.getElementById("teacherResponses");
 
-// ==========================================
-// STATIC TEACHER POLL CHART
-// ==========================================
+  if (myResponses.length === 0) {
+    container.innerHTML = '<p class="muted">No teacher responses available yet.</p>';
+    return;
+  }
 
-function renderPollChart() {
-
-    if (pollChart) pollChart.destroy();
-
-    const d = classroomData.poll;
-
-    pollChart = new Chart(
-        document.getElementById("pollChart"),
-        {
-            type: "doughnut",
-
-            data: {
-                labels: [
-                    "Fully Understood",
-                    "Partially Understood",
-                    "Not Understood",
-                    "No Response"
-                ],
-
-                datasets: [{
-                    data: [
-                        d.fully,
-                        d.partially,
-                        d.notUnderstood,
-                        d.absent
-                    ],
-
-                    backgroundColor: [
-                        "#10b981",
-                        "#f59e0b",
-                        "#ef4444",
-                        "#64748b"
-                    ],
-
-                    borderWidth: 0
-                }]
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                plugins: {
-                    legend: {
-                        position: "bottom",
-                        labels: {
-                            color: "#ffffff",
-                            padding: 14
-                        }
-                    },
-
-                    title: {
-                        display: true,
-                        text: "Teacher Poll - 80 Students",
-                        color: "#55c7ff"
-                    }
-                }
-            }
-        }
-    );
-
-    document.getElementById("pollSummary").innerText =
-        "58 students participated (72.5%). " +
-        "29 fully understood, 19 partially understood and " +
-        "10 did not understand. 22 students did not participate.";
+  container.innerHTML = myResponses.map((r,i) => `
+    <div class="response-item">
+      <strong>Response ${i+1}</strong>
+      <p style="margin-top:8px">${escapeHTML(r.answer)}</p>
+      <small class="muted">${escapeHTML(r.time || "")}</small>
+    </div>
+  `).join("");
 }
 
+function setRating(rating) {
+  selectedRating = rating;
 
-// ==========================================
-// DOUBT SUBMISSION
-// ==========================================
-
-function submitDoubt() {
-
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
-
-    const input = document.getElementById("doubt");
-
-    const doubt = input.value.trim();
-
-    if (!doubt) {
-        alert("Please enter your academic doubt.");
-        return;
-    }
-
-    const result = moderateContent(doubt);
-
-    if (result === "abusive") {
-
-        freezeStudent(
-            "Abusive or threatening content was detected."
-        );
-
-        return;
-    }
-
-    if (result !== "academic") {
-
-        document.getElementById("doubtMessage").innerText =
-            "Please submit an academic question related to your subject.";
-
-        return;
-    }
-
-    studentData.doubts.push({
-        text: doubt,
-        time: Date.now()
-    });
-
-    saveData();
-
-    input.value = "";
-
-    document.getElementById("doubtMessage").innerText =
-        "Your doubt has been accepted in demonstration mode.";
-
+  document.querySelectorAll(".star").forEach((star,index) => {
+    star.classList.toggle("selected", index < rating);
+  });
 }
 
+function submitFeedback() {
+  if (!selectedRating) {
+    alert("Please select a star rating.");
+    return;
+  }
 
-// ==========================================
-// STATIC DOUBT CHART
-// ==========================================
+  const feedback = {
+    rating: selectedRating,
+    suggestion: document.getElementById("feedbackText").value,
+    time: new Date().toLocaleString()
+  };
 
-function renderDoubtChart() {
+  localStorage.setItem(storageKey("lcp_feedback"), JSON.stringify(feedback));
 
-    if (doubtChart) doubtChart.destroy();
+  document.getElementById("feedbackMessage").textContent =
+    "Thank you! Your feedback has been saved.";
 
-    const d = classroomData.doubts;
-
-    doubtChart = new Chart(
-        document.getElementById("doubtChart"),
-        {
-            type: "bar",
-
-            data: {
-                labels: [
-                    "Concept Clarification",
-                    "Numerical Problems",
-                    "Assignments",
-                    "Exam Preparation"
-                ],
-
-                datasets: [{
-                    label: "Doubts Submitted",
-
-                    data: [
-                        d.concepts,
-                        d.numericals,
-                        d.assignments,
-                        d.exam
-                    ],
-
-                    backgroundColor: "#3b82f6",
-                    borderRadius: 7
-                }]
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                scales: {
-                    x: {
-                        ticks: {
-                            color: "#ffffff"
-                        }
-                    },
-
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            color: "#ffffff",
-                            precision: 0
-                        }
-                    }
-                },
-
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: "#ffffff"
-                        }
-                    }
-                }
-            }
-        }
-    );
-
-    document.getElementById("doubtSummary").innerText =
-        "36 out of 80 students submitted academic doubts. " +
-        "Concept clarification leads with 14 submissions, " +
-        "followed by numerical problems with 10.";
+  document.getElementById("feedbackText").value = "";
 }
 
+function sendChat() {
+  const input = document.getElementById("chatInput");
+  const message = input.value.trim();
 
-// ==========================================
-// SUGGESTION CHATBOT
-// ==========================================
+  if (!message) return;
 
-function addChatMessage(message, sender) {
+  const box = document.getElementById("chatBox");
 
-    const box = document.getElementById("chatBox");
+  const userMessage = document.createElement("div");
+  userMessage.className = "chat-message";
+  userMessage.textContent = "You: " + message;
+  box.appendChild(userMessage);
 
-    const div = document.createElement("div");
+  const reply = getAssistantReply(message);
 
-    div.className = "chat-message " + sender;
+  const botMessage = document.createElement("div");
+  botMessage.className = "chat-message";
+  botMessage.textContent = "Assistant: " + reply;
+  box.appendChild(botMessage);
 
-    div.textContent = message;
-
-    box.appendChild(div);
-
-    box.scrollTop = box.scrollHeight;
+  input.value = "";
+  box.scrollTop = box.scrollHeight;
 }
 
-function classifyAcademicNeed(message) {
+function getAssistantReply(message) {
+  const text = message.toLowerCase();
 
-    const text = message.toLowerCase();
+  if (text.includes("hello") || text.includes("hi")) {
+    return "Hello! What topic would you like to study today?";
+  }
 
-    if (
-        /relecture|again|revision|revise|re-explain|explain again|reteach|repeat/.test(text)
-    ) {
-        return "Relecture";
-    }
+  if (text.includes("define") || text.includes("meaning")) {
+    return "Try breaking the concept into a simple definition, key points, and one example. Please mention the exact term for a more useful explanation.";
+  }
 
-    if (
-        /notes|pdf|material|summary/.test(text)
-    ) {
-        return "Study Notes";
-    }
+  if (text.includes("example")) {
+    return "An example helps connect a concept to real life. Tell me the topic and I can help you build one.";
+  }
 
-    if (
-        /worksheet|practice|exercise|questions/.test(text)
-    ) {
-        return "Practice Worksheets";
-    }
+  if (text.includes("confused") || text.includes("doubt")) {
+    return "No problem! Break the topic into smaller steps. You can also submit your doubt in Ask a Question so your teacher can respond.";
+  }
 
-    if (
-        /test|quiz|assessment/.test(text)
-    ) {
-        return "Topic Test";
-    }
-
-    return "General Academic Support";
+  return "I can help with basic study guidance. Please ask a specific classroom-related question or submit it to your teacher.";
 }
 
-function generateDemoResponse(category) {
-
-    const responses = {
-
-        "Relecture":
-            "Your request has been classified as Relecture. A second explanation of the difficult topic may help you understand it better.",
-
-        "Study Notes":
-            "Your request has been classified as Study Notes. Additional structured notes may support your revision.",
-
-        "Practice Worksheets":
-            "Your request has been classified as Practice Worksheets. More topic-wise practice could improve your understanding.",
-
-        "Topic Test":
-            "Your request has been classified as Topic Test. A short assessment could help you evaluate your preparation.",
-
-        "General Academic Support":
-            "Your request appears academic. Please specify whether you need notes, a relecture, worksheets or a test."
-    };
-
-    return responses[category];
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[char]);
 }
 
-function sendSuggestion() {
-
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
-
-    const input = document.getElementById("suggestionInput");
-
-    const message = input.value.trim();
-
-    if (!message) {
-        alert("Please enter your suggestion.");
-        return;
-    }
-
-    const result = moderateContent(message);
-
-    if (result === "abusive") {
-
-        freezeStudent(
-            "Abusive or threatening content was detected."
-        );
-
-        return;
-    }
-
-    addChatMessage(message, "student-message");
-
-    input.value = "";
-
-    if (result === "irrelevant") {
-
-        addChatMessage(
-            "Please keep the conversation related to academics. I can only consider requests about lectures, notes, worksheets, tests and learning difficulties.",
-            "bot"
-        );
-
-        return;
-    }
-
-    const category = classifyAcademicNeed(message);
-
-    studentData.suggestions.push({
-        message: message,
-        category: category,
-        time: Date.now()
-    });
-
-    saveData();
-
-    addChatMessage(
-        generateDemoResponse(category),
-        "bot"
-    );
-
-    document.getElementById("suggestionMessage").innerText =
-        "Your academic suggestion has been recorded in demo mode.";
-
-}
-
-function quickSuggestion(message) {
-
-    if (isFrozen()) {
-        showFrozenScreen();
-        return;
-    }
-
-    document.getElementById("suggestionInput").value = message;
-
-    sendSuggestion();
-}
-
-
-// ==========================================
-// STATIC SUGGESTION CHART
-// ==========================================
-
-function renderSuggestionChart() {
-
-    if (suggestionChart) suggestionChart.destroy();
-
-    const d = classroomData.suggestions;
-
-    suggestionChart = new Chart(
-        document.getElementById("suggestionChart"),
-        {
-            type: "bar",
-
-            data: {
-                labels: [
-                    "Relecture",
-                    "Study Notes",
-                    "Worksheets",
-                    "Topic Tests"
-                ],
-
-                datasets: [{
-                    label: "Student Requests",
-
-                    data: [
-                        d.relecture,
-                        d.notes,
-                        d.worksheets,
-                        d.tests
-                    ],
-
-                    backgroundColor: [
-                        "#3b82f6",
-                        "#06b6d4",
-                        "#8b5cf6",
-                        "#10b981"
-                    ],
-
-                    borderRadius: 7
-                }]
-            },
-
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-
-                scales: {
-                    x: {
-                        ticks: {
-                            color: "#ffffff"
-                        }
-                    },
-
-                    y: {
-                        beginAtZero: true,
-                        max: 20,
-
-                        ticks: {
-                            color: "#ffffff",
-                            precision: 0
-                        }
-                    }
-                },
-
-                plugins: {
-                    legend: {
-                        labels: {
-                            color: "#ffffff"
-                        }
-                    },
-
-                    title: {
-                        display: true,
-                        text: "42 Academic Suggestions",
-                        color: "#55c7ff"
-                    }
-                }
-            }
-        }
-    );
-
-    document.getElementById("suggestionSummary").innerText =
-        "CLASSROOM AI ANALYSIS (SIMULATED): " +
-        "Relecture is the most requested resource with 18 requests " +
-        "(42.86% of suggestions). Study notes follow with 12 requests. " +
-        "Teachers should prioritize another explanation of difficult topics.";
-}
-
-
-// ==========================================
-// INITIALIZATION
-// ==========================================
-
-window.addEventListener("DOMContentLoaded", function() {
-
-    checkFreeze();
-
-    renderPulseChart();
-
-    renderPollChart();
-
-    renderDoubtChart();
-
-    renderSuggestionChart();
-
-});
-
+initializeStudent();
 </script>
 
 </body>
