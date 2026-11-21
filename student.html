@@ -14,6 +14,29 @@
 --green:#4ade80;--yellow:#facc15;--red:#fb7185;
 --muted:#91a4bd;--border:#263b56
 }
+  <script type="module">
+import { addData, listenData } from "./firebase.js";
+
+// Example: Submit student doubt
+window.submitStudentDoubt = async function() {
+  const question = document.getElementById("question").value;
+
+  try {
+    await addData("studentQueries", {
+      studentId: "STU001",
+      studentName: "Aarav Sharma",
+      topic: "Mathematics",
+      question: question,
+      status: "Pending"
+    });
+
+    alert("Doubt sent successfully!");
+  } catch (error) {
+    console.error(error);
+    alert("Error: " + error.message);
+  }
+};
+</script>
 body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:#f1f5f9}
 button,input,textarea,select{font:inherit}
 .sidebar{
