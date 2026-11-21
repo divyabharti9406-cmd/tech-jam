@@ -1,29 +1,211 @@
 
-<nav class="main-nav">
-  <button onclick="showTab('student')">
-    Student Portal
-  </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <button onclick="showTab('teacher')">
-    Teacher Portal
-  </button>
+<title>Live Classroom Pulse</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+  min-height: 100vh;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 8%;
+  border-bottom: 1px solid #29364b;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #55c7ff;
+}
+
+.nav-label {
+  color: #9eacc2;
+  font-size: 13px;
+}
+
+.hero {
+  text-align: center;
+  padding: 85px 20px 45px;
+}
+
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  margin-bottom: 18px;
+}
+
+.hero h1 span {
+  color: #55c7ff;
+}
+
+.hero p {
+  color: #a5b4cc;
+  line-height: 1.7;
+}
+
+.portals {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 30px 20px 80px;
+  flex-wrap: wrap;
+}
+
+.portal {
+  width: 320px;
+  padding: 35px;
+  border-radius: 18px;
+  background: #1b2b45;
+  border: 1px solid #344761;
+  transition: 0.3s;
+}
+
+.portal:hover {
+  transform: translateY(-8px);
+  border-color: #55c7ff;
+  box-shadow: 0 10px 35px #0005;
+}
+
+.portal-icon {
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.portal h2 {
+  margin-bottom: 14px;
+}
+
+.portal p {
+  color: #a5b4cc;
+  line-height: 1.6;
+  min-height: 75px;
+  margin-bottom: 25px;
+}
+
+.portal a {
+  display: block;
+  text-align: center;
+  padding: 13px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  background: #2563eb;
+}
+
+.teacher a {
+  background: #059669;
+}
+
+.portal a:hover {
+  opacity: 0.85;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #8291a9;
+  border-top: 1px solid #29364b;
+  font-size: 13px;
+}
+
+@media(max-width: 600px) {
+  nav {
+    padding: 20px;
+  }
+
+  .portals {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .portal {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .hero {
+    padding-top: 60px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">⚡ LIVE CLASSROOM PULSE</div>
+  <div class="nav-label">SMART LEARNING ECOSYSTEM</div>
 </nav>
 
-<section id="student" class="portal">
-  <h2>Student Dashboard</h2>
-  <!-- Student features go here -->
+<section class="hero">
+  <h1>
+    Understand Every Student.<br>
+    <span>Improve Every Lecture.</span>
+  </h1>
+
+  <p>
+    A smarter classroom where technology
+    connects teachers and students.<br>
+    Track understanding. Detect confusion.
+    Make learning better.
+  </p>
 </section>
 
-<section id="teacher" class="portal" hidden>
-  <h2>Teacher Dashboard</h2>
-  <!-- Teacher features go here -->
+<section class="portals">
+
+  <div class="portal student">
+    <div class="portal-icon">🎓</div>
+    <h2>Student Portal</h2>
+
+    <p>
+      Share your understanding, participate
+      in live polls, submit doubts and get
+      AI-powered learning assistance.
+    </p>
+
+    <a href="student.html">
+      Enter Student Portal →
+    </a>
+  </div>
+
+  <div class="portal teacher">
+    <div class="portal-icon">👨‍🏫</div>
+    <h2>Teacher Portal</h2>
+
+    <p>
+      Monitor classroom engagement,
+      identify confusion spikes, analyze
+      student feedback and manage queries.
+    </p>
+
+    <a href="teacher.html">
+      Enter Teacher Portal →
+    </a>
+  </div>
+
 </section>
 
-<script>
-function showTab(tabName) {
-  document.querySelectorAll('.portal')
-    .forEach(tab => tab.hidden = true);
+<footer>
+  © 2026 Live Classroom Pulse |
+  AI-Powered Classroom Intelligence
+</footer>
 
-  document.getElementById(tabName).hidden = false;
-}
-</script>
+</body>
+</html>
