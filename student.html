@@ -7,548 +7,338 @@
 <title>Live Classroom Pulse | Student Portal</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#080f20;--panel:#111d33;--panel2:#172640;
+--cyan:#35d9f5;--purple:#a78bfa;
+--green:#4ade80;--yellow:#facc15;--red:#fb7185;
+--muted:#91a4bd;--border:#263b56
 }
-
-body {
-  font-family: Arial, sans-serif;
-  background: #f3f6ff;
-  color: #172554;
+body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:#f1f5f9}
+button,input,textarea,select{font:inherit}
+.sidebar{
+width:245px;height:100vh;position:fixed;left:0;top:0;
+background:#0c172b;border-right:1px solid var(--border);
+padding:25px 16px;z-index:10
 }
-
-header {
-  background: #101d3a;
-  color: white;
-  padding: 18px 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
+.logo{font-size:20px;font-weight:800;color:var(--cyan);line-height:1.4}
+.logo span{color:white}
+.tagline{font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px}
+.menu-title{font-size:10px;letter-spacing:2px;color:#71839d;margin:35px 10px 12px}
+.nav-btn{
+display:flex;align-items:center;gap:12px;padding:13px 12px;
+margin:7px 0;border:1px solid transparent;border-radius:11px;
+color:#aebdd1;cursor:pointer;font-size:13px;transition:.2s
 }
-
-header h2 {
-  font-size: 21px;
+.nav-btn:hover,.nav-btn.active{
+background:#172c48;border-color:#24516d;color:var(--cyan);
+box-shadow:inset 3px 0 var(--cyan)
 }
-
-header span {
-  color: #38d9f5;
+.nav-btn .emoji{font-size:18px}
+.student-profile{
+margin-top:25px;padding:15px;background:var(--panel2);
+border:1px solid var(--border);border-radius:12px
 }
-
-header small {
-  color: #cbd5e1;
+.student-profile p{font-size:11px;color:var(--muted);margin-top:7px}
+.avatar{
+width:43px;height:43px;border-radius:50%;background:#16435a;
+color:var(--cyan);display:grid;place-items:center;
+font-weight:bold;margin-bottom:10px
 }
-
-.container {
-  display: flex;
-  min-height: calc(100vh - 65px);
+.main{margin-left:245px;padding:28px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px}
+.topbar h2{font-size:21px}
+.topbar p{font-size:12px;color:var(--muted);margin-top:5px}
+.live{
+color:var(--green);background:#12372b;border:1px solid #226345;
+border-radius:30px;padding:8px 14px;font-size:11px;font-weight:bold
 }
-
-.sidebar {
-  width: 245px;
-  background: #172746;
-  color: white;
-  padding: 25px 15px;
+.welcome{
+background:linear-gradient(115deg,#172e4e,#252052);
+border:1px solid #304b73;border-radius:20px;padding:30px;
+margin-bottom:22px
 }
-
-.profile {
-  text-align: center;
-  padding: 15px 5px 25px;
-  border-bottom: 1px solid #344563;
-  margin-bottom: 20px;
+.welcome small{color:var(--cyan);letter-spacing:2px;font-size:11px;font-weight:bold}
+.welcome h1{font-size:29px;margin:13px 0 9px}
+.welcome p{color:#b7c8df;font-size:13px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat-card{
+background:var(--panel);border:1px solid var(--border);
+border-radius:16px;padding:19px
 }
-
-.avatar {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: #20c6e8;
-  color: #10213e;
-  display: grid;
-  place-items: center;
-  font-size: 25px;
-  font-weight: bold;
-  margin: auto auto 12px;
+.stat-icon{font-size:22px}
+.stat-card h3{font-size:26px;margin:12px 0 4px}
+.stat-card p{color:var(--muted);font-size:11px}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:17px;margin-bottom:20px}
+.panel{
+background:var(--panel);border:1px solid var(--border);
+border-radius:17px;padding:21px;min-width:0;margin-bottom:17px
 }
-
-.profile p {
-  color: #b8c6dc;
-  font-size: 13px;
-  margin-top: 5px;
+.panel h3{font-size:15px;margin-bottom:8px}
+.sub{color:var(--muted);font-size:11px;margin-bottom:17px}
+.content{display:none;animation:appear .3s}
+.content.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.section-heading{margin:10px 0 22px}
+.section-heading h1{font-size:26px;margin-bottom:7px}
+.section-heading p{color:var(--muted);font-size:13px}
+.action-btn{
+background:linear-gradient(90deg,#18b9d5,#6477ef);border:0;
+border-radius:9px;color:white;padding:11px 16px;font-weight:bold;
+cursor:pointer;font-size:12px;margin-top:8px
 }
-
-.nav-btn {
-  padding: 14px;
-  margin: 7px 0;
-  border-radius: 9px;
-  cursor: pointer;
-  color: #dce8fa;
-  transition: .2s;
+.action-btn:hover{opacity:.85}
+.secondary-btn{
+background:#203751;border:1px solid #31506e;color:#d9e5f3;
+border-radius:9px;padding:10px 14px;cursor:pointer;margin-top:8px
 }
-
-.nav-btn:hover,
-.nav-btn.active {
-  background: #263e65;
-  color: #45d8f4;
+input,textarea,select{
+width:100%;padding:12px;background:#0b172a;border:1px solid #30445f;
+border-radius:9px;color:white;margin:8px 0 15px;outline:none
 }
-
-.nav-btn .emoji {
-  margin-right: 10px;
+input:focus,textarea:focus,select:focus{border-color:var(--cyan)}
+textarea{min-height:90px;resize:vertical}
+label{color:#b6c5d8;font-size:12px}
+.status-options{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0}
+.status-option{
+background:#172640;border:2px solid #30445f;border-radius:12px;
+padding:18px 10px;text-align:center;cursor:pointer;color:white
 }
-
-main {
-  flex: 1;
-  padding: 30px;
-  min-width: 0;
+.status-option.selected{border-color:var(--cyan);background:#12364a}
+.status-option strong{display:block;margin-bottom:8px}
+.status-option small{color:var(--muted)}
+.bar{height:9px;background:#26364c;border-radius:20px;overflow:hidden}
+.fill{height:100%;border-radius:20px}
+.green{background:var(--green)}.yellow{background:var(--yellow)}
+.red{background:var(--red)}.blue{background:var(--cyan)}
+.pulse-row{display:flex;justify-content:space-between;gap:10px;margin:17px 0 8px;font-size:12px}
+.message-card{
+background:#172640;border:1px solid #2b4564;
+border-radius:13px;padding:17px;margin-bottom:13px
 }
-
-.content {
-  display: none;
+.message-card h4{color:var(--cyan);margin-bottom:9px}
+.message-card p{color:#c6d2e2;font-size:13px;line-height:1.6;margin-bottom:8px}
+.empty{color:var(--muted);font-size:13px;padding:15px 0}
+.poll-option{
+display:block;padding:13px;background:#172640;border:1px solid #30445f;
+border-radius:9px;margin:9px 0;cursor:pointer;font-size:13px
 }
-
-.content.active {
-  display: block;
+.poll-option input{width:auto;margin:0 8px 0 0}
+.stars{display:flex;gap:10px;margin:15px 0}
+.star{font-size:31px;color:#71839d;cursor:pointer}
+.star.selected{color:var(--yellow)}
+.chat-box{
+height:260px;overflow-y:auto;background:#0b172a;
+border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:12px
 }
-
-h1 {
-  font-size: 27px;
-  margin-bottom: 8px;
+.chat-message{
+background:#172e4e;padding:11px;border-radius:9px;
+margin:8px 0;font-size:13px;line-height:1.6
 }
-
-.subtitle {
-  color: #64748b;
-  margin-bottom: 25px;
-  line-height: 1.5;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 18px;
-  margin-bottom: 25px;
-}
-
-.card {
-  background: white;
-  padding: 22px;
-  border-radius: 14px;
-  box-shadow: 0 4px 15px #1725540c;
-  margin-bottom: 18px;
-}
-
-.card h3 {
-  font-size: 15px;
-  color: #64748b;
-  margin-bottom: 12px;
-}
-
-.big-number {
-  font-size: 28px;
-  font-weight: bold;
-  color: #142b50;
-}
-
-.card p {
-  color: #64748b;
-  font-size: 13px;
-  margin-top: 8px;
-}
-
-button {
-  border: none;
-  padding: 11px 17px;
-  border-radius: 8px;
-  background: #087fa8;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-button:hover {
-  background: #075e80;
-}
-
-button.secondary {
-  background: #e5edf8;
-  color: #172554;
-}
-
-button.secondary:hover {
-  background: #d3dfef;
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #d4ddec;
-  border-radius: 8px;
-  margin: 8px 0 15px;
-  font-family: inherit;
-  font-size: 14px;
-  background: white;
-}
-
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-label {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.status-options {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  margin: 15px 0;
-}
-
-.status-option {
-  border: 2px solid #e0e8f4;
-  background: white;
-  color: #172554;
-  padding: 18px;
-  border-radius: 12px;
-  cursor: pointer;
-  text-align: center;
-}
-
-.status-option.selected {
-  border-color: #0799c4;
-  background: #e8faff;
-}
-
-.status-option strong {
-  display: block;
-  margin-bottom: 6px;
-}
-
-.question-item, .response-item, .poll-option {
-  background: #f5f8fd;
-  padding: 14px;
-  border-radius: 9px;
-  margin: 10px 0;
-}
-
-.response-item {
-  border-left: 4px solid #0a9cbd;
-}
-
-.muted {
-  color: #64748b;
-  font-size: 13px;
-}
-
-.stars {
-  display: flex;
-  gap: 10px;
-  margin: 15px 0;
-}
-
-.star {
-  font-size: 30px;
-  color: #cbd5e1;
-  cursor: pointer;
-}
-
-.star.selected {
-  color: #f5b400;
-}
-
-.progress {
-  height: 9px;
-  background: #e4eaf3;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-.progress div {
-  height: 100%;
-  background: #0ba7c9;
-  width: 0;
-}
-
-.chat-box {
-  height: 250px;
-  overflow-y: auto;
-  border: 1px solid #dce5f1;
-  border-radius: 10px;
-  padding: 12px;
-  margin-bottom: 12px;
-  background: #f9fbff;
-}
-
-.chat-message {
-  background: #e6f7fc;
-  padding: 10px;
-  border-radius: 9px;
-  margin: 8px 0;
-  max-width: 90%;
-  line-height: 1.5;
-}
-
-@media(max-width: 750px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-  }
-
-  main {
-    padding: 18px;
-  }
-
-  .nav-btn {
-    display: inline-block;
-    padding: 10px;
-  }
+.badge{font-size:10px;padding:5px 9px;border-radius:20px}
+.mobile-title{display:none}
+@media(max-width:1000px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+@media(max-width:650px){
+.sidebar{width:100%;height:auto;position:relative;padding:15px}
+.tagline,.menu-title,.student-profile{display:none}
+.sidebar nav{display:flex;overflow-x:auto;gap:6px}
+.nav-btn{white-space:nowrap;padding:10px;margin:5px 0}
+.main{margin:0;padding:17px}
+.welcome h1{font-size:23px}
+.topbar h2{font-size:17px}
+.status-options{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h2>⚡ LIVE CLASSROOM <span>PULSE</span></h2>
-  <small>Student Learning Portal | LIVE DEMO</small>
-</header>
-
-<div class="container">
-
 <aside class="sidebar">
+  <div class="logo">LIVE CLASSROOM<br><span>PULSE.</span></div>
+  <div class="tagline">AI-POWERED LEARNING INTELLIGENCE</div>
 
-  <div class="profile">
-    <div class="avatar" id="avatar">S</div>
-    <h3 id="profileName">Student</h3>
-    <p id="profileId">Student ID: Not selected</p>
+  <div class="menu-title">STUDENT WORKSPACE</div>
+
+  <nav>
+    <div class="nav-btn active" onclick="showSection('overview',this)">🏠 Overview</div>
+    <div class="nav-btn" onclick="showSection('understanding',this)">💡 Understanding Status</div>
+    <div class="nav-btn" onclick="showSection('polls',this)">📊 Live Polls</div>
+    <div class="nav-btn" onclick="showSection('questions',this)">❓ Ask a Question</div>
+    <div class="nav-btn" onclick="showSection('responses',this)">📩 Teacher Responses</div>
+    <div class="nav-btn" onclick="showSection('feedback',this)">⭐ Feedback</div>
+    <div class="nav-btn" onclick="showSection('assistant',this)">🤖 Learning Assistant</div>
+  </nav>
+
+  <div class="student-profile">
+    <div class="avatar" id="avatar">ST</div>
+    <b id="profileName">Student Name</b>
+    <p id="profileId">Student ID</p>
+    <p id="profileParticipation">Participation</p>
   </div>
-
-  <div class="nav-btn active" onclick="showSection('overview',this)">
-    <span class="emoji">🏠</span> Overview
-  </div>
-
-  <div class="nav-btn" onclick="showSection('understanding',this)">
-    <span class="emoji">💡</span> Understanding Status
-  </div>
-
-  <div class="nav-btn" onclick="showSection('polls',this)">
-    <span class="emoji">📊</span> Live Polls
-  </div>
-
-  <div class="nav-btn" onclick="showSection('questions',this)">
-    <span class="emoji">❓</span> Ask a Question
-  </div>
-
-  <div class="nav-btn" onclick="showSection('responses',this)">
-    <span class="emoji">📩</span> Teacher Responses
-  </div>
-
-  <div class="nav-btn" onclick="showSection('feedback',this)">
-    <span class="emoji">⭐</span> Give Feedback
-  </div>
-
-  <div class="nav-btn" onclick="showSection('assistant',this)">
-    <span class="emoji">🤖</span> Learning Assistant
-  </div>
-
 </aside>
 
-<main>
+<main class="main">
+
+<header class="topbar">
+  <div>
+    <h2>Student Learning Center</h2>
+    <p>Learn. Participate. Improve.</p>
+  </div>
+  <div class="live">● CLASSROOM LIVE</div>
+</header>
 
 <!-- OVERVIEW -->
 <section id="overview" class="content active">
 
-  <h1>Welcome, <span id="welcomeName">Student</span>! 👋</h1>
-  <p class="subtitle">Your classroom learning space. Share your understanding and stay connected with your teacher.</p>
+  <div class="welcome">
+    <small>YOUR LEARNING JOURNEY</small>
+    <h1>Welcome, <span id="welcomeName">Student</span>! 👋</h1>
+    <p>Your voice matters. Share your understanding, ask questions,
+    participate in polls and make every lecture more meaningful.</p>
+  </div>
 
-  <div class="cards">
-    <div class="card">
-      <h3>YOUR STUDENT ID</h3>
-      <div class="big-number" id="overviewId">S01</div>
-      <p>Your classroom identity</p>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-icon">🪪</div><h3 id="myId">STU001</h3><p>Your Student ID</p></div>
+    <div class="stat-card"><div class="stat-icon">💡</div><h3 id="myStatus">Clear</h3><p>Understanding Status</p></div>
+    <div class="stat-card"><div class="stat-icon">❓</div><h3 id="myQuestionCount">0</h3><p>My Questions</p></div>
+    <div class="stat-card"><div class="stat-icon">📊</div><h3 id="myParticipation">High</h3><p>Participation</p></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h3>📡 My Learning Status</h3>
+      <p class="sub">Your default classroom record</p>
+      <div class="pulse-row"><span>Understanding level</span><b id="myStatusLabel">Clear</b></div>
+      <div class="bar"><div class="fill green" id="myStatusBar" style="width:100%"></div></div>
+      <p class="sub" style="margin-top:15px">Your current status can be updated after a lecture topic.</p>
     </div>
 
-    <div class="card">
-      <h3>YOUR STATUS</h3>
-      <div class="big-number" id="overviewStatus">Not Set</div>
-      <p>Current understanding status</p>
-    </div>
-
-    <div class="card">
-      <h3>YOUR QUESTIONS</h3>
-      <div class="big-number" id="questionCount">0</div>
-      <p>Questions submitted</p>
+    <div class="panel">
+      <h3>🎯 Classroom Snapshot</h3>
+      <p class="sub">Default teacher portal dataset</p>
+      <div class="pulse-row"><span>🟢 Clear</span><b>62</b></div>
+      <div class="pulse-row"><span>🟡 Partial</span><b>12</b></div>
+      <div class="pulse-row"><span>🔴 Confused</span><b>6</b></div>
+      <div class="pulse-row"><span>👥 Total</span><b>80</b></div>
     </div>
   </div>
 
-  <div class="card">
-    <h2>📢 Classroom Instructions</h2>
-    <p style="margin-top:12px;line-height:1.7">
-      1. Select your understanding status after every topic.<br>
-      2. Participate in live classroom polls.<br>
-      3. Ask doubts whenever you need help.<br>
-      4. Check your teacher's responses.<br>
-      5. Give feedback to improve the lecture.
-    </p>
+  <div class="panel">
+    <h3>⚡ Quick Actions</h3>
+    <button class="action-btn" onclick="goTo('understanding')">Update Understanding</button>
+    <button class="secondary-btn" onclick="goTo('questions')">Ask a Doubt</button>
+    <button class="secondary-btn" onclick="goTo('polls')">Participate in Poll</button>
   </div>
-
-  <div class="card">
-    <h2>⚡ Quick Actions</h2>
-    <button onclick="showSectionById('understanding')">Update Understanding</button>
-    <button class="secondary" onclick="showSectionById('questions')">Ask a Doubt</button>
-    <button class="secondary" onclick="showSectionById('polls')">View Polls</button>
-  </div>
-
 </section>
 
 <!-- UNDERSTANDING -->
 <section id="understanding" class="content">
+  <div class="section-heading">
+    <h1>💡 Understanding Status</h1>
+    <p>Tell your teacher how well you understood the topic.</p>
+  </div>
 
-  <h1>Understanding Status</h1>
-  <p class="subtitle">Tell your teacher how well you understood the current topic.</p>
-
-  <div class="card">
-    <label>Select Topic</label>
+  <div class="panel">
+    <label>Topic</label>
     <select id="topic">
-      <option value="">Choose a topic</option>
-      <option>Introduction to the Topic</option>
-      <option>Basic Concepts</option>
-      <option>Important Definitions</option>
+      <option value="">Select topic</option>
+      <option>Introduction</option>
+      <option>Core Concept</option>
+      <option>Advanced Concept</option>
       <option>Numerical Problems</option>
-      <option>Advanced Applications</option>
     </select>
 
-    <h3 style="margin-top:15px">How well did you understand?</h3>
+    <h3 style="margin-top:12px">How well did you understand?</h3>
 
     <div class="status-options">
       <div class="status-option" onclick="selectStatus('Clear',this)">
-        <strong>🟢 Clear</strong>
-        <span class="muted">I understood it</span>
+        <strong>🟢 Clear</strong><small>I understood</small>
       </div>
-
       <div class="status-option" onclick="selectStatus('Partial',this)">
-        <strong>🟡 Partial</strong>
-        <span class="muted">I need some help</span>
+        <strong>🟡 Partial</strong><small>Need some help</small>
       </div>
-
       <div class="status-option" onclick="selectStatus('Confused',this)">
-        <strong>🔴 Confused</strong>
-        <span class="muted">I need an explanation</span>
+        <strong>🔴 Confused</strong><small>Need explanation</small>
       </div>
     </div>
 
     <label>Optional comment</label>
     <textarea id="statusComment" placeholder="Tell your teacher what you found difficult..."></textarea>
 
-    <button onclick="submitStatus()">Submit Status</button>
-    <p id="statusMessage" class="muted"></p>
+    <button class="action-btn" onclick="submitStatus()">Submit Status</button>
+    <p id="statusMessage" class="sub" style="margin-top:12px"></p>
   </div>
-
-  <div class="card">
-    <h3>Your Understanding Progress</h3>
-    <div id="myProgressText">No updates yet</div>
-    <div class="progress"><div id="myProgressBar"></div></div>
-  </div>
-
 </section>
 
 <!-- POLLS -->
 <section id="polls" class="content">
-
-  <h1>Live Classroom Polls</h1>
-  <p class="subtitle">Answer quick questions posted by your teacher.</p>
-
-  <div class="card">
-    <span class="muted">SAMPLE POLL</span>
-    <h2 style="margin:12px 0">Did you understand today's topic?</h2>
-
-    <div class="poll-option">
-      <label><input type="radio" name="poll1" value="Yes" style="width:auto"> Yes, completely</label>
-    </div>
-
-    <div class="poll-option">
-      <label><input type="radio" name="poll1" value="Partially" style="width:auto"> Partially</label>
-    </div>
-
-    <div class="poll-option">
-      <label><input type="radio" name="poll1" value="No" style="width:auto"> No, I need help</label>
-    </div>
-
-    <button onclick="submitPoll()">Submit Vote</button>
-    <p id="pollMessage" class="muted"></p>
+  <div class="section-heading">
+    <h1>📊 Live Classroom Polls</h1>
+    <p>Participate in classroom questions.</p>
   </div>
 
-  <div class="card">
-    <h3>Poll participation</h3>
-    <p class="muted">Your vote is stored in this demo browser only.</p>
+  <div class="panel">
+    <h3>Today's Understanding Poll</h3>
+    <p class="sub">Sample poll for demonstration</p>
+
+    <label class="poll-option"><input type="radio" name="poll" value="Completely"> Yes, I understood completely</label>
+    <label class="poll-option"><input type="radio" name="poll" value="Partially"> I understood partially</label>
+    <label class="poll-option"><input type="radio" name="poll" value="Need Help"> I need more explanation</label>
+
+    <button class="action-btn" onclick="submitPoll()">Submit Vote</button>
+    <p id="pollMessage" class="sub" style="margin-top:12px"></p>
   </div>
 
+  <div class="panel">
+    <h3>My Poll Participation</h3>
+    <p id="pollHistory" class="empty">You have not voted yet.</p>
+  </div>
 </section>
 
 <!-- QUESTIONS -->
 <section id="questions" class="content">
+  <div class="section-heading">
+    <h1>❓ Ask Your Teacher</h1>
+    <p>Submit doubts and questions from your classroom.</p>
+  </div>
 
-  <h1>Ask Your Teacher</h1>
-  <p class="subtitle">Ask questions or share doubts about the lecture. You can use your student ID instead of your name.</p>
-
-  <div class="card">
+  <div class="panel">
     <label>Topic</label>
-    <select id="questionTopic">
-      <option value="">Select topic</option>
-      <option>Basic Concepts</option>
-      <option>Definitions</option>
-      <option>Numerical Problems</option>
-      <option>Practical Applications</option>
-      <option>Other</option>
-    </select>
+    <input id="questionTopic" placeholder="Enter topic name">
 
     <label>Your Question</label>
-    <textarea id="studentQuestion" placeholder="Write your question here..."></textarea>
+    <textarea id="questionText" placeholder="Write your question here..."></textarea>
 
-    <button onclick="submitQuestion()">Send Question</button>
-    <p id="questionMessage" class="muted"></p>
+    <button class="action-btn" onclick="submitQuestion()">Send Question</button>
+    <p id="questionMessage" class="sub" style="margin-top:12px"></p>
   </div>
 
-  <div class="card">
+  <div class="panel">
     <h3>My Submitted Questions</h3>
-    <div id="myQuestions">
-      <p class="muted">No questions submitted yet.</p>
-    </div>
+    <div id="myQuestions"><p class="empty">No questions submitted yet.</p></div>
   </div>
-
 </section>
 
-<!-- TEACHER RESPONSES -->
+<!-- RESPONSES -->
 <section id="responses" class="content">
-
-  <h1>Teacher Responses</h1>
-  <p class="subtitle">Check the answers and explanations sent by your teacher.</p>
-
-  <div class="card">
-    <div id="teacherResponses">
-      <p class="muted">No teacher responses available yet.</p>
-    </div>
+  <div class="section-heading">
+    <h1>📩 Teacher Responses</h1>
+    <p>Read answers sent by your teacher.</p>
   </div>
-
+  <div class="panel">
+    <div id="teacherResponses"><p class="empty">No responses available yet.</p></div>
+  </div>
 </section>
 
 <!-- FEEDBACK -->
 <section id="feedback" class="content">
+  <div class="section-heading">
+    <h1>⭐ Lecture Feedback</h1>
+    <p>Your feedback helps improve classroom teaching.</p>
+  </div>
 
-  <h1>Lecture Feedback</h1>
-  <p class="subtitle">Help your teacher understand your learning experience.</p>
-
-  <div class="card">
-    <h3>Rate today's lecture</h3>
+  <div class="panel">
+    <h3>Rate the lecture</h3>
     <div class="stars">
       <span class="star" onclick="setRating(1)">★</span>
       <span class="star" onclick="setRating(2)">★</span>
@@ -556,327 +346,319 @@ label {
       <span class="star" onclick="setRating(4)">★</span>
       <span class="star" onclick="setRating(5)">★</span>
     </div>
-
-    <label>Suggestions</label>
-    <textarea id="feedbackText" placeholder="What can be improved in the lecture?"></textarea>
-
-    <button onclick="submitFeedback()">Submit Feedback</button>
-    <p id="feedbackMessage" class="muted"></p>
+    <label>Your suggestion</label>
+    <textarea id="feedbackText" placeholder="Share your suggestions..."></textarea>
+    <button class="action-btn" onclick="submitFeedback()">Submit Feedback</button>
+    <p id="feedbackMessage" class="sub" style="margin-top:12px"></p>
   </div>
-
 </section>
 
-<!-- LEARNING ASSISTANT -->
+<!-- ASSISTANT -->
 <section id="assistant" class="content">
-
-  <h1>🤖 Learning Assistant</h1>
-  <p class="subtitle">A simple demo assistant to help you revise classroom concepts.</p>
-
-  <div class="card">
-    <div class="chat-box" id="chatBox">
-      <div class="chat-message">
-        Hello! 👋 I am your Learning Assistant. Ask me a basic study question.
-      </div>
-    </div>
-
-    <input id="chatInput" placeholder="Ask a study-related question..." onkeydown="if(event.key==='Enter') sendChat()">
-    <button onclick="sendChat()">Send Message</button>
+  <div class="section-heading">
+    <h1>🤖 Learning Assistant</h1>
+    <p>Get basic study guidance.</p>
   </div>
 
-  <p class="muted">Demo assistant: it uses predefined responses, not a connected AI model.</p>
-
+  <div class="panel">
+    <div class="chat-box" id="chatBox">
+      <div class="chat-message">Hello! 👋 Ask me a study-related question.</div>
+    </div>
+    <input id="chatInput" placeholder="Ask a study question..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="action-btn" onclick="sendChat()">Send Message</button>
+    <p class="sub" style="margin-top:15px">This is a predefined demo assistant, not a connected AI model.</p>
+  </div>
 </section>
 
 </main>
-</div>
 
 <script>
-/* SAME 80 STUDENT IDS AS TEACHER PORTAL */
+// EXACT SAME 80 STUDENTS AS TEACHER PORTAL
 
-const students = Array.from({length:80}, (_,i) => ({
-  id: "S" + String(i+1).padStart(2,"0"),
-  name: "Student " + String(i+1).padStart(2,"0")
+const studentNames=[
+"Aarav Sharma","Ananya Verma","Rohan Gupta","Priya Singh","Arjun Mehta",
+"Isha Patel","Kabir Joshi","Sneha Yadav","Aditya Kumar","Meera Shah",
+"Vivaan Rao","Aditi Jain","Reyansh Das","Kavya Mishra","Dev Malhotra",
+"Riya Kapoor","Krish Bansal","Pooja Saini","Manav Arora","Diya Khanna",
+"Yash Thakur","Tanya Roy","Dhruv Saxena","Nisha Chauhan","Samar Gill",
+"Anvi Agarwal","Kunal Nair","Simran Kaur","Atharv Pandey","Muskan Ali",
+"Harsh Tiwari","Neha Reddy","Ishaan Bose","Sakshi Jain","Rahul Soni",
+"Tanvi Goyal","Aryan Malik","Shreya Das","Om Prakash","Navya Sen",
+"Lakshya Jain","Mahi Kapoor","Parth Desai","Khushi Sharma","Ritvik Rao",
+"Anika Roy","Siddharth Pal","Ayesha Khan","Aman Verma","Myra Gupta",
+"Nakul Joshi","Palak Yadav","Viraj Mehta","Sana Sheikh","Rudra Singh",
+"Ira Malhotra","Gaurav Kumar","Tisha Patel","Mohit Arora","Avni Bansal",
+"Rehan Ali","Jiya Saini","Varun Shah","Nandini Rao","Abhay Mishra",
+"Kriti Nair","Raghav Gill","Tara Khanna","Sahil Das","Aarohi Jain",
+"Pranav Roy","Suhani Kapoor","Devika Mehta","Ansh Gupta","Mukul Sharma",
+"Apoorva Singh","Vanshika Verma","Ishita Rao","Naman Joshi","Kartik Yadav"
+];
+
+const students=studentNames.map((name,i)=>({
+ id:"STU"+String(i+1).padStart(3,"0"),
+ name:name,
+ participation:["High","Medium","Low"][i%3],
+ status:i<62?"Clear":i<74?"Partial":"Confused"
 }));
 
-let currentStudent = null;
-let selectedStatus = "";
-let selectedRating = 0;
-let myQuestions = [];
-let myResponses = [];
+// DEFAULT CLASSROOM STATISTICS
+const classroomStats={
+ total:students.length,
+ clear:students.filter(s=>s.status==="Clear").length,
+ partial:students.filter(s=>s.status==="Partial").length,
+ confused:students.filter(s=>s.status==="Confused").length
+};
 
-function initializeStudent() {
-  let savedId = localStorage.getItem("lcp_student_id");
+let currentStudent=null;
+let selectedStatus="";
+let selectedRating=0;
+let questions=[];
+let responses=[];
 
-  let enteredId = prompt(
-    "Enter your Student ID (S01 to S80):",
-    savedId || "S01"
-  );
+function chooseStudent(){
+ const saved=localStorage.getItem("lcp_current_student");
+ let id=prompt(
+  "Enter your Student ID (STU001 to STU080):",
+  saved||"STU001"
+ );
 
-  if (enteredId === null) enteredId = "S01";
+ if(id===null) id=saved||"STU001";
+ id=id.trim().toUpperCase();
 
-  enteredId = enteredId.trim().toUpperCase();
+ const found=students.find(s=>s.id===id);
 
-  const student = students.find(s => s.id === enteredId);
+ if(!found){
+  alert("Invalid ID. Please enter an ID from STU001 to STU080.");
+  currentStudent=students[0];
+ }else{
+  currentStudent=found;
+ }
 
-  if (!student) {
-    alert("Invalid Student ID. Please use S01 to S80.");
-    currentStudent = students[0];
-  } else {
-    currentStudent = student;
-  }
-
-  localStorage.setItem("lcp_student_id", currentStudent.id);
-
-  document.getElementById("profileName").textContent = currentStudent.name;
-  document.getElementById("profileId").textContent = "Student ID: " + currentStudent.id;
-  document.getElementById("avatar").textContent = currentStudent.id.slice(1);
-  document.getElementById("welcomeName").textContent = currentStudent.name;
-  document.getElementById("overviewId").textContent = currentStudent.id;
-
-  loadStudentData();
+ localStorage.setItem("lcp_current_student",currentStudent.id);
+ loadProfile();
 }
 
-function showSection(id, element) {
-  document.querySelectorAll(".content").forEach(section => {
-    section.classList.remove("active");
-  });
-
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-
-  if (element) element.classList.add("active");
+function key(name){
+ return "lcp_"+currentStudent.id+"_"+name;
 }
 
-function showSectionById(id) {
-  const buttons = document.querySelectorAll(".nav-btn");
-  const sections = ["overview","understanding","polls","questions","responses","feedback","assistant"];
-  const index = sections.indexOf(id);
+function loadProfile(){
+ document.getElementById("profileName").textContent=currentStudent.name;
+ document.getElementById("profileId").textContent=currentStudent.id;
+ document.getElementById("profileParticipation").textContent=
+  "Participation: "+currentStudent.participation;
+ document.getElementById("avatar").textContent=
+  currentStudent.name.split(" ").map(x=>x[0]).join("");
+ document.getElementById("welcomeName").textContent=currentStudent.name;
+ document.getElementById("myId").textContent=currentStudent.id;
+ document.getElementById("myParticipation").textContent=currentStudent.participation;
 
-  showSection(id, buttons[index]);
+ const savedStatus=localStorage.getItem(key("status"));
+ const status=savedStatus||currentStudent.status;
+
+ updateStatusDisplay(status);
+
+ questions=JSON.parse(localStorage.getItem(key("questions"))||"[]");
+ responses=JSON.parse(localStorage.getItem(key("responses"))||"[]");
+
+ renderQuestions();
+ renderResponses();
+
+ document.getElementById("myQuestionCount").textContent=questions.length;
+
+ const vote=localStorage.getItem(key("poll"));
+ if(vote){
+  document.getElementById("pollHistory").textContent="Your last vote: "+vote;
+ }
 }
 
-function storageKey(name) {
-  return name + "_" + currentStudent.id;
+function showSection(id,button){
+ document.querySelectorAll(".content").forEach(s=>s.classList.remove("active"));
+ document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ if(button)button.classList.add("active");
 }
 
-function loadStudentData() {
-  const status = localStorage.getItem(storageKey("lcp_status")) || "Not Set";
-
-  document.getElementById("overviewStatus").textContent = status;
-
-  const questions = JSON.parse(localStorage.getItem(storageKey("lcp_questions")) || "[]");
-  const responses = JSON.parse(localStorage.getItem(storageKey("lcp_responses")) || "[]");
-
-  myQuestions = questions;
-  myResponses = responses;
-
-  renderQuestions();
-  renderResponses();
-
-  document.getElementById("questionCount").textContent = myQuestions.length;
+function goTo(id){
+ const buttons=[...document.querySelectorAll(".nav-btn")];
+ const ids=["overview","understanding","polls","questions","responses","feedback","assistant"];
+ showSection(id,buttons[ids.indexOf(id)]);
 }
 
-function selectStatus(status, element) {
-  selectedStatus = status;
+function updateStatusDisplay(status){
+ document.getElementById("myStatus").textContent=status;
+ document.getElementById("myStatusLabel").textContent=status;
 
-  document.querySelectorAll(".status-option").forEach(option => {
-    option.classList.remove("selected");
-  });
-
-  element.classList.add("selected");
+ const bar=document.getElementById("myStatusBar");
+ bar.style.width=status==="Clear"?"100%":status==="Partial"?"60%":"25%";
+ bar.className="fill "+(status==="Clear"?"green":status==="Partial"?"yellow":"red");
 }
 
-function submitStatus() {
-  const topic = document.getElementById("topic").value;
-
-  if (!topic || !selectedStatus) {
-    alert("Please select a topic and understanding status.");
-    return;
-  }
-
-  const record = {
-    topic,
-    status: selectedStatus,
-    comment: document.getElementById("statusComment").value,
-    time: new Date().toLocaleString()
-  };
-
-  localStorage.setItem(storageKey("lcp_status"), selectedStatus);
-  localStorage.setItem(storageKey("lcp_latest_status"), JSON.stringify(record));
-
-  document.getElementById("overviewStatus").textContent = selectedStatus;
-  document.getElementById("myProgressText").textContent =
-    topic + " — " + selectedStatus;
-
-  const progress = selectedStatus === "Clear" ? 100 :
-                   selectedStatus === "Partial" ? 60 : 25;
-
-  document.getElementById("myProgressBar").style.width = progress + "%";
-  document.getElementById("statusMessage").textContent = "Your status has been saved successfully.";
-
-  document.getElementById("statusComment").value = "";
+function selectStatus(status,element){
+ selectedStatus=status;
+ document.querySelectorAll(".status-option").forEach(x=>x.classList.remove("selected"));
+ element.classList.add("selected");
 }
 
-function submitPoll() {
-  const choice = document.querySelector('input[name="poll1"]:checked');
+function submitStatus(){
+ const topic=document.getElementById("topic").value;
+ if(!topic||!selectedStatus){
+  alert("Please select a topic and your status.");
+  return;
+ }
 
-  if (!choice) {
-    alert("Please select an answer.");
-    return;
-  }
+ const record={
+  topic,
+  status:selectedStatus,
+  comment:document.getElementById("statusComment").value,
+  time:new Date().toLocaleString()
+ };
 
-  localStorage.setItem(storageKey("lcp_poll"), choice.value);
+ localStorage.setItem(key("status"),selectedStatus);
+ localStorage.setItem(key("latestStatus"),JSON.stringify(record));
 
-  document.getElementById("pollMessage").textContent =
-    "Your vote (" + choice.value + ") has been saved in this demo.";
+ updateStatusDisplay(selectedStatus);
+
+ document.getElementById("statusMessage").textContent=
+  "Your status has been saved for "+topic+".";
+ document.getElementById("statusComment").value="";
 }
 
-function submitQuestion() {
-  const topic = document.getElementById("questionTopic").value;
-  const question = document.getElementById("studentQuestion").value.trim();
+function submitPoll(){
+ const choice=document.querySelector('input[name="poll"]:checked');
+ if(!choice){alert("Please select an option.");return;}
 
-  if (!topic || !question) {
-    alert("Please select a topic and enter your question.");
-    return;
-  }
-
-  myQuestions.push({
-    topic,
-    question,
-    time: new Date().toLocaleString()
-  });
-
-  localStorage.setItem(storageKey("lcp_questions"), JSON.stringify(myQuestions));
-
-  document.getElementById("studentQuestion").value = "";
-  document.getElementById("questionMessage").textContent = "Your question has been saved.";
-  document.getElementById("questionCount").textContent = myQuestions.length;
-
-  renderQuestions();
+ localStorage.setItem(key("poll"),choice.value);
+ document.getElementById("pollMessage").textContent="Your vote has been saved.";
+ document.getElementById("pollHistory").textContent="Your last vote: "+choice.value;
 }
 
-function renderQuestions() {
-  const container = document.getElementById("myQuestions");
+function submitQuestion(){
+ const topic=document.getElementById("questionTopic").value.trim();
+ const question=document.getElementById("questionText").value.trim();
 
-  if (myQuestions.length === 0) {
-    container.innerHTML = '<p class="muted">No questions submitted yet.</p>';
-    return;
-  }
+ if(!topic||!question){
+  alert("Please enter a topic and question.");
+  return;
+ }
 
-  container.innerHTML = myQuestions.map((q,i) => `
-    <div class="question-item">
-      <strong>Q${i+1}: ${escapeHTML(q.topic)}</strong>
-      <p style="margin-top:7px">${escapeHTML(q.question)}</p>
-      <small class="muted">${escapeHTML(q.time)}</small>
-    </div>
-  `).join("");
+ questions.push({
+  topic,question,
+  time:new Date().toLocaleString()
+ });
+
+ localStorage.setItem(key("questions"),JSON.stringify(questions));
+
+ document.getElementById("questionTopic").value="";
+ document.getElementById("questionText").value="";
+ document.getElementById("questionMessage").textContent="Question saved in this demo.";
+ document.getElementById("myQuestionCount").textContent=questions.length;
+
+ renderQuestions();
 }
 
-function renderResponses() {
-  const container = document.getElementById("teacherResponses");
+function renderQuestions(){
+ const box=document.getElementById("myQuestions");
+ box.innerHTML="";
 
-  if (myResponses.length === 0) {
-    container.innerHTML = '<p class="muted">No teacher responses available yet.</p>';
-    return;
-  }
+ if(!questions.length){
+  box.innerHTML='<p class="empty">No questions submitted yet.</p>';
+  return;
+ }
 
-  container.innerHTML = myResponses.map((r,i) => `
-    <div class="response-item">
-      <strong>Response ${i+1}</strong>
-      <p style="margin-top:8px">${escapeHTML(r.answer)}</p>
-      <small class="muted">${escapeHTML(r.time || "")}</small>
-    </div>
-  `).join("");
+ questions.forEach((q,i)=>{
+  const card=document.createElement("div");
+  card.className="message-card";
+  const title=document.createElement("h4");
+  title.textContent="Question "+(i+1)+" — "+q.topic;
+  const text=document.createElement("p");
+  text.textContent=q.question;
+  const time=document.createElement("small");
+  time.style.color="var(--muted)";
+  time.textContent=q.time;
+  card.append(title,text,time);
+  box.appendChild(card);
+ });
 }
 
-function setRating(rating) {
-  selectedRating = rating;
+function renderResponses(){
+ const box=document.getElementById("teacherResponses");
+ box.innerHTML="";
 
-  document.querySelectorAll(".star").forEach((star,index) => {
-    star.classList.toggle("selected", index < rating);
-  });
+ if(!responses.length){
+  box.innerHTML='<p class="empty">No teacher responses available yet.</p>';
+  return;
+ }
+
+ responses.forEach((r,i)=>{
+  const card=document.createElement("div");
+  card.className="message-card";
+  const title=document.createElement("h4");
+  title.textContent="Teacher Response "+(i+1);
+  const answer=document.createElement("p");
+  answer.textContent=r.answer;
+  card.append(title,answer);
+  box.appendChild(card);
+ });
 }
 
-function submitFeedback() {
-  if (!selectedRating) {
-    alert("Please select a star rating.");
-    return;
-  }
-
-  const feedback = {
-    rating: selectedRating,
-    suggestion: document.getElementById("feedbackText").value,
-    time: new Date().toLocaleString()
-  };
-
-  localStorage.setItem(storageKey("lcp_feedback"), JSON.stringify(feedback));
-
-  document.getElementById("feedbackMessage").textContent =
-    "Thank you! Your feedback has been saved.";
-
-  document.getElementById("feedbackText").value = "";
+function setRating(rating){
+ selectedRating=rating;
+ document.querySelectorAll(".star").forEach((star,i)=>{
+  star.classList.toggle("selected",i<rating);
+ });
 }
 
-function sendChat() {
-  const input = document.getElementById("chatInput");
-  const message = input.value.trim();
+function submitFeedback(){
+ if(!selectedRating){
+  alert("Please select a star rating.");
+  return;
+ }
 
-  if (!message) return;
+ const feedback={
+  rating:selectedRating,
+  suggestion:document.getElementById("feedbackText").value,
+  time:new Date().toLocaleString()
+ };
 
-  const box = document.getElementById("chatBox");
-
-  const userMessage = document.createElement("div");
-  userMessage.className = "chat-message";
-  userMessage.textContent = "You: " + message;
-  box.appendChild(userMessage);
-
-  const reply = getAssistantReply(message);
-
-  const botMessage = document.createElement("div");
-  botMessage.className = "chat-message";
-  botMessage.textContent = "Assistant: " + reply;
-  box.appendChild(botMessage);
-
-  input.value = "";
-  box.scrollTop = box.scrollHeight;
+ localStorage.setItem(key("feedback"),JSON.stringify(feedback));
+ document.getElementById("feedbackMessage").textContent="Thank you for your feedback!";
+ document.getElementById("feedbackText").value="";
 }
 
-function getAssistantReply(message) {
-  const text = message.toLowerCase();
+function sendChat(){
+ const input=document.getElementById("chatInput");
+ const message=input.value.trim();
+ if(!message)return;
 
-  if (text.includes("hello") || text.includes("hi")) {
-    return "Hello! What topic would you like to study today?";
-  }
+ const box=document.getElementById("chatBox");
 
-  if (text.includes("define") || text.includes("meaning")) {
-    return "Try breaking the concept into a simple definition, key points, and one example. Please mention the exact term for a more useful explanation.";
-  }
+ const user=document.createElement("div");
+ user.className="chat-message";
+ user.textContent="You: "+message;
+ box.appendChild(user);
 
-  if (text.includes("example")) {
-    return "An example helps connect a concept to real life. Tell me the topic and I can help you build one.";
-  }
+ const reply=document.createElement("div");
+ reply.className="chat-message";
+ reply.textContent="Assistant: "+assistantReply(message);
+ box.appendChild(reply);
 
-  if (text.includes("confused") || text.includes("doubt")) {
-    return "No problem! Break the topic into smaller steps. You can also submit your doubt in Ask a Question so your teacher can respond.";
-  }
-
-  return "I can help with basic study guidance. Please ask a specific classroom-related question or submit it to your teacher.";
+ input.value="";
+ box.scrollTop=box.scrollHeight;
 }
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, char => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
-  })[char]);
+function assistantReply(message){
+ const m=message.toLowerCase();
+
+ if(m.includes("hello")||m.includes("hi"))return "Hello! What topic are you studying?";
+ if(m.includes("confused")||m.includes("doubt"))return "You can ask your teacher through the Ask a Question section. Break the topic into smaller steps while revising.";
+ if(m.includes("example"))return "Examples connect concepts to real situations. Try applying the definition to a simple everyday situation.";
+ if(m.includes("study"))return "Try studying in short sessions, writing key points and solving practice questions.";
+ return "Please ask a specific study question. I can also guide you to submit a doubt to your teacher.";
 }
 
-initializeStudent();
+// Start student portal
+chooseStudent();
 </script>
 
 </body>
