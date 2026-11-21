@@ -1,364 +1,417 @@
 
-import { useState } from "react";
-import {
-  BookOpen,
-  CheckCircle2,
-  CircleHelp,
-  MessageSquare,
-  Star,
-  Vote,
-  Send,
-  Users,
-  Clock,
-} from "lucide-react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Classroom Pulse - Student Portal</title>
 
-export default function StudentPortal() {
-  const [activeTab, setActiveTab] = useState("home");
-  const [status, setStatus] = useState("");
-  const [doubt, setDoubt] = useState("");
-  const [doubts, setDoubts] = useState([]);
-  const [rating, setRating] = useState(0);
-  const [feedback, setFeedback] = useState("");
-  const [feedbackSent, setFeedbackSent] = useState(false);
-  const [pollAnswer, setPollAnswer] = useState("");
-  const [pollSubmitted, setPollSubmitted] = useState(false);
-
-  const tabs = [
-    { id: "home", label: "Home", icon: BookOpen },
-    { id: "doubts", label: "Doubts", icon: CircleHelp },
-    { id: "feedback", label: "Feedback", icon: Star },
-    { id: "polls", label: "Polls", icon: Vote },
-  ];
-
-  function submitDoubt() {
-    if (!doubt.trim()) return;
-    setDoubts([
-      ...doubts,
-      { id: Date.now(), question: doubt, votes: 0 },
-    ]);
-    setDoubt("");
-  }
-
-  function submitFeedback() {
-    if (!rating) return;
-    setFeedbackSent(true);
-  }
-
-  function submitPoll() {
-    if (!pollAnswer) return;
-    setPollSubmitted(true);
-  }
-
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-800">
-      <header className="bg-white border-b border-slate-200 px-6 py-4">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-indigo-700">
-              Live Classroom Pulse
-            </h1>
-            <p className="text-xs text-slate-500">
-              Student Portal
-            </p>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-slate-600">
-            <Users size={18} />
-            Student
-          </div>
-        </div>
-      </header>
-
-      <main className="max-w-6xl mx-auto p-5 md:p-8">
-        <div className="mb-7">
-          <h2 className="text-2xl font-bold">
-            Welcome to your classroom!
-          </h2>
-          <p className="text-slate-500 mt-1">
-            Share your understanding, ask doubts and give feedback.
-          </p>
-        </div>
-
-        <nav className="flex flex-wrap gap-2 mb-7">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium ${
-                  activeTab === tab.id
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white border border-slate-200 hover:bg-indigo-50"
-                }`}
-              >
-                <Icon size={18} />
-                {tab.label}
-              </button>
-            );
-          })}
-        </nav>
-
-        {activeTab === "home" && (
-          <div className="space-y-6">
-            <section className="bg-white rounded-2xl border p-6">
-              <div className="flex items-center justify-between flex-wrap gap-3">
-                <div>
-                  <p className="text-sm text-slate-500">
-                    Current classroom
-                  </p>
-                  <h3 className="text-xl font-bold mt-1">
-                    Live Learning Session
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-2">
-                    Topic: Introduction to the lesson
-                  </p>
-                </div>
-                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-                  ● Live
-                </span>
-              </div>
-            </section>
-
-            <section className="bg-white rounded-2xl border p-6">
-              <h3 className="text-lg font-bold mb-2">
-                How well do you understand this topic?
-              </h3>
-              <p className="text-sm text-slate-500 mb-5">
-                Your response is anonymous to other students.
-              </p>
-
-              <div className="grid sm:grid-cols-3 gap-3">
-                {[
-                  {
-                    name: "Clear",
-                    description: "I understand",
-                    color: "border-green-300 bg-green-50 text-green-700",
-                  },
-                  {
-                    name: "Unsure",
-                    description: "I need more practice",
-                    color: "border-amber-300 bg-amber-50 text-amber-700",
-                  },
-                  {
-                    name: "Confused",
-                    description: "I need help",
-                    color: "border-red-300 bg-red-50 text-red-700",
-                  },
-                ].map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => setStatus(item.name)}
-                    className={`rounded-xl border-2 p-5 text-left transition ${
-                      item.color
-                    } ${
-                      status === item.name
-                        ? "ring-2 ring-indigo-500"
-                        : "hover:shadow-md"
-                    }`}
-                  >
-                    <p className="font-bold text-lg">{item.name}</p>
-                    <p className="text-sm mt-1">{item.description}</p>
-                    {status === item.name && (
-                      <p className="text-xs font-semibold mt-3">
-                        Selected ✓
-                      </p>
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              <p className="text-xs text-slate-400 mt-4">
-                You can update your response while this topic is active.
-              </p>
-            </section>
-
-            <div className="grid md:grid-cols-2 gap-4">
-              <button
-                onClick={() => setActiveTab("doubts")}
-                className="bg-white border rounded-2xl p-6 text-left hover:border-indigo-400"
-              >
-                <CircleHelp className="text-indigo-600 mb-3" size={26} />
-                <h3 className="font-bold">Ask a Doubt</h3>
-                <p className="text-sm text-slate-500 mt-1">
-                  Ask questions about the current topic.
-                </p>
-              </button>
-
-              <button
-                onClick={() => setActiveTab("feedback")}
-                className="bg-white border rounded-2xl p-6 text-left hover:border-indigo-400"
-              >
-                <Star className="text-amber-500 mb-3" size={26} />
-                <h3 className="font-bold">Give Feedback</h3>
-                <p className="text-sm text-slate-500 mt-1">
-                  Rate the explanation and share suggestions.
-                </p>
-              </button>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "doubts" && (
-          <section className="bg-white rounded-2xl border p-6">
-            <h3 className="text-xl font-bold mb-2">Student Doubts</h3>
-            <p className="text-sm text-slate-500 mb-5">
-              Submit a question about the current lesson.
-            </p>
-
-            <textarea
-              value={doubt}
-              onChange={(e) => setDoubt(e.target.value)}
-              placeholder="Type your question here..."
-              className="w-full border rounded-xl p-4 min-h-28 outline-none focus:ring-2 focus:ring-indigo-400"
-            />
-
-            <button
-              onClick={submitDoubt}
-              className="mt-3 bg-indigo-600 text-white rounded-xl px-5 py-3 flex items-center gap-2 hover:bg-indigo-700"
-            >
-              <Send size={17} /> Submit doubt
-            </button>
-
-            <div className="mt-7">
-              <h4 className="font-bold mb-3">Your submitted doubts</h4>
-              {doubts.length === 0 ? (
-                <p className="text-sm text-slate-400">
-                  No doubts submitted yet.
-                </p>
-              ) : (
-                doubts.map((item) => (
-                  <div
-                    key={item.id}
-                    className="border rounded-xl p-4 mb-3"
-                  >
-                    <p>{item.question}</p>
-                    <p className="text-xs text-slate-400 mt-2">
-                      Waiting for a response
-                    </p>
-                  </div>
-                ))
-              )}
-            </div>
-          </section>
-        )}
-
-        {activeTab === "feedback" && (
-          <section className="bg-white rounded-2xl border p-6">
-            <h3 className="text-xl font-bold">Topic Feedback</h3>
-            <p className="text-sm text-slate-500 mt-1">
-              How helpful was the teacher's explanation?
-            </p>
-
-            <div className="flex gap-2 my-6">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <button
-                  key={value}
-                  onClick={() => {
-                    setRating(value);
-                    setFeedbackSent(false);
-                  }}
-                  aria-label={`Rate ${value} stars`}
-                >
-                  <Star
-                    size={34}
-                    className={
-                      value <= rating
-                        ? "fill-amber-400 text-amber-400"
-                        : "text-slate-300"
-                    }
-                  />
-                </button>
-              ))}
-            </div>
-
-            <p className="text-sm text-slate-500 mb-3">
-              Suggestions (optional)
-            </p>
-            <textarea
-              value={feedback}
-              onChange={(e) => {
-                setFeedback(e.target.value);
-                setFeedbackSent(false);
-              }}
-              placeholder="What could make the explanation better?"
-              className="w-full border rounded-xl p-4 min-h-28 outline-none focus:ring-2 focus:ring-indigo-400"
-            />
-
-            <button
-              onClick={submitFeedback}
-              className="mt-4 bg-indigo-600 text-white rounded-xl px-5 py-3 hover:bg-indigo-700"
-            >
-              Submit feedback
-            </button>
-
-            {feedbackSent && (
-              <p className="text-green-700 mt-4 text-sm">
-                Thank you! Your feedback has been recorded in this demo.
-              </p>
-            )}
-          </section>
-        )}
-
-        {activeTab === "polls" && (
-          <section className="bg-white rounded-2xl border p-6">
-            <div className="flex items-center gap-2 mb-2">
-              <Vote className="text-indigo-600" />
-              <h3 className="text-xl font-bold">Classroom Poll</h3>
-            </div>
-
-            <div className="flex items-center gap-2 text-xs text-slate-500 mb-5">
-              <Clock size={14} />
-              Sample poll
-            </div>
-
-            <h4 className="font-semibold mb-4">
-              Which part of today's topic needs more explanation?
-            </h4>
-
-            <div className="space-y-3">
-              {[
-                "Basic concepts",
-                "Examples",
-                "Practical applications",
-                "All of the above",
-              ].map((option) => (
-                <label
-                  key={option}
-                  className="flex items-center gap-3 border rounded-xl p-4 cursor-pointer hover:bg-indigo-50"
-                >
-                  <input
-                    type="radio"
-                    name="class-poll"
-                    value={option}
-                    checked={pollAnswer === option}
-                    disabled={pollSubmitted}
-                    onChange={(e) => setPollAnswer(e.target.value)}
-                  />
-                  {option}
-                </label>
-              ))}
-            </div>
-
-            <button
-              onClick={submitPoll}
-              disabled={pollSubmitted || !pollAnswer}
-              className="mt-5 bg-indigo-600 disabled:bg-slate-300 text-white rounded-xl px-5 py-3"
-            >
-              {pollSubmitted ? "Response submitted" : "Submit answer"}
-            </button>
-
-            {pollSubmitted && (
-              <p className="text-green-700 text-sm mt-3">
-                Your demo response has been submitted.
-              </p>
-            )}
-          </section>
-        )}
-
-        <footer className="text-center text-xs text-slate-400 mt-10">
-          Live Classroom Pulse · Student Portal
-        </footer>
-      </main>
-    </div>
-  );
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
+
+body {
+    background: #f4f6fb;
+    color: #202b45;
+}
+
+/* HEADER */
+header {
+    background: #202b45;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #8ea9ff;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.profile {
+    background: #34415f;
+    padding: 10px 18px;
+    border-radius: 20px;
+}
+
+/* WELCOME */
+.welcome {
+    background: linear-gradient(120deg, #202b45, #536dfe);
+    color: white;
+    margin: 25px 35px;
+    padding: 35px;
+    border-radius: 15px;
+}
+
+.welcome h1 {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.welcome p {
+    color: #e0e7ff;
+}
+
+/* NAVIGATION */
+.navbar {
+    display: flex;
+    gap: 12px;
+    margin: 25px 35px;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    overflow-x: auto;
+}
+
+.navbar button {
+    background: transparent;
+    color: #53617b;
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.navbar button.active,
+.navbar button:hover {
+    background: #536dfe;
+    color: white;
+}
+
+/* MAIN CONTENT */
+.container {
+    margin: 30px 35px;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 12px #0000000c;
+}
+
+.card h2 {
+    margin-bottom: 15px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 13px;
+    margin: 12px 0;
+    border: 1px solid #d5dbea;
+    border-radius: 8px;
+}
+
+.action {
+    background: #536dfe;
+    color: white;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.action:hover {
+    background: #354bd4;
+}
+
+.option {
+    display: block;
+    padding: 13px;
+    margin: 10px 0;
+    background: #f3f5fb;
+    border-radius: 8px;
+}
+
+.option input {
+    width: auto;
+    margin-right: 10px;
+}
+
+.stars {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.stars span.active {
+    color: orange;
+}
+
+.message {
+    margin-top: 12px;
+    color: green;
+}
+
+@media(max-width:600px) {
+    header {
+        padding: 18px;
+    }
+
+    .welcome, .navbar {
+        margin: 15px;
+    }
+
+    .container {
+        margin: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">Pulse.</div>
+    <div class="profile">👤 Student</div>
+</header>
+
+<!-- WELCOME SECTION -->
+<div class="welcome">
+    <h1>Welcome to Live Classroom Pulse! 👋</h1>
+    <p>Your classroom, your voice, your learning.</p>
+    <p style="margin-top:12px;">
+        Participate in live sessions, share doubts and track your understanding.
+    </p>
+</div>
+
+<!-- STUDENT NAVIGATION BAR -->
+<nav class="navbar">
+
+    <button class="active" onclick="showTab('home',this)">
+        🏠 Home
+    </button>
+
+    <button onclick="showTab('pulse',this)">
+        📊 My Pulse
+    </button>
+
+    <button onclick="showTab('doubts',this)">
+        🔒 Doubts
+    </button>
+
+    <button onclick="showTab('poll',this)">
+        🗳️ Live Poll
+    </button>
+
+    <button onclick="showTab('feedback',this)">
+        ⭐ Feedback
+    </button>
+
+    <button onclick="showTab('ai',this)">
+        🤖 AI Assistant
+    </button>
+
+</nav>
+
+<div class="container">
+
+<!-- HOME -->
+<section id="home" class="section active">
+    <div class="card">
+        <h2>Welcome, Student! 🌟</h2>
+        <p>Ready to learn something new today?</p>
+        <br>
+        <p>Use the navigation bar to participate in your classroom activities.</p>
+    </div>
+</section>
+
+<!-- MY PULSE -->
+<section id="pulse" class="section">
+    <div class="card">
+        <h2>📊 My Classroom Pulse</h2>
+        <p>How well are you understanding today's lecture?</p>
+
+        <button class="action" onclick="setStatus('Clear')">😊 Clear</button>
+        <button class="action" onclick="setStatus('Confused')">😕 Confused</button>
+        <button class="action" onclick="setStatus('Need Help')">🙋 Need Help</button>
+
+        <p id="statusMessage" class="message"></p>
+    </div>
+</section>
+
+<!-- DOUBTS -->
+<section id="doubts" class="section">
+    <div class="card">
+        <h2>🔒 Anonymous Doubt Box</h2>
+        <p>Ask your question freely. Your identity should not be revealed.</p>
+
+        <textarea id="doubt" placeholder="Write your doubt here..."></textarea>
+
+        <button class="action" onclick="submitDoubt()">Submit Doubt</button>
+
+        <p id="doubtMessage" class="message"></p>
+    </div>
+</section>
+
+<!-- LIVE POLL -->
+<section id="poll" class="section">
+    <div class="card">
+        <h2>🗳️ Live Classroom Poll</h2>
+        <p>How much of today's topic did you understand?</p>
+
+        <label class="option">
+            <input type="radio" name="poll" value="Fully understood">
+            Fully Understood
+        </label>
+
+        <label class="option">
+            <input type="radio" name="poll" value="Partially understood">
+            Partially Understood
+        </label>
+
+        <label class="option">
+            <input type="radio" name="poll" value="Not understood">
+            Not Understood
+        </label>
+
+        <button class="action" onclick="submitPoll()">Submit Response</button>
+
+        <p id="pollMessage" class="message"></p>
+    </div>
+</section>
+
+<!-- FEEDBACK -->
+<section id="feedback" class="section">
+    <div class="card">
+        <h2>⭐ Topic Feedback</h2>
+        <p>Rate today's teacher explanation.</p>
+
+        <div class="stars" id="stars">
+            <span onclick="rate(1)">★</span>
+            <span onclick="rate(2)">★</span>
+            <span onclick="rate(3)">★</span>
+            <span onclick="rate(4)">★</span>
+            <span onclick="rate(5)">★</span>
+        </div>
+
+        <button class="action" onclick="submitRating()">Submit Rating</button>
+
+        <p id="ratingMessage" class="message"></p>
+    </div>
+</section>
+
+<!-- AI ASSISTANT -->
+<section id="ai" class="section">
+    <div class="card">
+        <h2>🤖 AI Learning Assistant</h2>
+        <p>Ask your doubts and get help with learning.</p>
+
+        <input id="question" placeholder="Ask anything about today's topic...">
+
+        <button class="action" onclick="askAI()">Ask AI</button>
+
+        <p id="aiMessage" class="message"></p>
+    </div>
+</section>
+
+</div>
+
+<script>
+
+// NAVIGATION FUNCTION
+function showTab(tabId, button) {
+
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+
+    document.querySelectorAll('.navbar button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    document.getElementById(tabId).classList.add('active');
+    button.classList.add('active');
+}
+
+// UNDERSTANDING STATUS
+function setStatus(status) {
+    document.getElementById('statusMessage').innerText =
+    "Your response: " + status;
+}
+
+// ANONYMOUS DOUBT
+function submitDoubt() {
+    let doubt = document.getElementById('doubt').value.trim();
+
+    if (!doubt) {
+        alert("Please enter your doubt.");
+        return;
+    }
+
+    document.getElementById('doubtMessage').innerText =
+    "Your doubt has been submitted anonymously!";
+
+    document.getElementById('doubt').value = "";
+}
+
+// LIVE POLL
+function submitPoll() {
+    let answer = document.querySelector('input[name="poll"]:checked');
+
+    if (!answer) {
+        alert("Please select an option.");
+        return;
+    }
+
+    document.getElementById('pollMessage').innerText =
+    "Your response has been submitted!";
+}
+
+// STAR RATING
+let rating = 0;
+
+function rate(value) {
+    rating = value;
+
+    document.querySelectorAll('#stars span').forEach((star,index) => {
+        star.classList.toggle('active',index < value);
+    });
+}
+
+function submitRating() {
+    if (!rating) {
+        alert("Please select a rating.");
+        return;
+    }
+
+    document.getElementById('ratingMessage').innerText =
+    "Thank you for your feedback!";
+}
+
+// AI PLACEHOLDER
+function askAI() {
+    let question = document.getElementById('question').value.trim();
+
+    if (!question) {
+        alert("Please enter your question.");
+        return;
+    }
+
+    document.getElementById('aiMessage').innerText =
+    "AI connection is required to answer: " + question;
+}
+
+</script>
+
+</body>
+</html>
