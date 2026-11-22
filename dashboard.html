@@ -2,689 +2,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Classroom Pulse | Welcome</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Classroom Pulse</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
 
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(20, 184, 210, 0.13), transparent 32%),
-        radial-gradient(circle at 85% 85%, rgba(139, 92, 246, 0.15), transparent 32%),
-        #080f1e;
-      color: #f1f5f9;
-      display: flex;
-      flex-direction: column;
-    }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(20,184,210,.13), transparent 32%),
+    radial-gradient(circle at 85% 85%, rgba(139,92,246,.15), transparent 32%),
+    #080f1e;
+  color: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+}
 
-    header {
-      width: 100%;
-      padding: 25px 7%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-    }
+header {
+  padding: 23px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 19px;
-      font-weight: 750;
-      letter-spacing: 0.3px;
-    }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 19px;
+  font-weight: 750;
+}
 
-    .brand-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, #06b6d4, #6366f1);
-      font-size: 21px;
-    }
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg,#06b6d4,#6366f1);
+  font-size: 21px;
+}
 
-    .brand span {
-      color: #22d3ee;
-    }
+.brand span { color: #22d3ee; }
 
-    .header-tag {
-      color: #94a3b8;
-      font-size: 13px;
-      letter-spacing: 1px;
-    }
+.header-tag {
+  color: #94a3b8;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
 
-    main {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 55px 20px;
-    }
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 1000px;
-      text-align: center;
-    }
+.container {
+  width: 100%;
+  max-width: 1000px;
+  text-align: center;
+}
 
-    .eyebrow {
-      display: inline-block;
-      color: #22d3ee;
-      background: rgba(34, 211, 238, 0.09);
-      border: 1px solid rgba(34, 211, 238, 0.2);
-      border-radius: 30px;
-      padding: 8px 16px;
-      font-size: 12px;
-      letter-spacing: 1.5px;
-      margin-bottom: 22px;
-    }
+.eyebrow {
+  display: inline-block;
+  color: #22d3ee;
+  background: rgba(34,211,238,.09);
+  border: 1px solid rgba(34,211,238,.2);
+  border-radius: 30px;
+  padding: 8px 16px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  margin-bottom: 22px;
+}
 
-    h1 {
-      font-size: clamp(34px, 5vw, 54px);
-      line-height: 1.15;
-      margin-bottom: 17px;
-      font-weight: 800;
-    }
+h1 {
+  font-size: clamp(34px,5vw,54px);
+  line-height: 1.15;
+  margin-bottom: 17px;
+  font-weight: 800;
+}
 
-    h1 span {
-      background: linear-gradient(90deg, #22d3ee, #818cf8);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+h1 span {
+  background: linear-gradient(90deg,#22d3ee,#818cf8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
-    .subtitle {
-      color: #9aa9bd;
-      max-width: 590px;
-      margin: 0 auto;
-      line-height: 1.7;
-      font-size: 15px;
-    }
+.subtitle {
+  color: #9aa9bd;
+  max-width: 590px;
+  margin: auto;
+  line-height: 1.7;
+  font-size: 15px;
+}
 
-    .portal-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-      margin-top: 48px;
-      text-align: left;
-    }
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 24px;
+  margin-top: 48px;
+  text-align: left;
+}
 
-    .portal-card {
-      position: relative;
-      overflow: hidden;
-      padding: 30px;
-      min-height: 290px;
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 22px;
-      background: rgba(17, 29, 49, 0.88);
-      transition: 0.25s ease;
-    }
+.portal-card {
+  padding: 30px;
+  min-height: 290px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 22px;
+  background: rgba(17,29,49,.88);
+  transition: .25s;
+}
 
-    .portal-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(34, 211, 238, 0.45);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.25);
-    }
+.portal-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(34,211,238,.45);
+  box-shadow: 0 18px 45px rgba(0,0,0,.25);
+}
 
-    .portal-card.teacher:hover {
-      border-color: rgba(167, 139, 250, 0.55);
-    }
+.teacher:hover { border-color: rgba(167,139,250,.55); }
 
-    .portal-icon {
-      width: 58px;
-      height: 58px;
-      display: grid;
-      place-items: center;
-      border-radius: 17px;
-      font-size: 27px;
-      margin-bottom: 24px;
-    }
+.portal-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 17px;
+  font-size: 27px;
+  margin-bottom: 24px;
+}
 
-    .student .portal-icon {
-      background: rgba(34, 211, 238, 0.13);
-      color: #22d3ee;
-    }
+.student .portal-icon {
+  background: rgba(34,211,238,.13);
+  color: #22d3ee;
+}
 
-    .teacher .portal-icon {
-      background: rgba(167, 139, 250, 0.15);
-      color: #a78bfa;
-    }
+.teacher .portal-icon {
+  background: rgba(167,139,250,.15);
+  color: #a78bfa;
+}
 
-    .portal-card h2 {
-      font-size: 23px;
-      margin-bottom: 12px;
-    }
+.portal-card h2 {
+  font-size: 23px;
+  margin-bottom: 12px;
+}
 
-    .portal-card p {
-      color: #9aa9bd;
-      line-height: 1.65;
-      font-size: 14px;
-      min-height: 48px;
-    }
+.portal-card p {
+  color: #9aa9bd;
+  line-height: 1.65;
+  font-size: 14px;
+  min-height: 48px;
+}
 
-    .portal-button {
-      width: 100%;
-      border: none;
-      border-radius: 11px;
-      padding: 14px;
-      margin-top: 24px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+.portal-button {
+  width: 100%;
+  border: none;
+  border-radius: 11px;
+  padding: 14px;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+}
 
-    .student .portal-button {
-      background: linear-gradient(90deg, #0891b2, #06b6d4);
-      color: #04121b;
-    }
+.student .portal-button {
+  background: linear-gradient(90deg,#0891b2,#06b6d4);
+  color: #04121b;
+}
 
-    .teacher .portal-button {
-      background: linear-gradient(90deg, #7c3aed, #8b5cf6);
-      color: white;
-    }
+.teacher .portal-button {
+  background: linear-gradient(90deg,#7c3aed,#8b5cf6);
+  color: white;
+}
 
-    .portal-button:hover {
-      filter: brightness(1.12);
-      transform: scale(1.01);
-    }
+.portal-button:hover { filter: brightness(1.12); }
 
-    .login-panel {
-      display: none;
-      max-width: 440px;
-      width: 100%;
-      margin: 35px auto 0;
-      padding: 30px;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      background: #111d31;
-      text-align: left;
-      animation: appear 0.25s ease;
-    }
+.login-panel {
+  display: none;
+  max-width: 440px;
+  width: 100%;
+  margin: 35px auto 0;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  background: #111d31;
+  text-align: left;
+  animation: appear .25s ease;
+}
 
-    @keyframes appear {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+@keyframes appear {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-    .login-panel h2 {
-      font-size: 23px;
-      margin-bottom: 8px;
-    }
+.login-panel h2 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
 
-    .login-description {
-      color: #94a3b8;
-      font-size: 13px;
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
+.login-description {
+  color: #94a3b8;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
 
-    .field-label {
-      display: block;
-      font-size: 13px;
-      color: #cbd5e1;
-      margin: 16px 0 8px;
-    }
+.field-label {
+  display: block;
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 16px 0 8px;
+}
 
-    .field {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      background: #0b1526;
-      color: white;
-      outline: none;
-      font-size: 14px;
-    }
+.field {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  background: #0b1526;
+  color: white;
+  outline: none;
+  font-size: 14px;
+}
 
-    .field:focus {
-      border-color: #22d3ee;
-      box-shadow: 0 0 0 3px rgba(34,211,238,0.1);
-    }
+.field:focus { border-color: #22d3ee; }
 
-    .password-wrap {
-      position: relative;
-    }
+.password-wrap { position: relative; }
 
-    .password-wrap .field {
-      padding-right: 65px;
-    }
+.password-wrap .field { padding-right: 65px; }
 
-    .show-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      border: none;
-      background: transparent;
-      color: #22d3ee;
-      cursor: pointer;
-      font-size: 12px;
-    }
+.show-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #22d3ee;
+  cursor: pointer;
+  font-size: 12px;
+}
 
-    .anonymous-note {
-      background: rgba(34,211,238,0.07);
-      border: 1px solid rgba(34,211,238,0.16);
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 15px;
-      color: #a5dce7;
-      font-size: 12px;
-      line-height: 1.6;
-    }
+.anonymous-note {
+  background: rgba(34,211,238,.07);
+  border: 1px solid rgba(34,211,238,.16);
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 15px;
+  color: #a5dce7;
+  font-size: 12px;
+  line-height: 1.6;
+}
 
-    .login-submit {
-      width: 100%;
-      padding: 14px;
-      margin-top: 22px;
-      border: none;
-      border-radius: 10px;
-      color: #07131d;
-      background: #22d3ee;
-      font-weight: 750;
-      font-size: 14px;
-      cursor: pointer;
-    }
+.login-submit {
+  width: 100%;
+  padding: 14px;
+  margin-top: 22px;
+  border: none;
+  border-radius: 10px;
+  color: #07131d;
+  background: #22d3ee;
+  font-weight: 750;
+  font-size: 14px;
+  cursor: pointer;
+}
 
-    .teacher-submit {
-      color: white;
-      background: #8b5cf6;
-    }
+.teacher-submit {
+  color: white;
+  background: #8b5cf6;
+}
 
-    .login-submit:hover {
-      filter: brightness(1.12);
-    }
+.back-button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 13px;
+}
 
-    .back-button {
-      margin-top: 15px;
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background: transparent;
-      color: #94a3b8;
-      cursor: pointer;
-      font-size: 13px;
-    }
+.back-button:hover { color: white; }
 
-    .back-button:hover {
-      color: white;
-    }
+.forgot {
+  display: block;
+  text-align: right;
+  margin-top: 13px;
+  color: #a78bfa;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-    .forgot {
-      display: block;
-      text-align: right;
-      margin-top: 13px;
-      color: #a78bfa;
-      font-size: 12px;
-      text-decoration: none;
-      cursor: pointer;
-    }
+.forgot:hover { text-decoration: underline; }
 
-    .forgot:hover {
-      text-decoration: underline;
-    }
+.message {
+  display: none;
+  margin-top: 15px;
+  padding: 11px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+}
 
-    .message {
-      display: none;
-      margin-top: 15px;
-      padding: 11px;
-      border-radius: 9px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
+.message.error {
+  display: block;
+  color: #fca5a5;
+  background: rgba(239,68,68,.1);
+  border: 1px solid rgba(239,68,68,.2);
+}
 
-    .message.error {
-      display: block;
-      color: #fca5a5;
-      background: rgba(239,68,68,0.1);
-      border: 1px solid rgba(239,68,68,0.2);
-    }
+footer {
+  padding: 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
 
-    .message.success {
-      display: block;
-      color: #86efac;
-      background: rgba(34,197,94,0.1);
-      border: 1px solid rgba(34,197,94,0.2);
-    }
-
-    footer {
-      padding: 20px;
-      text-align: center;
-      color: #64748b;
-      font-size: 12px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    @media (max-width: 650px) {
-      header {
-        padding: 18px 5%;
-      }
-
-      .header-tag {
-        display: none;
-      }
-
-      .portal-grid {
-        grid-template-columns: 1fr;
-        margin-top: 32px;
-      }
-
-      .portal-card {
-        min-height: auto;
-      }
-
-      main {
-        padding: 40px 17px;
-      }
-
-      .login-panel {
-        padding: 23px;
-      }
-    }
-  </style>
+@media(max-width:650px) {
+  header { padding: 18px 5%; }
+  .header-tag { display: none; }
+  .portal-grid { grid-template-columns: 1fr; margin-top: 32px; }
+  .portal-card { min-height: auto; }
+  main { padding: 40px 17px; }
+  .login-panel { padding: 23px; }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="brand">
-      <div class="brand-icon">◉</div>
-      <div>LIVE CLASSROOM <span>PULSE</span></div>
-    </div>
-    <div class="header-tag">CLASSROOM INTELLIGENCE PLATFORM</div>
-  </header>
+<header>
+  <div class="brand">
+    <div class="brand-icon">◉</div>
+    <div>LIVE CLASSROOM <span>PULSE</span></div>
+  </div>
+  <div class="header-tag">CLASSROOM INTELLIGENCE PLATFORM</div>
+</header>
 
-  <main>
-    <div class="container">
+<main>
+<div class="container">
 
-      <div id="choiceScreen">
-        <div class="eyebrow">WELCOME TO YOUR CLASSROOM</div>
+  <!-- MAIN DASHBOARD -->
+  <div id="choiceScreen">
+    <div class="eyebrow">WELCOME TO YOUR CLASSROOM</div>
 
-        <h1>One Classroom.<br><span>Two Experiences.</span></h1>
+    <h1>One Classroom.<br><span>Two Experiences.</span></h1>
 
-        <p class="subtitle">
-          A smarter way to understand classroom learning.
-          Choose your portal to continue. Students can participate
-          anonymously, while teachers can manage classroom learning.
+    <p class="subtitle">
+      A smarter way to understand classroom learning.
+      Choose your portal to continue. Students can participate
+      anonymously, while teachers can manage classroom learning.
+    </p>
+
+    <div class="portal-grid">
+
+      <div class="portal-card student">
+        <div class="portal-icon">🎓</div>
+        <h2>Student Portal</h2>
+        <p>
+          Share your understanding, ask doubts and request
+          learning resources without revealing your personal identity.
         </p>
-
-        <div class="portal-grid">
-
-          <div class="portal-card student">
-            <div class="portal-icon">🎓</div>
-            <h2>Student Portal</h2>
-            <p>
-              Share your understanding, ask doubts and request
-              learning resources without revealing your personal identity.
-            </p>
-            <button class="portal-button" onclick="openLogin('student')">
-              Continue as Student →
-            </button>
-          </div>
-
-          <div class="portal-card teacher">
-            <div class="portal-icon">👩‍🏫</div>
-            <h2>Teacher Portal</h2>
-            <p>
-              Monitor classroom understanding, manage polls,
-              resolve doubts and review student participation.
-            </p>
-            <button class="portal-button" onclick="openLogin('teacher')">
-              Continue as Teacher →
-            </button>
-          </div>
-
-        </div>
+        <button class="portal-button" onclick="openLogin('student')">
+          Continue as Student →
+        </button>
       </div>
 
-      <!-- STUDENT LOGIN -->
-      <section class="login-panel" id="studentLogin">
-        <h2>Student Login</h2>
-        <p class="login-description">
-          Enter using your anonymous classroom identity.
-          No email or Google account is required.
+      <div class="portal-card teacher">
+        <div class="portal-icon">👩‍🏫</div>
+        <h2>Teacher Portal</h2>
+        <p>
+          Monitor classroom understanding, manage polls,
+          resolve doubts and review student participation.
         </p>
-
-        <label class="field-label" for="studentId">Your Anonymous ID</label>
-        <input class="field" id="studentId" type="text" readonly>
-
-        <label class="field-label" for="studentPassword">Password</label>
-        <div class="password-wrap">
-          <input class="field" id="studentPassword" type="password"
-                 placeholder="Enter your password">
-          <button class="show-password"
-                  onclick="togglePassword('studentPassword', this)">
-            Show
-          </button>
-        </div>
-
-        <div class="anonymous-note">
-          🔒 Your anonymous ID is stored in this browser.
-          Your identity is represented by this ID inside the platform.
-        </div>
-
-        <div id="studentMessage" class="message"></div>
-
-        <button class="login-submit" onclick="studentLogin()">
-          Enter Student Portal →
+        <button class="portal-button" onclick="openLogin('teacher')">
+          Continue as Teacher →
         </button>
-
-        <button class="back-button" onclick="goBack()">
-          ← Back to portal selection
-        </button>
-      </section>
-
-      <!-- TEACHER LOGIN -->
-      <section class="login-panel" id="teacherLogin">
-        <h2>Teacher Login</h2>
-        <p class="login-description">
-          Sign in to access classroom management and student analytics.
-        </p>
-
-        <label class="field-label" for="teacherPassword">Teacher Password</label>
-        <div class="password-wrap">
-          <input class="field" id="teacherPassword" type="password"
-                 placeholder="Enter teacher password">
-          <button class="show-password"
-                  onclick="togglePassword('teacherPassword', this)">
-            Show
-          </button>
-        </div>
-
-        <div id="teacherMessage" class="message"></div>
-
-        <button class="login-submit teacher-submit" onclick="teacherLogin()">
-          Enter Teacher Portal →
-        </button>
-
-        <a class="forgot" onclick="forgotPassword()">
-          Forgot password?
-        </a>
-
-        <button class="back-button" onclick="goBack()">
-          ← Back to portal selection
-        </button>
-      </section>
+      </div>
 
     </div>
-  </main>
+  </div>
 
-  <footer>
-    © 2026 Live Classroom Pulse · Learn better, together.
-  </footer>
+  <!-- STUDENT LOGIN -->
+  <section class="login-panel" id="studentLogin">
+    <h2>Student Login</h2>
+    <p class="login-description">
+      Enter using your anonymous classroom identity.
+      No email or Google account is required.
+    </p>
 
-  <script>
-    /*
-      CHANGE THESE TWO FILE NAMES IF YOUR PORTAL FILES
-      HAVE DIFFERENT NAMES.
-    */
-    const STUDENT_PORTAL = "student.html";
-    const TEACHER_PORTAL = "teacher.html";
+    <label class="field-label">Your Anonymous ID</label>
+    <input class="field" id="studentId" type="text" readonly>
 
-    const DEFAULT_PASSWORD = "1234";
+    <label class="field-label">Password</label>
+    <div class="password-wrap">
+      <input class="field" id="studentPassword" type="password"
+             placeholder="Enter your password">
+      <button class="show-password"
+        onclick="togglePassword('studentPassword',this)">Show</button>
+    </div>
 
-    const STUDENT_ID_KEY = "lcp_permanent_anonymous_id";
-    const STUDENT_PASSWORD_KEY = "lcp_student_password";
-    const TEACHER_PASSWORD_KEY = "techjam_teacher_password";
+    <div class="anonymous-note">
+      🔒 Your anonymous ID is stored in this browser.
+      Your identity is represented by this ID inside the platform.
+    </div>
 
-    // Generate an anonymous ID for a first-time student.
-    function generateStudentId() {
-      const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let id = "LC-";
+    <div id="studentMessage" class="message"></div>
 
-      for (let i = 0; i < 6; i++) {
-        id += characters.charAt(
-          Math.floor(Math.random() * characters.length)
-        );
-      }
+    <button class="login-submit" onclick="studentLogin()">
+      Enter Student Portal →
+    </button>
 
-      return id;
-    }
+    <button class="back-button" onclick="goBack()">
+      ← Back to portal selection
+    </button>
+  </section>
 
-    // Get or create the student's anonymous identity.
-    function getStudentId() {
-      let id = localStorage.getItem(STUDENT_ID_KEY);
+  <!-- TEACHER LOGIN -->
+  <section class="login-panel" id="teacherLogin">
+    <h2>Teacher Login</h2>
+    <p class="login-description">
+      Sign in to access classroom management and student analytics.
+    </p>
 
-      if (!id) {
-        id = generateStudentId();
-        localStorage.setItem(STUDENT_ID_KEY, id);
-      }
+    <label class="field-label">Teacher Password</label>
+    <div class="password-wrap">
+      <input class="field" id="teacherPassword" type="password"
+             placeholder="Enter teacher password">
+      <button class="show-password"
+        onclick="togglePassword('teacherPassword',this)">Show</button>
+    </div>
 
-      return id;
-    }
+    <div id="teacherMessage" class="message"></div>
 
-    // Set up default development passwords.
-    function initializePasswords() {
-      if (!localStorage.getItem(STUDENT_PASSWORD_KEY)) {
-        localStorage.setItem(STUDENT_PASSWORD_KEY, DEFAULT_PASSWORD);
-      }
+    <button class="login-submit teacher-submit" onclick="teacherLogin()">
+      Enter Teacher Portal →
+    </button>
 
-      if (!localStorage.getItem(TEACHER_PASSWORD_KEY)) {
-        localStorage.setItem(TEACHER_PASSWORD_KEY, DEFAULT_PASSWORD);
-      }
-    }
+    <a class="forgot" onclick="forgotPassword()">Forgot password?</a>
 
-    initializePasswords();
+    <button class="back-button" onclick="goBack()">
+      ← Back to portal selection
+    </button>
+  </section>
 
-    function openLogin(type) {
-      document.getElementById("choiceScreen").style.display = "none";
+</div>
+</main>
 
-      if (type === "student") {
-        document.getElementById("studentLogin").style.display = "block";
-        document.getElementById("studentId").value = getStudentId();
-        document.getElementById("studentPassword").value = "";
-        clearMessage("studentMessage");
-      } else {
-        document.getElementById("teacherLogin").style.display = "block";
-        document.getElementById("teacherPassword").value = "";
-        clearMessage("teacherMessage");
-      }
-    }
+<footer>
+  © 2026 Live Classroom Pulse · Learn better, together.
+</footer>
 
-    function goBack() {
-      document.getElementById("studentLogin").style.display = "none";
-      document.getElementById("teacherLogin").style.display = "none";
-      document.getElementById("choiceScreen").style.display = "block";
-    }
+<script>
+/* PORTAL FILE NAMES */
+const STUDENT_PORTAL = "student.html";
+const TEACHER_PORTAL = "teacher.html";
 
-    function togglePassword(inputId, button) {
-      const input = document.getElementById(inputId);
+/* DEVELOPMENT PASSWORD */
+const DEFAULT_PASSWORD = "1234";
 
-      if (input.type === "password") {
-        input.type = "text";
-        button.textContent = "Hide";
-      } else {
-        input.type = "password";
-        button.textContent = "Show";
-      }
-    }
+/* STORAGE KEYS */
+const STUDENT_ID_KEY = "lcp_permanent_anonymous_id";
+const STUDENT_PASSWORD_KEY = "lcp_student_password";
+const TEACHER_PASSWORD_KEY = "techjam_teacher_password";
 
-    function showMessage(elementId, message, type) {
-      const element = document.getElementById(elementId);
-      element.textContent = message;
-      element.className = "message " + type;
-    }
+/* INITIALIZE DEVELOPMENT PASSWORDS */
+function initializePasswords() {
+  if (!localStorage.getItem(STUDENT_PASSWORD_KEY)) {
+    localStorage.setItem(STUDENT_PASSWORD_KEY, DEFAULT_PASSWORD);
+  }
 
-    function clearMessage(elementId) {
-      const element = document.getElementById(elementId);
-      element.textContent = "";
-      element.className = "message";
-    }
+  if (!localStorage.getItem(TEACHER_PASSWORD_KEY)) {
+    localStorage.setItem(TEACHER_PASSWORD_KEY, DEFAULT_PASSWORD);
+  }
+}
 
-    function studentLogin() {
-      const enteredPassword =
-        document.getElementById("studentPassword").value;
+initializePasswords();
 
-      const savedPassword =
-        localStorage.getItem(STUDENT_PASSWORD_KEY);
+/* GENERATE ANONYMOUS STUDENT ID */
+function generateStudentId() {
+  const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let id = "LC-";
 
-      if (!enteredPassword) {
-        showMessage("studentMessage", "Please enter your password.", "error");
-        return;
-      }
+  for (let i = 0; i < 6; i++) {
+    id += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
+  }
 
-      if (enteredPassword !== savedPassword) {
-        showMessage("studentMessage", "Incorrect password. Please try again.", "error");
-        return;
-      }
+  return id;
+}
 
-      const anonymousId = getStudentId();
+/* GET OR CREATE STUDENT ID */
+function getStudentId() {
+  let id = localStorage.getItem(STUDENT_ID_KEY);
 
-      sessionStorage.setItem("lcp_student_session", "active");
-      sessionStorage.setItem("lcp_current_anonymous_id", anonymousId);
+  if (!id) {
+    id = generateStudentId();
+    localStorage.setItem(STUDENT_ID_KEY, id);
+  }
 
-      window.location.href = STUDENT_PORTAL;
-    }
+  return id;
+}
 
-    function teacherLogin() {
-      const enteredPassword =
-        document.getElementById("teacherPassword").value;
+/* OPEN SELECTED LOGIN */
+function openLogin(type) {
+  document.getElementById("choiceScreen").style.display = "none";
 
-      const savedPassword =
-        localStorage.getItem(TEACHER_PASSWORD_KEY);
+  if (type === "student") {
+    document.getElementById("studentLogin").style.display = "block";
+    document.getElementById("studentId").value = getStudentId();
+    document.getElementById("studentPassword").value = "";
+    clearMessage("studentMessage");
+  } else {
+    document.getElementById("teacherLogin").style.display = "block";
+    document.getElementById("teacherPassword").value = "";
+    clearMessage("teacherMessage");
+  }
+}
 
-      if (!enteredPassword) {
-        showMessage("teacherMessage", "Please enter your password.", "error");
-        return;
-      }
+/* RETURN TO MAIN DASHBOARD */
+function goBack() {
+  document.getElementById("studentLogin").style.display = "none";
+  document.getElementById("teacherLogin").style.display = "none";
+  document.getElementById("choiceScreen").style.display = "block";
+}
 
-      if (enteredPassword !== savedPassword) {
-        showMessage("teacherMessage", "Incorrect teacher password.", "error");
-        return;
-      }
+/* SHOW OR HIDE PASSWORD */
+function togglePassword(inputId, button) {
+  const input = document.getElementById(inputId);
 
-      sessionStorage.setItem("techjam_teacher_session", "active");
+  if (input.type === "password") {
+    input.type = "text";
+    button.textContent = "Hide";
+  } else {
+    input.type = "password";
+    button.textContent = "Show";
+  }
+}
 
-      window.location.href = TEACHER_PORTAL;
-    }
+/* DISPLAY LOGIN MESSAGES */
+function showMessage(elementId, message, type) {
+  const element = document.getElementById(elementId);
+  element.textContent = message;
+  element.className = "message " + type;
+}
 
-    function forgotPassword() {
-      showMessage(
-        "teacherMessage",
-        "Device-password recovery is not available yet. Please contact the project administrator to reset the teacher password.",
-        "error"
-      );
-    }
+function clearMessage(elementId) {
+  const element = document.getElementById(elementId);
+  element.textContent = "";
+  element.className = "message";
+}
 
-    // Allow Enter key to submit the relevant login form.
-    document.getElementById("studentPassword").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") studentLogin();
-    });
+/* STUDENT LOGIN */
+function studentLogin() {
+  const enteredPassword =
+    document.getElementById("studentPassword").value;
 
-    document.getElementById("teacherPassword").addEventListener("keydown", function(event) {
-      if (event.key === "Enter") teacherLogin();
-    });
-  </script>
+  const savedPassword =
+    localStorage.getItem(STUDENT_PASSWORD_KEY);
+
+  if (!enteredPassword) {
+    showMessage("studentMessage", "Please enter your password.", "error");
+    return;
+  }
+
+  if (enteredPassword !== savedPassword) {
+    showMessage("studentMessage", "Incorrect password. Please try again.", "error");
+    return;
+  }
+
+  const anonymousId = getStudentId();
+
+  sessionStorage.setItem("lcp_student_session", "active");
+  sessionStorage.setItem("lcp_current_anonymous_id", anonymousId);
+
+  window.location.href = STUDENT_PORTAL;
+}
+
+/* TEACHER LOGIN */
+function teacherLogin() {
+  const enteredPassword =
+    document.getElementById("teacherPassword").value;
+
+  const savedPassword =
+    localStorage.getItem(TEACHER_PASSWORD_KEY);
+
+  if (!enteredPassword) {
+    showMessage("teacherMessage", "Please enter your password.", "error");
+    return;
+  }
+
+  if (enteredPassword !== savedPassword) {
+    showMessage("teacherMessage", "Incorrect teacher password.", "error");
+    return;
+  }
+
+  sessionStorage.setItem("techjam_teacher_session", "active");
+
+  window.location.href = TEACHER_PORTAL;
+}
+
+/* PASSWORD RECOVERY PLACEHOLDER */
+function forgotPassword() {
+  showMessage(
+    "teacherMessage",
+    "Device-password recovery is not available yet. Please contact the project administrator to reset the teacher password.",
+    "error"
+  );
+}
+
+/* ENTER KEY SUPPORT */
+document.getElementById("studentPassword").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") studentLogin();
+});
+
+document.getElementById("teacherPassword").addEventListener("keydown", function(event) {
+  if (event.key === "Enter") teacherLogin();
+});
+</script>
 
 </body>
 </html>
