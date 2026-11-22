@@ -12,8 +12,6 @@
   --bg:#0b1220;
   --sidebar:#101c30;
   --card:#15243b;
-  --card2:#1b2e49;
-  --card3:#213957;
   --text:#f2f6ff;
   --muted:#a9bad1;
   --border:#2b4261;
@@ -28,9 +26,7 @@
 
 *{box-sizing:border-box;margin:0;padding:0}
 body{
-  background:
-    radial-gradient(ellipse at 75% 0%,rgba(57,110,184,.13),transparent 35%),
-    var(--bg);
+  background:radial-gradient(ellipse at 75% 0%,rgba(57,110,184,.13),transparent 35%),var(--bg);
   color:var(--text);
   font-family:Inter,"Segoe UI",Arial,sans-serif;
   min-height:100vh;
@@ -51,9 +47,7 @@ button{cursor:pointer}
   display:flex;
   flex-direction:column;
 }
-.brand{
-  padding:5px 10px 28px;
-}
+.brand{padding:5px 10px 28px}
 .brand-mark{
   display:inline-grid;
   place-items:center;
@@ -611,36 +605,28 @@ select option{background:#14243b;color:white}
 
   <div class="stats">
     <div class="stat-card">
-      <div class="stat-head">
-        <span class="stat-icon icon-blue">🪪</span>
-      </div>
+      <div class="stat-head"><span class="stat-icon icon-blue">🪪</span></div>
       <h3 id="myId">LC-------</h3>
       <p>My anonymous ID</p>
       <small>Private classroom alias</small>
     </div>
 
     <div class="stat-card">
-      <div class="stat-head">
-        <span class="stat-icon icon-cyan">💡</span>
-      </div>
+      <div class="stat-head"><span class="stat-icon icon-cyan">💡</span></div>
       <h3 id="myStatus">Not set</h3>
       <p>My latest understanding</p>
       <small>Update after any lecture</small>
     </div>
 
     <div class="stat-card">
-      <div class="stat-head">
-        <span class="stat-icon icon-purple">❓</span>
-      </div>
+      <div class="stat-head"><span class="stat-icon icon-purple">❓</span></div>
       <h3 id="myDoubtCount">0</h3>
       <p>My doubts</p>
       <small>Submitted privately</small>
     </div>
 
     <div class="stat-card">
-      <div class="stat-head">
-        <span class="stat-icon icon-green">📚</span>
-      </div>
+      <div class="stat-head"><span class="stat-icon icon-green">📚</span></div>
       <h3 id="mySuggestionCount">0</h3>
       <p>My resource requests</p>
       <small>Academic requests only</small>
@@ -669,20 +655,45 @@ select option{background:#14243b;color:white}
     </div>
   </div>
 
+  <!-- ATTENDANCE CHART -->
   <div class="grid">
     <div class="panel">
+      <h3>👥 Classroom attendance</h3>
+      <p class="panel-sub">Attendance overview for 80 enrolled students.</p>
+      <div class="chart-wrap"><canvas id="attendanceChart"></canvas></div>
+      <div class="insight">
+        <strong>✦ Attendance insight</strong>
+        <p>
+          68 out of 80 students attended this demonstration lecture.
+          12 students were absent. Absent students are distinguished
+          from present students who did not respond.
+        </p>
+      </div>
+    </div>
+
+    <div class="panel">
       <h3>📊 Classroom understanding</h3>
-      <p class="panel-sub">How the 80-student demonstration class responded.</p>
+      <p class="panel-sub">Understanding status across the 80 enrolled students.</p>
       <div class="chart-wrap"><canvas id="homePulseChart"></canvas></div>
     </div>
+  </div>
+
+  <div class="grid">
     <div class="panel">
       <h3>📣 Teacher's classroom poll</h3>
-      <p class="panel-sub">Results of a sample teacher-created understanding poll.</p>
+      <p class="panel-sub">Sample results of a teacher-created understanding poll.</p>
       <div class="chart-wrap"><canvas id="homePollChart"></canvas></div>
       <div class="notice">
-        These are simulated results for the demonstration. A connected
-        version will show the actual poll results shared by the teacher.
+        These are simulated demonstration results. Absent students
+        are shown separately from present students who did not respond.
+        A connected version can display actual teacher poll results.
       </div>
+    </div>
+
+    <div class="panel">
+      <h3>🧠 AI-style classroom analysis</h3>
+      <p class="panel-sub">A summary of the demonstration classroom data.</p>
+      <div id="overviewInsights"></div>
     </div>
   </div>
 
@@ -733,9 +744,10 @@ select option{background:#14243b;color:white}
   <div class="grid">
     <div class="panel">
       <h3>Class understanding snapshot</h3>
-      <p class="panel-sub">Simulated class responses, including students who did not respond.</p>
+      <p class="panel-sub">Demonstration responses, including absent and non-responding students.</p>
       <div class="chart-wrap"><canvas id="pulseChart"></canvas></div>
     </div>
+
     <div class="panel">
       <h3>What does the class need?</h3>
       <p class="panel-sub">Response distribution from the demonstration dataset.</p>
@@ -777,8 +789,8 @@ select option{background:#14243b;color:white}
     <textarea id="doubtText" placeholder="Explain the concept or step you are struggling with..."></textarea>
 
     <div class="notice">
-      Keep your question academic and respectful. Abusive language or
-      repeated deliberate misuse can lead to a temporary 24-hour restriction.
+      Keep your question academic and respectful. This demonstration
+      includes automated moderation and a temporary restriction feature.
     </div>
 
     <button class="primary-btn" id="submitDoubt">Send my doubt</button>
@@ -788,9 +800,10 @@ select option{background:#14243b;color:white}
   <div class="grid">
     <div class="panel">
       <h3>What are students asking?</h3>
-      <p class="panel-sub">Simulated categories of classroom doubts from 80 students.</p>
+      <p class="panel-sub">Demonstration categories of doubts from the 80-student class.</p>
       <div class="chart-wrap"><canvas id="doubtChart"></canvas></div>
     </div>
+
     <div class="panel">
       <h3>My submitted doubts</h3>
       <p class="panel-sub">Your personal submission history.</p>
@@ -846,13 +859,14 @@ select option{background:#14243b;color:white}
   <div class="grid">
     <div class="panel">
       <h3>📚 Most requested resources</h3>
-      <p class="panel-sub">Simulated classroom requests from 80 students.</p>
+      <p class="panel-sub">Demonstration requests from the 80-student class.</p>
       <div class="chart-wrap"><canvas id="suggestionChart"></canvas></div>
       <div class="insight">
         <strong>✦ Class learning insight</strong>
         <p id="suggestionInsight"></p>
       </div>
     </div>
+
     <div class="panel">
       <h3>My learning requests</h3>
       <p class="panel-sub">Your submitted resource requests.</p>
@@ -863,7 +877,7 @@ select option{background:#14243b;color:white}
 
 <div class="footer">
   LIVE CLASSROOM PULSE · STUDENT PORTAL DEMO<br>
-  Classroom charts use simulated data until the live database is connected.
+  Classroom graphs use simulated data until a live database is connected.
 </div>
 
 </main>
@@ -891,6 +905,7 @@ select option{background:#14243b;color:white}
 </div>
 
 <script type="module">
+
 /* OPTIONAL FIREBASE CONNECTION */
 let addData = null;
 
@@ -901,29 +916,42 @@ try {
   console.warn("Firebase unavailable. Running in demo mode.", error);
 }
 
-/* SIMULATED CLASSROOM DATA: 80 STUDENTS */
+/* REALISTIC CLASSROOM DATA */
+
 const CLASS_SIZE = 80;
+const PRESENT = 68;
+const ABSENT = 12;
 
 const data = {
+
+  attendance:{
+    labels:["Present","Absent"],
+    values:[68,12],
+    colors:["#51d6a0","#71839d"]
+  },
+
   pulse:{
-    labels:["Clear","Confused","Need Help","No response"],
-    values:[34,18,11,17],
-    colors:["#51d6a0","#ffd16a","#ff7588","#71839d"]
+    labels:["Clear","Confused","Need Help","No Response","Absent"],
+    values:[31,16,8,13,12],
+    colors:["#51d6a0","#ffd16a","#ff7588","#6798ff","#71839d"]
   },
+
   poll:{
-    labels:["Fully understood","Partially understood","Not understood","No response"],
-    values:[29,19,10,22],
-    colors:["#51d6a0","#ffd16a","#ff7588","#71839d"]
+    labels:["Fully understood","Partially understood","Not understood","No response","Absent"],
+    values:[27,19,8,14,12],
+    colors:["#51d6a0","#ffd16a","#ff7588","#6798ff","#71839d"]
   },
+
   doubts:{
-    labels:["Concept clarification","Numericals","Assignments","Exam preparation","No submission"],
-    values:[14,10,7,5,44],
-    colors:["#6798ff","#ae91ff","#54d8ed","#ffd16a","#71839d"]
+    labels:["Concept clarification","Numericals","Assignments","Exam preparation","No submission","Absent"],
+    values:[12,8,5,4,39,12],
+    colors:["#6798ff","#ae91ff","#54d8ed","#ffd16a","#526681","#71839d"]
   },
+
   suggestions:{
-    labels:["Revision","Notes","Worksheets","Practice tests","No request"],
-    values:[18,12,8,4,38],
-    colors:["#6798ff","#54d8ed","#ae91ff","#ffd16a","#71839d"]
+    labels:["Revision","Notes","Worksheets","Practice tests","No request","Absent"],
+    values:[15,10,7,4,32,12],
+    colors:["#6798ff","#54d8ed","#ae91ff","#ffd16a","#526681","#71839d"]
   }
 };
 
@@ -932,21 +960,21 @@ let selectedStatus = "";
 let myDoubts = [];
 let mySuggestions = [];
 
-/*
-  SHORT, PERSISTENT ANONYMOUS ID
-  Example: LC-7K4P2Q
-  Saved in this browser. It does not contain a student name.
-*/
+/* ANONYMOUS STUDENT ID */
+
 function generateAnonymousId(){
+
   const key = "lcp_permanent_anonymous_id";
   let id = localStorage.getItem(key);
 
   if(!id){
+
     const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
     const bytes = new Uint8Array(6);
     crypto.getRandomValues(bytes);
 
     let suffix = "";
+
     for(let i=0;i<6;i++){
       suffix += alphabet[bytes[i] % alphabet.length];
     }
@@ -959,6 +987,7 @@ function generateAnonymousId(){
 }
 
 const anonymousId = generateAnonymousId();
+
 const $ = id => document.getElementById(id);
 
 function key(name){
@@ -966,6 +995,7 @@ function key(name){
 }
 
 /* MODERATION RULES */
+
 const abusiveWords = [
   "fuck","fucking","motherfucker","bitch","bastard",
   "asshole","idiot","moron","dumbass","shut up"
@@ -997,34 +1027,43 @@ const academicWords = [
   "homework","course","unit","semester","book","syllabus"
 ];
 
-/*
-  A single ordinary irrelevant message is rejected.
-  Repeated irrelevant messages, repeated spam, or abusive language
-  can trigger the 24-hour restriction.
-*/
 function readStrikeData(){
+
   try{
-    return JSON.parse(localStorage.getItem(key("moderation_strikes")) || "[]");
+    return JSON.parse(
+      localStorage.getItem(key("moderation_strikes")) || "[]"
+    );
   }catch{
     return [];
   }
 }
 
 function saveStrike(type){
+
   const now = Date.now();
-  let strikes = readStrikeData().filter(item => now - item.time < 10*60*1000);
+
+  let strikes = readStrikeData().filter(
+    item => now - item.time < 10*60*1000
+  );
 
   strikes.push({type,time:now});
-  localStorage.setItem(key("moderation_strikes"),JSON.stringify(strikes));
+
+  localStorage.setItem(
+    key("moderation_strikes"),
+    JSON.stringify(strikes)
+  );
 
   return strikes;
 }
 
 function moderate(text){
+
   const message = text.toLowerCase().trim();
 
-  if(abusiveWords.some(word => message.includes(word)) ||
-     threateningPhrases.some(phrase => message.includes(phrase))){
+  if(
+    abusiveWords.some(word => message.includes(word)) ||
+    threateningPhrases.some(phrase => message.includes(phrase))
+  ){
     return {status:"abusive"};
   }
 
@@ -1033,10 +1072,13 @@ function moderate(text){
   }
 
   const words = message.split(/\s+/);
-  const repeated = words.length >= 5 &&
+
+  const repeated =
+    words.length >= 5 &&
     new Set(words).size <= 2;
 
-  const mostlySymbols = message.length > 12 &&
+  const mostlySymbols =
+    message.length > 12 &&
     (message.match(/[^a-z0-9\s]/g) || []).length / message.length > .55;
 
   if(repeated || mostlySymbols){
@@ -1051,6 +1093,7 @@ function moderate(text){
 }
 
 /* 24-HOUR FREEZE */
+
 function freezeKey(){
   return key("freeze_until");
 }
@@ -1064,49 +1107,66 @@ function isFrozen(){
 }
 
 function showFreeze(){
+
   const until = getFreezeUntil();
+
   $("freezeTime").textContent =
     "Restriction ends: " + new Date(until).toLocaleString();
+
   $("frozenScreen").style.display = "flex";
 }
 
 function freezeFor24Hours(reason){
+
   const until = Date.now() + 24*60*60*1000;
+
   localStorage.setItem(freezeKey(),String(until));
 
-  /* If Firebase is connected, send a moderation event for admin review. */
   if(addData){
+
     addData("moderationEvents",{
       anonymousId,
       reason,
       durationHours:24,
       createdAt:new Date().toISOString(),
       status:"Frozen"
-    }).catch(error => console.error("Moderation event save failed",error));
+    }).catch(error =>
+      console.error("Moderation event save failed",error)
+    );
   }
 
   showFreeze();
 }
 
 function checkFreeze(){
+
   if(isFrozen()){
     showFreeze();
     return true;
   }
+
   return false;
 }
 
 function handleModeration(text){
+
   const result = moderate(text);
 
   if(result.status === "abusive"){
+
     freezeFor24Hours("Abusive or threatening language");
+
     return "frozen";
   }
 
-  if(result.status === "irrelevant" || result.status === "spam" ||
-     result.status === "unclear"){
+  if(
+    result.status === "irrelevant" ||
+    result.status === "spam" ||
+    result.status === "unclear"
+  ){
+
     const strikes = saveStrike(result.status);
+
     const misuseCount = strikes.filter(item =>
       item.type === "irrelevant" ||
       item.type === "spam" ||
@@ -1114,7 +1174,11 @@ function handleModeration(text){
     ).length;
 
     if(misuseCount >= 3){
-      freezeFor24Hours("Repeated irrelevant messages or spam");
+
+      freezeFor24Hours(
+        "Repeated irrelevant messages or spam"
+      );
+
       return "frozen";
     }
 
@@ -1125,63 +1189,100 @@ function handleModeration(text){
 }
 
 /* FIREBASE STORAGE */
+
 async function saveToDatabase(collection,record){
+
   if(!addData) return false;
 
   try{
+
     await addData(collection,{
       ...record,
       anonymousId,
       createdAt:new Date().toISOString()
     });
+
     return true;
+
   }catch(error){
+
     console.error("Could not save to Firebase:",error);
+
     return false;
   }
 }
 
 function setMessage(id,text,error=false){
+
   $(id).textContent = text;
+
   $(id).classList.toggle("error",error);
 }
 
 /* NAVIGATION */
+
 function showSection(id){
+
   if(checkFreeze()) return;
 
-  document.querySelectorAll(".content").forEach(section => {
-    section.classList.toggle("active",section.id === id);
+  document.querySelectorAll(".content").forEach(section=>{
+
+    section.classList.toggle(
+      "active",
+      section.id === id
+    );
+
   });
 
-  document.querySelectorAll(".nav-btn").forEach(button => {
-    button.classList.toggle("active",button.dataset.target === id);
+  document.querySelectorAll(".nav-btn").forEach(button=>{
+
+    button.classList.toggle(
+      "active",
+      button.dataset.target === id
+    );
+
   });
 
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-document.querySelectorAll(".nav-btn").forEach(button => {
-  button.addEventListener("click",()=>showSection(button.dataset.target));
+document.querySelectorAll(".nav-btn").forEach(button=>{
+
+  button.addEventListener("click",()=>{
+    showSection(button.dataset.target);
+  });
+
 });
 
-document.querySelectorAll("[data-go]").forEach(button => {
-  button.addEventListener("click",()=>showSection(button.dataset.go));
+document.querySelectorAll("[data-go]").forEach(button=>{
+
+  button.addEventListener("click",()=>{
+    showSection(button.dataset.go);
+  });
+
 });
 
 /* CHARTS */
+
 function createChart(id,labels,values,colors,type="doughnut"){
+
   if(typeof Chart === "undefined") return;
 
   const canvas = $(id);
+
   if(!canvas) return;
 
-  if(charts[id]) charts[id].destroy();
+  if(charts[id]){
+    charts[id].destroy();
+  }
 
   charts[id] = new Chart(canvas,{
+
     type,
+
     data:{
       labels,
+
       datasets:[{
         data:values,
         backgroundColor:colors,
@@ -1190,12 +1291,17 @@ function createChart(id,labels,values,colors,type="doughnut"){
         borderRadius:type==="bar"?6:0
       }]
     },
+
     options:{
+
       responsive:true,
       maintainAspectRatio:false,
+
       plugins:{
+
         legend:{
           position:"bottom",
+
           labels:{
             color:"#c1d0e4",
             padding:14,
@@ -1203,37 +1309,84 @@ function createChart(id,labels,values,colors,type="doughnut"){
             font:{size:10}
           }
         }
+
       },
+
       scales:type==="bar"?{
+
         x:{
           ticks:{color:"#bdcce0"},
           grid:{display:false}
         },
+
         y:{
           beginAtZero:true,
           ticks:{color:"#bdcce0",precision:0},
           grid:{color:"#2a3b53"}
         }
+
       }:{}
     }
   });
 }
 
 function renderCharts(){
-  createChart("homePulseChart",data.pulse.labels,data.pulse.values,data.pulse.colors);
-  createChart("homePollChart",data.poll.labels,data.poll.values,data.poll.colors);
-  createChart("pulseChart",data.pulse.labels,data.pulse.values,data.pulse.colors);
-  createChart("doubtChart",data.doubts.labels,data.doubts.values,data.doubts.colors);
-  createChart("suggestionChart",data.suggestions.labels,data.suggestions.values,data.suggestions.colors);
+
+  createChart(
+    "attendanceChart",
+    data.attendance.labels,
+    data.attendance.values,
+    data.attendance.colors
+  );
+
+  createChart(
+    "homePulseChart",
+    data.pulse.labels,
+    data.pulse.values,
+    data.pulse.colors
+  );
+
+  createChart(
+    "homePollChart",
+    data.poll.labels,
+    data.poll.values,
+    data.poll.colors
+  );
+
+  createChart(
+    "pulseChart",
+    data.pulse.labels,
+    data.pulse.values,
+    data.pulse.colors
+  );
+
+  createChart(
+    "doubtChart",
+    data.doubts.labels,
+    data.doubts.values,
+    data.doubts.colors
+  );
+
+  createChart(
+    "suggestionChart",
+    data.suggestions.labels,
+    data.suggestions.values,
+    data.suggestions.colors
+  );
 }
 
-/* CLASSROOM PULSE BARS */
+/* CLASSROOM PULSE ANALYSIS */
+
 function renderPulseBars(){
+
   const box = $("pulseBars");
+
   box.innerHTML = "";
 
   data.pulse.labels.forEach((label,index)=>{
+
     const count = data.pulse.values[index];
+
     const row = document.createElement("div");
     row.className = "bar-row";
 
@@ -1253,50 +1406,205 @@ function renderPulseBars(){
 
     const fill = document.createElement("div");
     fill.className = "fill";
-    fill.style.width = (count/CLASS_SIZE*100) + "%";
+
+    fill.style.width =
+      (count / CLASS_SIZE * 100) + "%";
+
     fill.style.background = data.pulse.colors[index];
 
     bar.appendChild(fill);
+
     row.append(top,bar);
+
     box.appendChild(row);
+
   });
 
-  $("pulseInsight").textContent =
-    "63 out of 80 students responded. " +
-    "29 students selected Confused or Need Help. " +
-    "This indicates that additional explanation may be useful.";
-}
+  const clear = data.pulse.values[0];
+  const confused = data.pulse.values[1];
+  const needHelp = data.pulse.values[2];
+  const noResponse = data.pulse.values[3];
+  const absent = data.pulse.values[4];
 
-/* PERSONAL RECORDS */
-function loadPersonalData(){
-  try{
-    myDoubts = JSON.parse(localStorage.getItem(key("doubts")) || "[]");
-    mySuggestions = JSON.parse(localStorage.getItem(key("suggestions")) || "[]");
-  }catch{
-    myDoubts = [];
-    mySuggestions = [];
+  const responded = clear + confused + needHelp;
+  const supportNeeded = confused + needHelp;
+
+  const responseRate = Math.round(
+    responded / PRESENT * 100
+  );
+
+  const supportRate = Math.round(
+    supportNeeded / responded * 100
+  );
+
+  let insight = "";
+
+  if(supportRate >= 40){
+
+    insight =
+      supportNeeded + " out of " + responded +
+      " responding students (" + supportRate +
+      "%) reported confusion or a need for help. " +
+      "The teacher should revisit difficult concepts " +
+      "and provide additional examples.";
+
+  }else{
+
+    insight =
+      "Most responding students reported that they understood " +
+      "the lesson. The teacher can continue with the next topic " +
+      "while addressing individual doubts.";
   }
+
+  insight +=
+    " Feedback response rate among present students: " +
+    responseRate + "%.";
+
+  insight +=
+    " " + noResponse +
+    " present students did not submit feedback.";
+
+  insight +=
+    " " + absent +
+    " students were absent and are excluded from the response-rate calculation.";
+
+  $("pulseInsight").textContent =
+    "AI-style classroom analysis: " + insight;
 }
 
-function savePersonalData(type,items){
-  localStorage.setItem(key(type),JSON.stringify(items));
-}
+/* OVERVIEW INSIGHTS */
 
-function renderDoubts(){
-  const box = $("myDoubts");
+function renderOverviewInsights(){
+
+  const clear = data.pulse.values[0];
+  const confused = data.pulse.values[1];
+  const help = data.pulse.values[2];
+  const noResponse = data.pulse.values[3];
+
+  const totalResponded = clear + confused + help;
+  const support = confused + help;
+
+  const supportPercentage = Math.round(
+    support / totalResponded * 100
+  );
+
+  const attendancePercentage = Math.round(
+    PRESENT / CLASS_SIZE * 100
+  );
+
+  const responsePercentage = Math.round(
+    totalResponded / PRESENT * 100
+  );
+
+  const box = $("overviewInsights");
+
   box.innerHTML = "";
 
-  if(!myDoubts.length){
-    box.innerHTML = '<p class="empty">No doubts submitted yet.</p>';
-    return;
-  }
+  const insights = [
 
-  [...myDoubts].reverse().forEach(item=>{
+    {
+      title:"Attendance",
+      text:
+        PRESENT + " of " + CLASS_SIZE +
+        " enrolled students attended (" +
+        attendancePercentage + "%)."
+    },
+
+    {
+      title:"Understanding",
+      text:
+        clear + " students reported that they understood the lesson."
+    },
+
+    {
+      title:"Learning support",
+      text:
+        support + " responding students need further explanation or support (" +
+        supportPercentage + "% of respondents)."
+    },
+
+    {
+      title:"Participation",
+      text:
+        totalResponded + " students submitted feedback. " +
+        noResponse + " present students did not respond. Feedback response rate: " +
+        responsePercentage + "%."
+    }
+
+  ];
+
+  insights.forEach(item=>{
+
     const card = document.createElement("div");
     card.className = "list-card";
 
     const title = document.createElement("strong");
-    title.textContent = item.subject + " · " + item.topic;
+    title.textContent = item.title;
+
+    const description = document.createElement("p");
+    description.textContent = item.text;
+
+    card.append(title,description);
+
+    box.appendChild(card);
+
+  });
+}
+
+/* PERSONAL RECORDS */
+
+function loadPersonalData(){
+
+  try{
+
+    myDoubts = JSON.parse(
+      localStorage.getItem(key("doubts")) || "[]"
+    );
+
+    mySuggestions = JSON.parse(
+      localStorage.getItem(key("suggestions")) || "[]"
+    );
+
+  }catch{
+
+    myDoubts = [];
+    mySuggestions = [];
+
+  }
+}
+
+function savePersonalData(type,items){
+
+  localStorage.setItem(
+    key(type),
+    JSON.stringify(items)
+  );
+
+}
+
+function renderDoubts(){
+
+  const box = $("myDoubts");
+
+  box.innerHTML = "";
+
+  if(!myDoubts.length){
+
+    box.innerHTML =
+      '<p class="empty">No doubts submitted yet.</p>';
+
+    return;
+  }
+
+  [...myDoubts].reverse().forEach(item=>{
+
+    const card = document.createElement("div");
+    card.className = "list-card";
+
+    const title = document.createElement("strong");
+
+    title.textContent =
+      item.subject + " · " + item.topic;
 
     const question = document.createElement("p");
     question.textContent = item.question;
@@ -1305,20 +1613,28 @@ function renderDoubts(){
     date.textContent = item.time;
 
     card.append(title,question,date);
+
     box.appendChild(card);
+
   });
 }
 
 function renderSuggestions(){
+
   const box = $("mySuggestions");
+
   box.innerHTML = "";
 
   if(!mySuggestions.length){
-    box.innerHTML = '<p class="empty">No learning requests submitted yet.</p>';
+
+    box.innerHTML =
+      '<p class="empty">No learning requests submitted yet.</p>';
+
     return;
   }
 
   [...mySuggestions].reverse().forEach(item=>{
+
     const card = document.createElement("div");
     card.className = "list-card";
 
@@ -1332,48 +1648,79 @@ function renderSuggestions(){
     date.textContent = item.time;
 
     card.append(title,request,date);
+
     box.appendChild(card);
+
   });
 }
 
 function updateDashboard(){
+
   $("sidebarId").textContent = anonymousId;
   $("myId").textContent = anonymousId;
+
   $("myStatus").textContent =
     localStorage.getItem(key("latest_status")) || "Not set";
+
   $("myDoubtCount").textContent = myDoubts.length;
-  $("mySuggestionCount").textContent = mySuggestions.length;
+
+  $("mySuggestionCount").textContent =
+    mySuggestions.length;
 }
 
 /* PULSE SUBMISSION */
+
 document.querySelectorAll(".status-option").forEach(button=>{
+
   button.addEventListener("click",()=>{
+
     selectedStatus = button.dataset.status;
 
     document.querySelectorAll(".status-option").forEach(option=>{
-      option.classList.toggle("selected",option===button);
+
+      option.classList.toggle(
+        "selected",
+        option===button
+      );
+
     });
+
   });
+
 });
 
 $("submitPulse").addEventListener("click",async()=>{
+
   if(checkFreeze()) return;
 
   const topic = $("pulseTopic").value.trim();
   const comment = $("pulseComment").value.trim();
 
   if(!topic || !selectedStatus){
-    setMessage("pulseMessage","Please enter a topic and select your understanding status.",true);
+
+    setMessage(
+      "pulseMessage",
+      "Please enter a topic and select your understanding status.",
+      true
+    );
+
     return;
   }
 
   if(comment){
+
     const moderation = handleModeration(comment);
 
     if(moderation !== "academic"){
-      setMessage("pulseMessage",
-        moderation==="frozen" ? "Your panel has been frozen." :
-        "Please keep your comment relevant to the academic topic.",true);
+
+      setMessage(
+        "pulseMessage",
+        moderation==="frozen"
+          ? "Your panel has been frozen."
+          : "Please keep your comment relevant to the academic topic.",
+        true
+      );
+
       return;
     }
   }
@@ -1385,18 +1732,33 @@ $("submitPulse").addEventListener("click",async()=>{
     time:new Date().toLocaleString()
   };
 
-  localStorage.setItem(key("latest_status"),selectedStatus);
-  localStorage.setItem(key("latest_pulse"),JSON.stringify(record));
+  localStorage.setItem(
+    key("latest_status"),
+    selectedStatus
+  );
+
+  localStorage.setItem(
+    key("latest_pulse"),
+    JSON.stringify(record)
+  );
 
   await saveToDatabase("studentPulse",record);
 
   updateDashboard();
-  setMessage("pulseMessage","✓ Your pulse has been submitted successfully.");
+
+  setMessage(
+    "pulseMessage",
+    "✓ Your pulse has been submitted successfully."
+  );
+
   $("pulseComment").value = "";
+
 });
 
 /* DOUBT SUBMISSION */
+
 $("submitDoubt").addEventListener("click",async()=>{
+
   if(checkFreeze()) return;
 
   const subject = $("doubtSubject").value;
@@ -1404,30 +1766,50 @@ $("submitDoubt").addEventListener("click",async()=>{
   const question = $("doubtText").value.trim();
 
   if(!subject || !topic || !question){
-    setMessage("doubtMessage","Please complete all three fields.",true);
+
+    setMessage(
+      "doubtMessage",
+      "Please complete all three fields.",
+      true
+    );
+
     return;
   }
 
-  const moderation = handleModeration(topic+" "+question);
+  const moderation = handleModeration(
+    topic + " " + question
+  );
 
   if(moderation !== "academic"){
-    setMessage("doubtMessage",
-      moderation==="frozen" ? "Your panel has been frozen." :
-      "Please submit a relevant academic question.",true);
+
+    setMessage(
+      "doubtMessage",
+      moderation==="frozen"
+        ? "Your panel has been frozen."
+        : "Please submit a relevant academic question.",
+      true
+    );
+
     return;
   }
 
   const record = {
-    subject,topic,question,
+    subject,
+    topic,
+    question,
     time:new Date().toLocaleString(),
     status:"Pending"
   };
 
   myDoubts.push(record);
+
   savePersonalData("doubts",myDoubts);
 
   await saveToDatabase("studentQueries",{
-    subject,topic,question,status:"Pending"
+    subject,
+    topic,
+    question,
+    status:"Pending"
   });
 
   $("doubtSubject").value = "";
@@ -1436,54 +1818,89 @@ $("submitDoubt").addEventListener("click",async()=>{
 
   renderDoubts();
   updateDashboard();
-  setMessage("doubtMessage","✓ Your doubt has been submitted using your anonymous ID.");
+
+  setMessage(
+    "doubtMessage",
+    "✓ Your doubt has been submitted using your anonymous ID."
+  );
+
 });
 
-/* SUGGESTION CHATBOT */
+/* LEARNING RESOURCE ASSISTANT */
+
 function classifyRequest(text){
+
   const t = text.toLowerCase();
 
-  if(/revision|revise|relecture|revise again/.test(t)) return "Revision";
-  if(/notes|summary|handout|study material/.test(t)) return "Notes";
-  if(/worksheet|worksheets|practice sheet/.test(t)) return "Worksheets";
-  if(/mock test|practice test|quiz|test|exam paper/.test(t)) return "Practice Tests";
-  if(/solved example|worked example|solution/.test(t)) return "Solved Examples";
-  if(/explain|explanation|teach again|extra class/.test(t)) return "Extra Explanation";
+  if(/revision|revise|relecture|revise again/.test(t))
+    return "Revision";
+
+  if(/notes|summary|handout|study material/.test(t))
+    return "Notes";
+
+  if(/worksheet|worksheets|practice sheet/.test(t))
+    return "Worksheets";
+
+  if(/mock test|practice test|quiz|test|exam paper/.test(t))
+    return "Practice Tests";
+
+  if(/solved example|worked example|solution/.test(t))
+    return "Solved Examples";
+
+  if(/explain|explanation|teach again|extra class/.test(t))
+    return "Extra Explanation";
 
   return "General Academic Support";
 }
 
 function addChat(text,type){
+
   const message = document.createElement("div");
-  message.className = "chat-message "+type;
+
+  message.className = "chat-message " + type;
+
   message.textContent = text;
+
   $("chatBox").appendChild(message);
-  $("chatBox").scrollTop = $("chatBox").scrollHeight;
+
+  $("chatBox").scrollTop =
+    $("chatBox").scrollHeight;
 }
 
 async function sendSuggestion(){
+
   if(checkFreeze()) return;
 
   const input = $("suggestionInput");
+
   const text = input.value.trim();
 
   if(!text) return;
 
   addChat(text,"user-message");
+
   input.value = "";
 
   const moderation = handleModeration(text);
 
   if(moderation==="frozen"){
+
     addChat(
       "Your student panel has been temporarily frozen for 24 hours. Please meet your teacher in person.",
       "bot-message"
     );
-    setMessage("suggestionMessage","Access restricted for 24 hours.",true);
+
+    setMessage(
+      "suggestionMessage",
+      "Access restricted for 24 hours.",
+      true
+    );
+
     return;
   }
 
   if(moderation!=="academic"){
+
     const response = moderation==="irrelevant"
       ? "I can only help with academic requests. Please ask for revision, notes, worksheets, practice tests, solved examples, or additional explanation."
       : moderation==="spam"
@@ -1491,7 +1908,13 @@ async function sendSuggestion(){
       : "I couldn't identify an academic request. Please mention your subject, chapter, or the learning resource you need.";
 
     addChat(response,"bot-message");
-    setMessage("suggestionMessage","Please send a genuine academic request.",true);
+
+    setMessage(
+      "suggestionMessage",
+      "Please send a genuine academic request.",
+      true
+    );
+
     return;
   }
 
@@ -1504,6 +1927,7 @@ async function sendSuggestion(){
   };
 
   mySuggestions.push(record);
+
   savePersonalData("suggestions",mySuggestions);
 
   await saveToDatabase("studentSuggestions",{
@@ -1512,53 +1936,95 @@ async function sendSuggestion(){
   });
 
   renderSuggestions();
+
   updateDashboard();
 
   addChat(
-    "✓ Your request has been recorded under \""+category+"\".\n\nThank you! Your teacher can use the combined classroom requests to identify which learning resources students need most.",
+    "✓ Your request has been recorded under \"" +
+    category +
+    "\".\n\nThank you! Your teacher can use the combined classroom requests to identify which learning resources students need most.",
     "bot-message"
   );
 
-  setMessage("suggestionMessage","✓ Your academic request has been submitted.");
+  setMessage(
+    "suggestionMessage",
+    "✓ Your academic request has been submitted."
+  );
+
 }
 
-$("sendSuggestion").addEventListener("click",sendSuggestion);
+$("sendSuggestion").addEventListener(
+  "click",
+  sendSuggestion
+);
 
-$("suggestionInput").addEventListener("keydown",event=>{
-  if(event.key==="Enter") sendSuggestion();
-});
+$("suggestionInput").addEventListener(
+  "keydown",
+  event=>{
+    if(event.key==="Enter"){
+      sendSuggestion();
+    }
+  }
+);
 
-/* TOP RESOURCE INSIGHT */
+/* RESOURCE REQUEST ANALYSIS */
+
 function renderSuggestionInsight(){
+
   const labels = data.suggestions.labels;
   const values = data.suggestions.values;
+
   const requests = values.slice(0,4);
-  const total = requests.reduce((sum,value)=>sum+value,0);
+
+  const total = requests.reduce(
+    (sum,value)=>sum+value,
+    0
+  );
+
   const highest = Math.max(...requests);
+
   const index = requests.indexOf(highest);
 
+  const noRequest = values[4];
+
   $("suggestionInsight").textContent =
-    labels[index]+" is the most requested resource: "+
-    highest+" out of "+total+
-    " submitted requests in this simulated classroom dataset.";
+    "AI-style analysis: " +
+    labels[index] +
+    " is the most requested learning resource, with " +
+    highest + " requests out of " + total +
+    " total requests. " +
+    noRequest +
+    " present students did not submit a resource request. " +
+    "The teacher should prioritise the most requested resource.";
 }
 
 /* INITIALISE */
+
 function initialise(){
+
   loadPersonalData();
+
   updateDashboard();
+
   renderDoubts();
+
   renderSuggestions();
+
   renderPulseBars();
+
+  renderOverviewInsights();
+
   renderSuggestionInsight();
+
   renderCharts();
 
-  if(isFrozen()) showFreeze();
+  if(isFrozen()){
+    showFreeze();
+  }
 }
 
 initialise();
+
 </script>
 </body>
 </html>
-
-  
