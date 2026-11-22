@@ -1,18 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Classroom Pulse | Teacher Portal</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+ --bg:#080f20;--panel:#111d33;--panel2:#172640;
+ --cyan:#35d9f5;--purple:#a78bfa;--green:#4ade80;
+ --yellow:#facc15;--red:#fb7185;--muted:#91a4bd;
+ --border:#263b56;--white:#f1f5f9
+}
+body{font-family:Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--white)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.sidebar{
+ width:245px;height:100vh;position:fixed;left:0;top:0;
+ background:#0c172b;border-right:1px solid var(--border);
+ padding:25px 16px;z-index:10
+}
+.logo{font-size:20px;font-weight:800;color:var(--cyan);line-height:1.4}
+.logo span{color:white}
+.tagline{font-size:10px;color:var(--muted);margin-top:5px;letter-spacing:1px}
+.menu-title{font-size:10px;letter-spacing:2px;color:#71839d;margin:35px 10px 12px}
+.nav-btn{
+ display:flex;align-items:center;gap:12px;padding:13px 12px;
+ margin:7px 0;border:1px solid transparent;border-radius:11px;
+ color:#aebdd1;cursor:pointer;font-size:13px;transition:.2s
+}
+.nav-btn:hover,.nav-btn.active{
+ background:#172c48;border-color:#24516d;color:var(--cyan);
+ box-shadow:inset 3px 0 var(--cyan)
+}
+.nav-btn .emoji{font-size:18px}
+.sidebar-bottom{
+ position:absolute;bottom:25px;left:17px;right:17px;
+ padding:14px;background:var(--panel2);border-radius:12px;
+ font-size:12px;color:var(--muted)
+}
+.main{margin-left:245px;padding:28px 35px;max-width:1600px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;gap:12px}
+.topbar h2{font-size:21px}
+.topbar p{font-size:12px;color:var(--muted);margin-top:5px}
+.live{
+ color:var(--green);background:#12372b;border:1px solid #226345;
+ border-radius:30px;padding:8px 14px;font-size:11px;font-weight:bold;white-space:nowrap
+}
+.welcome{
+ background:linear-gradient(115deg,#172e4e,#252052);
+ border:1px solid #304b73;border-radius:20px;padding:28px;
+ position:relative;overflow:hidden;margin-bottom:22px
+}
+.welcome:after{content:"◉";position:absolute;right:35px;top:-50px;font-size:190px;color:#ffffff08}
+.welcome small{color:var(--cyan);letter-spacing:2px;font-size:11px;font-weight:bold}
+.welcome h1{font-size:28px;margin:13px 0 9px}
+.welcome p{color:#b7c8df;font-size:13px;line-height:1.7;max-width:650px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat-card{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:16px;padding:18px;min-width:0
+}
+.stat-icon{font-size:22px}
+.stat-card h3{font-size:27px;margin:10px 0 4px}
+.stat-card p{color:var(--muted);font-size:11px}
+.stat-card small{display:block;color:var(--green);margin-top:8px;font-size:10px}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:18px}
+.grid.equal{grid-template-columns:1fr 1fr}
+.panel{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:17px;padding:20px;min-width:0;margin-bottom:17px
+}
+.panel h3{font-size:15px;margin-bottom:8px}
+.sub{color:var(--muted);font-size:11px;margin-bottom:16px;line-height:1.6}
+.content{display:none;animation:appear .25s}
+.content.active{display:block}
+@keyframes appear{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.section-heading{margin:8px 0 21px}
+.section-heading h1{font-size:25px;margin-bottom:7px}
+.section-heading p{color:var(--muted);font-size:13px;line-height:1.6}
+.action-btn{
+ background:linear-gradient(90deg,#18b9d5,#6477ef);border:0;
+ border-radius:9px;color:white;padding:11px 16px;font-weight:bold;font-size:12px
+}
+.action-btn:hover{opacity:.85}
+.secondary-btn{
+ background:#203751;border:1px solid #31506e;color:#d9e5f3;
+ border-radius:9px;padding:9px 12px;font-size:11px
+}
+.danger-btn{
+ background:#492337;border:1px solid #85415c;color:#fecdd3;
+ border-radius:9px;padding:9px 12px;font-size:11px
+}
+.success-btn{
+ background:#153d31;border:1px solid #286c50;color:#bbf7d0;
+ border-radius:9px;padding:9px 12px;font-size:11px
+}
+input,textarea,select{
+ width:100%;padding:12px;background:#0b172a;border:1px solid #30445f;
+ border-radius:9px;color:white;margin:8px 0 15px;outline:none
+}
+input:focus,textarea:focus,select:focus{border-color:var(--cyan)}
+textarea{min-height:90px;resize:vertical}
+label{color:#b6c5d8;font-size:12px}
+.field{margin-bottom:5px}
+.field label{display:block}
+.bar-row{display:flex;justify-content:space-between;gap:10px;margin:15px 0 7px;font-size:12px}
+.bar{width:100%;height:9px;background:#26364c;border-radius:20px;overflow:hidden}
+.fill{height:100%;border-radius:20px;transition:width .3s}
+.green{background:var(--green)}.yellow{background:var(--yellow)}
+.red{background:var(--red)}.blue{background:var(--cyan)}
+.purple{background:var(--purple)}
+.badge{display:inline-block;font-size:10px;padding:5px 9px;border-radius:20px;background:#203751;color:#cbd5e1}
+.badge.green-b{background:#153d31;color:#bbf7d0}
+.badge.red-b{background:#492337;color:#fecdd3}
+.badge.yellow-b{background:#45391a;color:#fde68a}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:550px}
+th,td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--border);font-size:12px}
+th{color:var(--muted);font-weight:500}
+.card{
+ background:#172640;border:1px solid #2b4564;border-radius:13px;
+ padding:16px;margin-bottom:12px
+}
+.card h4{color:var(--cyan);font-size:13px;margin-bottom:9px}
+.card p{color:#c6d2e2;font-size:12px;line-height:1.7;margin-bottom:9px;white-space:pre-wrap}
+.card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.empty{color:var(--muted);font-size:13px;padding:14px 0}
+.insight{
+ background:#172b43;border:1px solid #31506e;border-left:3px solid var(--purple);
+ padding:15px;border-radius:10px;margin:12px 0
+}
+.insight h4{font-size:12px;color:var(--purple);margin-bottom:7px}
+.insight p{font-size:12px;color:#cbd5e1;line-height:1.7}
+.metric-line{display:flex;justify-content:space-between;gap:12px;font-size:12px;margin:12px 0}
+.muted{color:var(--muted)}
+.small-note{font-size:10px;color:var(--muted);line-height:1.6;margin-top:10px}
+.poll-option{padding:11px;background:#0c192d;border:1px solid #30445f;border-radius:9px;margin:8px 0;font-size:12px}
+.notice{
+ background:#30291a;border:1px solid #695626;color:#fde68a;
+ border-radius:10px;padding:12px;font-size:11px;line-height:1.6;margin-bottom:15px
+}
+.notice.info{background:#142c40;border-color:#24516d;color:#bae6fd}
+canvas{width:100%;max-height:240px}
+.two-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:1050px){.stats{grid-template-columns:repeat(2,1fr)}.grid,.grid.equal{grid-template-columns:1fr}}
+@media(max-width:650px){
+ .sidebar{width:100%;height:auto;position:relative;padding:15px}
+ .tagline,.menu-title,.sidebar-bottom{display:none}
+ .sidebar nav{display:flex;overflow-x:auto;gap:5px}
+ .nav-btn{white-space:nowrap;padding:10px;margin:5px 0;font-size:11px}
+ .main{margin:0;padding:17px}
+ .welcome h1{font-size:22px}
+ .stats{gap:9px}
+ .stat-card{padding:13px}
+ .topbar h2{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+ <div class="logo">LIVE CLASSROOM<br><span>PULSE.</span></div>
+ <div class="tagline">AI-POWERED LEARNING INTELLIGENCE</div>
+ <div class="menu-title">TEACHER WORKSPACE</div>
+ <nav>
+  <div class="nav-btn active" onclick="showSection('overview',this)"><span class="emoji">⌂</span>Overview</div>
+  <div class="nav-btn" onclick="showSection('polls',this)"><span class="emoji">▤</span>Poll Management</div>
+  <div class="nav-btn" onclick="showSection('analytics',this)"><span class="emoji">▥</span>Student Analytics</div>
+  <div class="nav-btn" onclick="showSection('doubts',this)"><span class="emoji">✉</span>Resolve Doubts</div>
+  <div class="nav-btn" onclick="showSection('suggestions',this)"><span class="emoji">◇</span>Student Suggestions</div>
+ </nav>
+ <div class="sidebar-bottom">
+  <span style="color:var(--green)">●</span> Teacher workspace
+  <br><br><b style="color:white">Live Classroom Pulse</b>
+  <br>Understand. Respond. Improve.
+ </div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+ <div>
+  <h2>Teacher Command Center</h2>
+  <p>Your classroom, understood through student participation.</p>
+ </div>
+ <div class="live" id="connectionStatus">CONNECTING</div>
+</header>
+
+<!-- OVERVIEW -->
+<section id="overview" class="content active">
+ <div class="welcome">
+  <small>YOUR CLASSROOM, REIMAGINED</small>
+  <h1>Welcome, Teacher! 👋</h1>
+  <p>One place to understand your students, identify learning gaps, respond to doubts, and decide what your classroom needs next.</p>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card"><div class="stat-icon">👥</div><h3 id="ovTotal">0</h3><p>Students Participated</p><small>Unique IDs recorded</small></div>
+  <div class="stat-card"><div class="stat-icon">📊</div><h3 id="ovPolls">0</h3><p>Active Polls</p><small>Currently published</small></div>
+  <div class="stat-card"><div class="stat-icon">❓</div><h3 id="ovDoubts">0</h3><p>Unresolved Doubts</p><small>Awaiting teacher response</small></div>
+  <div class="stat-card"><div class="stat-icon">📚</div><h3 id="ovSuggestions">0</h3><p>Student Suggestions</p><small>Resource requests received</small></div>
+ </div>
+
+ <div class="grid">
+  <div class="panel">
+   <h3>📡 Classroom Understanding</h3>
+   <p class="sub">Based on the latest recorded student pulse</p>
+   <div id="overviewPulse"></div>
+  </div>
+  <div class="panel">
+   <h3>⚡ Classroom Attention</h3>
+   <p class="sub">Items requiring teacher action</p>
+   <div class="metric-line"><span>Unresolved doubts</span><b id="attentionDoubts">0</b></div>
+   <div class="metric-line"><span>Flagged questions</span><b id="attentionFlags">0</b></div>
+   <div class="metric-line"><span>Frozen student IDs</span><b id="attentionFrozen">0</b></div>
+   <div class="metric-line"><span>Pending suggestions</span><b id="attentionSuggestions">0</b></div>
+  </div>
+ </div>
+
+ <div class="grid equal">
+  <div class="panel">
+   <h3>📊 Latest Poll</h3>
+   <p class="sub">Current poll and response summary</p>
+   <div id="overviewPoll"><p class="empty">No published poll yet.</p></div>
+  </div>
+  <div class="panel">
+   <h3>💡 Most Requested Resources</h3>
+   <p class="sub">Student suggestion summary</p>
+   <div id="overviewSuggestions"><p class="empty">No suggestions received yet.</p></div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h3>🧠 Classroom Teaching Recommendation</h3>
+  <p class="sub">Automatically generated from available classroom records</p>
+  <div id="overviewRecommendation" class="insight">
+   <h4>Waiting for classroom data</h4>
+   <p>As students participate, classroom patterns and suggested next steps will appear here.</p>
+  </div>
+ </div>
+</section>
+
+<!-- POLL MANAGEMENT -->
+<section id="polls" class="content">
+ <div class="section-heading">
+  <h1>📊 Poll Management</h1>
+  <p>Create a poll about the topic being taught. Publishing it makes it available to students on their homepage.</p>
+ </div>
+
+ <div class="panel">
+  <h3>Create a Classroom Poll</h3>
+  <p class="sub">Choose a topic, write your question, and add answer options.</p>
+
+  <div class="field"><label>Topic / Discussion</label>
+   <input id="pollTopic" placeholder="Example: Differentiation - Chain Rule">
+  </div>
+  <div class="field"><label>Poll Question</label>
+   <input id="pollQuestion" placeholder="How well did you understand today's topic?">
+  </div>
+  <div class="field"><label>Optional Description</label>
+   <textarea id="pollDescription" placeholder="Add context or instructions for students..."></textarea>
+  </div>
+  <div class="field"><label>Option 1</label><input id="pollOption1" placeholder="Fully understood"></div>
+  <div class="field"><label>Option 2</label><input id="pollOption2" placeholder="Partially understood"></div>
+  <div class="field"><label>Option 3</label><input id="pollOption3" placeholder="Need another explanation"></div>
+  <div class="field"><label>Option 4 (optional)</label><input id="pollOption4" placeholder="Optional answer"></div>
+
+  <button class="action-btn" onclick="createPoll()">＋ Publish Poll to Student Homepage</button>
+  <p id="pollMessage" class="small-note"></p>
+ </div>
+
+ <div class="panel">
+  <h3>Published and Previous Polls</h3>
+  <p class="sub">Manage the polls created by the teacher.</p>
+  <div id="pollList"><p class="empty">No polls available.</p></div>
+ </div>
+</section>
+
+<!-- STUDENT ANALYTICS -->
+<section id="analytics" class="content">
+ <div class="section-heading">
+  <h1>📈 Student Analytics</h1>
+  <p>Understand participation, learning gaps, poll results, and individual student support requirements.</p>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card"><div class="stat-icon">👥</div><h3 id="anParticipated">0</h3><p>Unique Participants</p></div>
+  <div class="stat-card"><div class="stat-icon">🟢</div><h3 id="anClear">0</h3><p>Clear</p></div>
+  <div class="stat-card"><div class="stat-icon">🟡</div><h3 id="anPartial">0</h3><p>Partially Clear</p></div>
+  <div class="stat-card"><div class="stat-icon">🔴</div><h3 id="anConfused">0</h3><p>Need Help</p></div>
+ </div>
+
+ <div class="grid equal">
+  <div class="panel">
+   <h3>Participation Distribution</h3>
+   <p class="sub">Latest recorded understanding responses</p>
+   <div id="analyticsPulse"></div>
+  </div>
+  <div class="panel">
+   <h3>Poll Results</h3>
+   <p class="sub">Response distribution for the selected poll</p>
+   <select id="analyticsPollSelect" onchange="renderAnalyticsPoll()">
+    <option value="">Select a poll</option>
+   </select>
+   <div id="analyticsPollResults"><p class="empty">No poll selected.</p></div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h3>🧠 Teaching Recommendation</h3>
+  <p class="sub">Rule-based analysis of understanding and poll responses</p>
+  <div id="analyticsRecommendation" class="insight">
+   <h4>Analysis will appear here</h4>
+   <p>More student responses are needed to identify classroom learning gaps.</p>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h3>🔐 Student ID Management</h3>
+  <p class="sub">Freeze or unfreeze an anonymous student ID. A frozen student should see the restriction on their student homepage.</p>
+  <div class="notice">Use this control only when necessary. A freeze should be based on verified misuse, not simply because a student is confused or asks an unusual question.</div>
+  <input id="studentIdSearch" placeholder="Search anonymous ID..." oninput="renderStudentControls()">
+  <div class="table-wrap">
+   <table>
+    <thead><tr><th>Anonymous ID</th><th>Latest Response</th><th>Account Status</th><th>Teacher Action</th></tr></thead>
+    <tbody id="studentControlTable"></tbody>
+   </table>
+  </div>
+  <p class="small-note">Student IDs are read from the records submitted by the student portal. No real student names are displayed.</p>
+ </div>
+
+ <div class="panel">
+  <h3>✉ Private Message to a Student</h3>
+  <p class="sub">This message is intended for one anonymous ID only.</p>
+  <label>Student Anonymous ID</label>
+  <input id="privateMessageId" placeholder="Example: LC-7K4P2Q">
+  <label>Message</label>
+  <textarea id="privateMessageText" placeholder="Write an individual message or guidance..."></textarea>
+  <button class="action-btn" onclick="sendPrivateMessage()">Send Private Message</button>
+  <p class="small-note">The student portal must read the matching ID's message record to display it on that student's homepage.</p>
+ </div>
+</section>
+
+<!-- RESOLVE DOUBTS -->
+<section id="doubts" class="content">
+ <div class="section-heading">
+  <h1>💬 Resolve Student Doubts</h1>
+  <p>Review student questions, identify potentially valuable questions, and publish explanations for the whole class.</p>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card"><div class="stat-icon">❓</div><h3 id="doubtTotal">0</h3><p>Total Questions</p></div>
+  <div class="stat-card"><div class="stat-icon">⌛</div><h3 id="doubtPending">0</h3><p>Pending</p></div>
+  <div class="stat-card"><div class="stat-icon">✨</div><h3 id="doubtFlagged">0</h3><p>Potentially Valuable</p></div>
+  <div class="stat-card"><div class="stat-icon">✓</div><h3 id="doubtAnswered">0</h3><p>Answered</p></div>
+ </div>
+
+ <div class="panel">
+  <h3>✨ Questions Worth Reviewing</h3>
+  <p class="sub">Questions that appear less common or contain deeper conceptual reasoning. These are suggestions for teacher review, not automatic judgements of quality.</p>
+  <div id="flaggedQuestions"><p class="empty">No questions flagged yet.</p></div>
+ </div>
+
+ <div class="panel">
+  <h3>All Student Questions</h3>
+  <p class="sub">Teacher responses are saved with the original question.</p>
+  <div id="doubtList"><p class="empty">No student questions received yet.</p></div>
+ </div>
+
+ <div class="panel">
+  <h3>📢 Publish a Class Explanation</h3>
+  <p class="sub">A shared explanation will be available to all students on their homepage.</p>
+  <label>Topic</label>
+  <input id="solutionTopic" placeholder="Example: Chain Rule">
+  <label>Teacher's Explanation / Solution</label>
+  <textarea id="solutionText" placeholder="Write the explanation or solution for the class..."></textarea>
+  <button class="action-btn" onclick="publishClassSolution()">Publish to All Student Homepages</button>
+  <p class="small-note">This creates a class-wide explanation, separate from an individual doubt reply.</p>
+ </div>
+</section>
+
+<!-- STUDENT SUGGESTIONS -->
+<section id="suggestions" class="content">
+ <div class="section-heading">
+  <h1>📚 Student Suggestions</h1>
+  <p>Understand what learning resources students need and decide what to provide next.</p>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card"><div class="stat-icon">📩</div><h3 id="suggestionTotal">0</h3><p>Total Requests</p></div>
+  <div class="stat-card"><div class="stat-icon">📄</div><h3 id="suggestionNotes">0</h3><p>Notes Requests</p></div>
+  <div class="stat-card"><div class="stat-icon">📝</div><h3 id="suggestionWorksheets">0</h3><p>Worksheet Requests</p></div>
+  <div class="stat-card"><div class="stat-icon">🎥</div><h3 id="suggestionRelecture">0</h3><p>Re-lecture Requests</p></div>
+ </div>
+
+ <div class="grid equal">
+  <div class="panel">
+   <h3>📊 Resource Demand</h3>
+   <p class="sub">Distribution of student requests</p>
+   <div id="suggestionChart"><p class="empty">No suggestions received yet.</p></div>
+  </div>
+  <div class="panel">
+   <h3>🧠 Suggested Next Steps</h3>
+   <p class="sub">Recommendations based on the most requested resources</p>
+   <div id="suggestionRecommendation" class="insight">
+    <h4>Waiting for suggestions</h4>
+    <p>Student resource needs will appear here once suggestions are received.</p>
+   </div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <h3>All Student Suggestions</h3>
+  <p class="sub">Review the requests submitted through the student portal.</p>
+  <div id="suggestionList"><p class="empty">No suggestions received yet.</p></div>
+ </div>
+
+ <div class="panel">
+  <h3>📊 Create a Resource Demand Poll</h3>
+  <p class="sub">Ask students whether they need a particular resource for a specific topic.</p>
+  <label>Topic</label>
+  <input id="resourceTopic" placeholder="Example: Integration by Parts">
+  <label>What resource are you considering?</label>
+  <select id="resourceType">
+   <option value="Revision notes">Revision notes</option>
+   <option value="Re-lecture">Re-lecture</option>
+   <option value="Practice worksheet">Practice worksheet</option>
+   <option value="Practice test">Practice test</option>
+   <option value="Solved examples">Solved examples</option>
+  </select>
+  <button class="action-btn" onclick="createResourcePoll()">Publish Resource Demand Poll</button>
+  <p class="small-note">This poll is published to the same student homepage feed as regular classroom polls.</p>
+ </div>
+</section>
+
+</main>
 
 <script type="module">
+import {listenData,addData,updateData} from "./firebase.js";
+
 const $ = id => document.getElementById(id);
 const safe = value => String(value ?? "");
 const entries = data => Object.entries(data || {}).map(([id,value])=>({id,...(value || {})}));
-const escapeHTML = value => safe(value).replace(/[&<>"']/g,char=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[char]));
 
 let dbReady=false;
-let demoMode=true;
-let addData=null;
-let updateData=null;
-let firebaseListeners=[];
-
 let pulseData={};
 let queryData={};
 let suggestionData={};
@@ -20,186 +453,9 @@ let pollData={};
 let controlData={};
 let messageData={};
 
-/* --------------------------------------------------
-   REALISTIC CLASSROOM DEMONSTRATION DATA
-
-   Total enrolled: 80
-   Present: 68
-   Absent: 12
-   Pulse responses: 56
-   Present without response: 12
-
-   Clear: 31
-   Partial: 17
-   Need help: 8
--------------------------------------------------- */
-
-const CLASSROOM = {
- enrolled:80,
- present:68,
- absent:12,
- pulseResponses:56,
- noPulseResponse:12,
- clear:31,
- partial:17,
- confused:8,
- pollResponses:56,
- pollNoResponse:12
-};
-
-function makeDemoData(){
- const pulses={};
- const queries={};
- const suggestions={};
- const polls={};
- const controls={};
-
- let counter=1;
-
- function studentId(n){
-  return "LC-"+String(n).padStart(6,"0");
- }
-
- const pulseTypes=[
-  ...Array(31).fill("Clear"),
-  ...Array(17).fill("Partial"),
-  ...Array(8).fill("Confused")
- ];
-
- pulseTypes.forEach((response,index)=>{
-  const id=studentId(index+1);
-  pulses["pulse_"+counter]={
-   anonymousId:id,
-   response,
-   createdAt:Date.now()-(56-index)*60000
-  };
-  counter++;
- });
-
- // Demonstration doubts: 36 submitted doubt records.
- const doubtExamples=[
-  ["Differentiation","Why does the chain rule require multiplying by the derivative of the inner function?"],
-  ["Differentiation","I understand the formula but how do I identify the inner function?"],
-  ["Integration","How do we decide which integration method to use?"],
-  ["Calculus","Can you explain the difference between differentiation and integration?"],
-  ["Limits","Why does direct substitution sometimes give an undefined answer?"],
-  ["Differentiation","Please solve one chain rule numerical step by step."],
-  ["Functions","How do we identify the domain of a composite function?"],
-  ["Integration","What is the logic behind integration by parts?"],
-  ["Limits","Can you explain L'Hopital's rule with an example?"],
-  ["Calculus","How can I avoid sign errors in differentiation?"],
-  ["Differentiation","What happens if the inner function is a trigonometric function?"],
-  ["Integration","How do we solve definite integration questions?"]
- ];
-
- for(let i=0;i<36;i++){
-  const item=doubtExamples[i%doubtExamples.length];
-  const id=studentId((i%56)+1);
-  queries["doubt_"+(i+1)]={
-   anonymousId:id,
-   topic:item[0],
-   question:item[1],
-   message:item[1],
-   createdAt:Date.now()-i*90000,
-   status:i<9?"Answered":"Pending",
-   answer:i<9?"Please review the relevant class example and practise the same steps.": ""
-  };
- }
-
- // Demonstration resource requests: 42 records.
- const resourceTypes=[
-  "Revision notes","Revision notes","Revision notes",
-  "Practice worksheet","Practice worksheet",
-  "Re-lecture","Re-lecture",
-  "Practice test","Solved examples"
- ];
-
- const resourceCounts={
-  "Revision notes":18,
-  "Practice worksheet":12,
-  "Re-lecture":8,
-  "Practice test":3,
-  "Solved examples":1
- };
-
- let suggestionNumber=1;
- Object.entries(resourceCounts).forEach(([type,count])=>{
-  for(let i=0;i<count;i++){
-   suggestions["suggestion_"+suggestionNumber]={
-    anonymousId:studentId(((suggestionNumber-1)%56)+1),
-    type,
-    category:type,
-    topic:i%2===0?"Differentiation":"Integration",
-    message:`I would like ${type.toLowerCase()} for ${i%2===0?"Differentiation":"Integration"}.`,
-    createdAt:Date.now()-suggestionNumber*70000
-   };
-   suggestionNumber++;
-  }
- });
-
- const options=[
-  "Fully understood",
-  "Partially understood",
-  "Need another explanation"
- ];
-
- polls["demo_poll_1"]={
-  topic:"Today's Calculus Lecture",
-  question:"How well did you understand today's topic?",
-  description:"Illustrative classroom understanding poll.",
-  options,
-  status:"Active",
-  active:true,
-  totalVotes:56,
-  voteCounts:{
-   "Fully understood":30,
-   "Partially understood":20,
-   "Need another explanation":6
-  },
-  createdAt:Date.now()-3600000
- };
-
- polls["demo_poll_2"]={
-  topic:"Differentiation Practice",
-  question:"How confident are you about solving differentiation questions?",
-  description:"Illustrative follow-up poll.",
-  options:[
-   "Very confident",
-   "Somewhat confident",
-   "Need more practice"
-  ],
-  status:"Closed",
-  active:false,
-  totalVotes:52,
-  voteCounts:{
-   "Very confident":21,
-   "Somewhat confident":19,
-   "Need more practice":12
-  },
-  createdAt:Date.now()-7200000
- };
-
- controls[studentId(8)]={
-  frozen:false,
-  updatedAt:Date.now()
- };
-
- return {pulses,queries,suggestions,polls,controls};
-}
-
-function loadDemoData(){
- const demo=makeDemoData();
- pulseData=demo.pulses;
- queryData=demo.queries;
- suggestionData=demo.suggestions;
- pollData=demo.polls;
- controlData=demo.controls;
-}
-
 function setConnection(ok){
  dbReady=ok;
- demoMode=!ok;
- $("connectionStatus").textContent=ok?"FIREBASE CONNECTED":"DEMO DATA";
+ $("connectionStatus").textContent=ok?"FIREBASE CONNECTED":"CONNECTION ISSUE";
  $("connectionStatus").style.color=ok?"var(--green)":"var(--yellow)";
 }
 
@@ -209,9 +465,10 @@ function showSection(id,button){
  $(id).classList.add("active");
  button.classList.add("active");
 }
+
 window.showSection=showSection;
 
-// ---------- ATTENDANCE AND PULSE HELPERS ----------
+// ---------- DATA HELPERS ----------
 
 function getStudentId(item){
  return safe(item.anonymousId || item.studentId || item.studentID || item.id);
@@ -225,6 +482,7 @@ function getPulseStatus(item){
  return "Unknown";
 }
 
+// Keep only the latest response for each anonymous student ID.
 function latestPulseByStudent(){
  const latest={};
  entries(pulseData).forEach(item=>{
@@ -292,39 +550,28 @@ function renderOverview(){
  $("attentionFrozen").textContent=frozen;
  $("attentionSuggestions").textContent=suggestions.length;
 
- const attendanceRate=Math.round(CLASSROOM.present/CLASSROOM.enrolled*100);
- const responseRate=Math.round(c.total/CLASSROOM.present*100);
-
  $("overviewPulse").innerHTML=
-  `<div class="notice info">
-   <b>Demonstration classroom: 80 enrolled students</b><br>
-   Present: ${CLASSROOM.present} | Absent: ${CLASSROOM.absent}<br>
-   Pulse responses: ${c.total} | Present without response: ${CLASSROOM.present-c.total}<br>
-   Attendance rate: ${attendanceRate}% | Response rate among attendees: ${responseRate}%
-  </div>`+
   formatCountBar("🟢 Clear",c.clear,c.total,"green")+
   formatCountBar("🟡 Partially clear",c.partial,c.total,"yellow")+
   formatCountBar("🔴 Need help",c.confused,c.total,"red");
 
- const latest=active.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))[0];
-
+ const latest=active[active.length-1];
  if(latest){
+  const votes=latest.voteCounts || {};
+  const total=Number(latest.totalVotes || 0);
   $("overviewPoll").innerHTML=
-   `<div class="card">
-    <h4>${escapeHTML(latest.topic || "Classroom poll")}</h4>
-    <p>${escapeHTML(latest.question || "")}</p>
-    <span class="badge green-b">LIVE</span>
-    <p style="margin-top:10px">Recorded votes: ${Number(latest.totalVotes||0)}</p>
-   </div>`;
+   `<div class="card"><h4>${escapeHTML(latest.topic || "Classroom poll")}</h4>
+   <p>${escapeHTML(latest.question || "")}</p>
+   <span class="badge green-b">LIVE</span>
+   <p style="margin-top:10px">Recorded votes: ${total}</p></div>`;
  }else{
   $("overviewPoll").innerHTML='<p class="empty">No active poll. Publish one from Poll Management.</p>';
  }
 
  const groups=suggestionGroups();
  const top=Object.entries(groups).sort((a,b)=>b[1]-a[1])[0];
-
  $("overviewSuggestions").innerHTML=top?
-  `<div class="card"><h4>${escapeHTML(top[0])}</h4><p>${top[1]} of ${suggestions.length} submitted requests</p></div>`:
+  `<div class="card"><h4>${escapeHTML(top[0])}</h4><p>${top[1]} requests received</p></div>`:
   '<p class="empty">No suggestions received yet.</p>';
 
  const insight=buildTeachingRecommendation(c);
@@ -334,27 +581,22 @@ function renderOverview(){
 // ---------- POLLS ----------
 
 function createPollRecord(topic,question,description,options){
+ if(!dbReady){alert("Firebase is not connected. Poll could not be published.");return;}
  const poll={
   topic,question,description,options,
-  status:"Active",active:true,totalVotes:0,
-  voteCounts:{},createdAt:Date.now()
+  status:"Active",
+  active:true,
+  totalVotes:0,
+  voteCounts:{},
+  createdAt:Date.now()
  };
-
- if(dbReady){
-  addData("teacherPolls",poll).then(()=>{
-   $("pollMessage").textContent="Poll published successfully.";
-   $("pollMessage").style.color="var(--green)";
-  }).catch(err=>{
-   console.error(err);
-   alert("Could not publish poll. Check Firebase permissions.");
-  });
- }else{
-  const id="local_poll_"+Date.now();
-  pollData[id]=poll;
-  refreshAll();
-  $("pollMessage").textContent="Demo poll created locally. It is not visible on other devices.";
-  $("pollMessage").style.color="var(--yellow)";
- }
+ addData("teacherPolls",poll).then(()=>{
+  $("pollMessage").textContent="Poll published. It is now available in the teacherPolls database path.";
+  $("pollMessage").style.color="var(--green)";
+  ["pollTopic","pollQuestion","pollDescription","pollOption1","pollOption2","pollOption3","pollOption4"].forEach(id=>$(id).value="");
+ }).catch(err=>{
+  console.error(err);alert("Could not publish poll. Check Firebase permissions.");
+ });
 }
 
 window.createPoll=function(){
@@ -363,51 +605,36 @@ window.createPoll=function(){
  const description=$("pollDescription").value.trim();
  const options=["pollOption1","pollOption2","pollOption3","pollOption4"]
   .map(id=>$(id).value.trim()).filter(Boolean);
-
  if(!topic || !question || options.length<2){
   $("pollMessage").textContent="Enter a topic, a question, and at least two options.";
-  $("pollMessage").style.color="var(--red)";
-  return;
+  $("pollMessage").style.color="var(--red)";return;
  }
-
  createPollRecord(topic,question,description,options);
- ["pollTopic","pollQuestion","pollDescription","pollOption1","pollOption2","pollOption3","pollOption4"].forEach(id=>$(id).value="");
 };
 
 function renderPolls(){
  const list=entries(pollData).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
  $("pollList").innerHTML="";
-
- if(!list.length){
-  $("pollList").innerHTML='<p class="empty">No polls available.</p>';
-  return;
- }
+ if(!list.length){$("pollList").innerHTML='<p class="empty">No polls available.</p>';return;}
 
  list.forEach(p=>{
   const card=document.createElement("div");
   card.className="card";
-
   const title=document.createElement("h4");
   title.textContent=p.topic || "Classroom poll";
-
   const question=document.createElement("p");
   question.textContent=p.question || "";
-
   const state=document.createElement("span");
   state.className="badge "+(p.status==="Active"?"green-b":"");
   state.textContent=p.status || "Unknown";
-
   const vote=document.createElement("p");
-  vote.textContent="Recorded votes: "+Number(p.totalVotes||0);
-
+  vote.textContent="Recorded votes: "+Number(p.totalVotes || 0);
   const actions=document.createElement("div");
   actions.className="card-actions";
-
   const toggle=document.createElement("button");
   toggle.className="secondary-btn";
   toggle.textContent=p.status==="Active"?"Close Poll":"Publish / Reopen";
   toggle.onclick=()=>changePollStatus(p.id,p.status==="Active"?"Closed":"Active");
-
   actions.append(toggle);
   card.append(title,question,state,vote,actions);
   $("pollList").append(card);
@@ -415,34 +642,22 @@ function renderPolls(){
 }
 
 async function changePollStatus(id,status){
- if(dbReady){
-  try{
-   await updateData("teacherPolls/"+id,{status,active:status==="Active"});
-  }catch(e){
-   console.error(e);
-   alert("Could not update poll status.");
-  }
- }else{
-  if(pollData[id]){
-   pollData[id].status=status;
-   pollData[id].active=status==="Active";
-   refreshAll();
-  }
- }
+ if(!dbReady)return alert("Firebase is not connected.");
+ try{
+  await updateData("teacherPolls/"+id,{status,active:status==="Active"});
+ }catch(e){console.error(e);alert("Could not update poll status.");}
 }
 
 function renderAnalyticsPollSelect(){
  const select=$("analyticsPollSelect");
  const previous=select.value;
  select.innerHTML='<option value="">Select a poll</option>';
-
  entries(pollData).forEach(p=>{
   const option=document.createElement("option");
   option.value=p.id;
-  option.textContent=(p.topic||"Poll")+" — "+(p.question||"");
+  option.textContent=(p.topic || "Poll")+" — "+(p.question || "");
   select.append(option);
  });
-
  if(previous && pollData[previous])select.value=previous;
  renderAnalyticsPoll();
 }
@@ -451,90 +666,55 @@ window.renderAnalyticsPoll=function(){
  const id=$("analyticsPollSelect").value;
  const p=pollData[id];
  const container=$("analyticsPollResults");
-
- if(!p){
-  container.innerHTML='<p class="empty">Select a poll to view its results.</p>';
-  return;
- }
-
+ if(!p){container.innerHTML='<p class="empty">Select a poll to view its results.</p>';return;}
  const counts=p.voteCounts || p.results || {};
  const total=Number(p.totalVotes || Object.values(counts).reduce((a,b)=>a+Number(b||0),0));
-
- let html=`<p class="sub">${total} recorded votes. Results are based only on students who voted.</p>`;
-
- (p.options||[]).forEach(option=>{
-  const count=Number(counts[option]||0);
+ let html=`<p class="sub">${total} recorded votes</p>`;
+ (p.options || []).forEach(option=>{
+  const count=Number(counts[option] || 0);
   html+=formatCountBar(escapeHTML(option),count,total,"blue");
  });
-
  if(!total)html+='<p class="empty">No votes have been recorded yet.</p>';
-
  container.innerHTML=html;
 };
 
-// ---------- ANALYTICS ----------
+// ---------- STUDENT ANALYTICS ----------
 
 function buildTeachingRecommendation(c){
- if(!c.total){
-  return {
-   title:"Waiting for participation",
-   body:"Encourage students to submit their understanding pulse."
-  };
- }
-
+ if(!c.total)return {title:"Waiting for participation",body:"Encourage students to submit their understanding pulse so that the class learning pattern can be assessed."};
  const confused=Math.round(c.confused/c.total*100);
  const partial=Math.round(c.partial/c.total*100);
- const needsSupport=c.confused+c.partial;
- const supportRate=Math.round(needsSupport/c.total*100);
-
- if(confused>=25){
-  return {
-   title:"High confusion detected",
-   body:`${c.confused} of ${c.total} responses indicate that students need help. Re-explain the topic using a simpler example, solve one problem step by step, and conduct a follow-up poll.`
-  };
- }
-
- if(supportRate>=40){
-  return {
-   title:"A substantial group needs reinforcement",
-   body:`${needsSupport} of ${c.total} responses (${supportRate}%) are partially clear or need help. Consider revisiting the difficult steps before moving to the next topic.`
-  };
- }
-
- if(partial>=25){
-  return {
-   title:"Many students need reinforcement",
-   body:"Show another worked example and give students a short practice exercise before moving forward."
-  };
- }
-
+ if(confused>=25)return {
+  title:"High confusion detected",
+  body:"A significant share of recorded responses indicates difficulty. Re-explain the topic using a simpler example, solve one problem step by step, and run a short follow-up poll."
+ };
+ if(partial>=25)return {
+  title:"Many students need reinforcement",
+  body:"Consider revisiting the key steps and showing another worked example. Give students a short practice exercise before moving to the next topic."
+ };
+ if(confused+partial>=20)return {
+  title:"Consider a short knowledge check",
+  body:"Some students may need additional support. Pause for questions, explain the most difficult step again, and check understanding with a quick poll."
+ };
  return {
   title:"Class understanding looks encouraging",
-  body:`${c.clear} of ${c.total} responses indicate clear understanding. Continue with the planned lesson while providing extra support to students who requested it.`
+  body:"Continue with the planned lesson. Use a more challenging practice question and keep the option open for students to request additional help."
  };
 }
 
 function renderAnalytics(){
  const c=countStatuses();
-
  $("anParticipated").textContent=c.total;
  $("anClear").textContent=c.clear;
  $("anPartial").textContent=c.partial;
  $("anConfused").textContent=c.confused;
-
  $("analyticsPulse").innerHTML=
-  `<div class="notice info">
-   <b>Classroom attendance</b><br>
-   ${CLASSROOM.present} present / ${CLASSROOM.enrolled} enrolled<br>
-   ${CLASSROOM.absent} absent. ${CLASSROOM.present-c.total} present students did not submit a pulse.
-  </div>`+
   formatCountBar("Clear",c.clear,c.total,"green")+
   formatCountBar("Partially clear",c.partial,c.total,"yellow")+
-  formatCountBar("Need help",c.confused,c.total,"red");
-
+  formatCountBar("Need help",c.confused,c.total,"red")+
+  formatCountBar("Unclassified",c.unknown,c.total,"purple");
  const insight=buildTeachingRecommendation(c);
  $("analyticsRecommendation").innerHTML=`<h4>${insight.title}</h4><p>${insight.body}</p>`;
-
  renderStudentControls();
  renderAnalyticsPollSelect();
 }
@@ -543,40 +723,26 @@ function renderStudentControls(){
  const search=$("studentIdSearch").value.trim().toLowerCase();
  const students=latestPulseByStudent();
  const ids=new Set(students.map(s=>s.studentId));
-
  Object.keys(controlData).forEach(id=>ids.add(id));
-
  const filtered=[...ids].filter(id=>id.toLowerCase().includes(search)).sort();
  const body=$("studentControlTable");
  body.innerHTML="";
-
  if(!filtered.length){
-  body.innerHTML='<tr><td colspan="4" class="empty">No matching anonymous IDs.</td></tr>';
-  return;
+  body.innerHTML='<tr><td colspan="4" class="empty">No matching anonymous IDs.</td></tr>';return;
  }
-
  filtered.forEach(id=>{
   const record=students.find(s=>s.studentId===id);
   const frozen=isFrozen(id);
-
   const tr=document.createElement("tr");
-  const idCell=document.createElement("td");
-  idCell.textContent=id;
-
-  const response=document.createElement("td");
-  response.textContent=record?getPulseStatus(record):"No pulse";
-
+  const idCell=document.createElement("td");idCell.textContent=id;
+  const response=document.createElement("td");response.textContent=record?getPulseStatus(record):"No pulse";
   const status=document.createElement("td");
-  status.innerHTML=frozen?
-   '<span class="badge red-b">Frozen</span>':
-   '<span class="badge green-b">Active</span>';
-
+  status.innerHTML=frozen?'<span class="badge red-b">Frozen</span>':'<span class="badge green-b">Active</span>';
   const action=document.createElement("td");
   const button=document.createElement("button");
   button.className=frozen?"success-btn":"danger-btn";
   button.textContent=frozen?"Unfreeze":"Freeze";
   button.onclick=()=>setStudentFreeze(id,!frozen);
-
   action.append(button);
   tr.append(idCell,response,status,action);
   body.append(tr);
@@ -584,84 +750,61 @@ function renderStudentControls(){
 }
 
 async function setStudentFreeze(id,freeze){
- const record={
-  frozen:freeze,
-  frozenUntil:freeze?Date.now()+24*60*60*1000:0,
-  updatedAt:Date.now(),
-  reason:freeze?"Teacher moderation action":"Teacher lifted restriction"
- };
-
- if(dbReady){
-  try{
-   await updateData("studentControls/"+id,record);
-   alert(freeze?"Student ID frozen for 24 hours.":"Student ID unfrozen.");
-  }catch(e){
-   console.error(e);
-   alert("Could not update student control.");
-  }
- }else{
-  controlData[id]=record;
-  renderStudentControls();
-  alert("Demo mode: restriction updated only in this browser session.");
- }
+ if(!dbReady)return alert("Firebase is not connected.");
+ try{
+  await updateData("studentControls/"+id,{
+   frozen:freeze,
+   frozenUntil:freeze?Date.now()+24*60*60*1000:0,
+   updatedAt:Date.now(),
+   reason:freeze?"Teacher moderation action":"Teacher lifted restriction"
+  });
+  alert(freeze?"Student ID frozen for 24 hours.":"Student ID unfrozen.");
+ }catch(e){console.error(e);alert("Could not update student control. Check database permissions.");}
 }
 
 window.sendPrivateMessage=async function(){
  const id=$("privateMessageId").value.trim();
  const message=$("privateMessageText").value.trim();
-
  if(!id || !message)return alert("Enter the student ID and message.");
-
- const record={
-  message,
-  audience:"individual",
-  createdAt:Date.now(),
-  read:false
- };
-
- if(dbReady){
-  try{
-   await addData("studentMessages/"+id,record);
-   $("privateMessageText").value="";
-   alert("Private message saved for "+id+".");
-  }catch(e){
-   console.error(e);
-   alert("Message could not be sent.");
-  }
- }else{
-  messageData[id]=record;
+ if(!dbReady)return alert("Firebase is not connected.");
+ try{
+  await addData("studentMessages/"+id,{
+   message,
+   audience:"individual",
+   createdAt:Date.now(),
+   read:false
+  });
   $("privateMessageText").value="";
-  alert("Demo mode: message stored only in this teacher portal session.");
- }
+  alert("Private message saved for "+id+".");
+ }catch(e){console.error(e);alert("Message could not be sent. Check Firebase permissions.");}
 };
 
-// ---------- DOUBTS ----------
+// ---------- DOUBTS AND QUESTION FLAGS ----------
 
 function questionText(q){
  return safe(q.question || q.message || q.doubt || q.text);
 }
-
 function questionTopic(q){
  return safe(q.topic || q.category || "General question");
 }
 
+// A lightweight heuristic: identify unusually detailed or less repeated questions.
+// This does not understand meaning like a real AI model.
 function flaggedQuestionList(){
  const qs=entries(queryData);
  const normalized=qs.map(q=>({
   ...q,
   text:questionText(q).toLowerCase().replace(/[^a-z0-9 ]/g," ").trim()
  }));
-
  const counts={};
  normalized.forEach(q=>{
   if(q.text)counts[q.text]=(counts[q.text]||0)+1;
  });
-
  return normalized.filter(q=>{
   const words=q.text.split(/\s+/).filter(Boolean);
   const looksDetailed=words.length>=14;
   const asksReason=/why|how|explain|derive|prove|relationship|difference|what happens if/.test(q.text);
-  return q.text && counts[q.text]===1 && (looksDetailed||asksReason);
+  return q.text && counts[q.text]===1 && (looksDetailed || asksReason);
  });
 }
 
@@ -670,7 +813,6 @@ function renderDoubts(){
  const pending=qs.filter(q=>!isAnswered(q));
  const answered=qs.length-pending.length;
  const flagged=flaggedQuestionList();
-
  $("doubtTotal").textContent=qs.length;
  $("doubtPending").textContent=pending.length;
  $("doubtAnswered").textContent=answered;
@@ -683,61 +825,40 @@ function renderDoubts(){
 function renderQuestionCards(items,target,flagged){
  const container=$(target);
  container.innerHTML="";
-
  if(!items.length){
-  container.innerHTML='<p class="empty">No questions to display.</p>';
-  return;
+  container.innerHTML='<p class="empty">No questions to display.</p>';return;
  }
-
  items.forEach(q=>{
   const card=document.createElement("div");
   card.className="card";
-
   const heading=document.createElement("h4");
   heading.textContent=questionTopic(q)+" • "+(getStudentId(q)||"Anonymous student");
-
   const question=document.createElement("p");
   question.textContent=questionText(q);
-
   const status=document.createElement("span");
   status.className="badge "+(isAnswered(q)?"green-b":"yellow-b");
   status.textContent=isAnswered(q)?"Answered":"Pending";
-
   const flag=document.createElement("span");
   flag.className="badge";
   flag.textContent=flagged?"Worth teacher review":"Student question";
-
   const answer=document.createElement("textarea");
   answer.placeholder="Write your explanation or solution...";
-  answer.value=q.answer||q.teacherReply||"";
-
+  answer.value=q.answer || q.teacherReply || "";
   const send=document.createElement("button");
   send.className="action-btn";
   send.textContent="Send Answer to Student";
-
   send.onclick=async()=>{
    if(!answer.value.trim())return alert("Write an answer first.");
-
-   if(dbReady){
-    try{
-     await updateData("studentQueries/"+q.id,{
-      answer:answer.value.trim(),
-      status:"Answered",
-      answeredAt:Date.now()
-     });
-     alert("Your answer has been saved.");
-    }catch(e){
-     console.error(e);
-     alert("Could not save the answer.");
-    }
-   }else{
-    queryData[q.id].answer=answer.value.trim();
-    queryData[q.id].status="Answered";
-    refreshAll();
-    alert("Demo answer saved locally.");
-   }
+   if(!dbReady)return alert("Firebase is not connected.");
+   try{
+    await updateData("studentQueries/"+q.id,{
+     answer:answer.value.trim(),
+     status:"Answered",
+     answeredAt:Date.now()
+    });
+    alert("Your answer has been saved.");
+   }catch(e){console.error(e);alert("Could not save the answer.");}
   };
-
   card.append(heading,question,status,flag,answer,send);
   container.append(card);
  });
@@ -746,51 +867,39 @@ function renderQuestionCards(items,target,flagged){
 window.publishClassSolution=async function(){
  const topic=$("solutionTopic").value.trim();
  const solution=$("solutionText").value.trim();
-
- if(!topic||!solution)return alert("Enter a topic and explanation.");
-
- const record={
-  topic,solution,audience:"all",createdAt:Date.now()
- };
-
- if(dbReady){
-  try{
-   await addData("classSolutions",record);
-   $("solutionTopic").value="";
-   $("solutionText").value="";
-   alert("Class explanation published.");
-  }catch(e){
-   console.error(e);
-   alert("Could not publish the explanation.");
-  }
- }else{
-  alert("Demo mode: connect Firebase to publish this explanation to student devices.");
- }
+ if(!topic || !solution)return alert("Enter a topic and explanation.");
+ if(!dbReady)return alert("Firebase is not connected.");
+ try{
+  await addData("classSolutions",{
+   topic,solution,
+   audience:"all",
+   createdAt:Date.now()
+  });
+  $("solutionTopic").value="";
+  $("solutionText").value="";
+  alert("Class explanation published.");
+ }catch(e){console.error(e);alert("Could not publish the explanation.");}
 };
 
 // ---------- SUGGESTIONS ----------
 
 function suggestionType(s){
- return safe(s.type||s.category||s.suggestion||s.resource||"Other").toLowerCase();
+ return safe(s.type || s.category || s.suggestion || s.resource || "Other").toLowerCase();
 }
 
 function suggestionGroups(){
  const groups={};
-
  entries(suggestionData).forEach(s=>{
   const raw=suggestionType(s);
   let group="Other";
-
   if(raw.includes("note"))group="Revision notes";
   else if(raw.includes("worksheet"))group="Worksheets";
-  else if(raw.includes("lecture")||raw.includes("relecture"))group="Re-lecture";
-  else if(raw.includes("test")||raw.includes("quiz"))group="Practice tests";
+  else if(raw.includes("lecture") || raw.includes("relecture"))group="Re-lecture";
+  else if(raw.includes("test") || raw.includes("quiz"))group="Practice tests";
   else if(raw.includes("example"))group="Solved examples";
   else if(raw.includes("revision"))group="Revision";
-
   groups[group]=(groups[group]||0)+1;
  });
-
  return groups;
 }
 
@@ -798,7 +907,6 @@ function renderSuggestions(){
  const list=entries(suggestionData);
  const groups=suggestionGroups();
  const total=list.length;
-
  $("suggestionTotal").textContent=total;
  $("suggestionNotes").textContent=(groups["Revision notes"]||0)+(groups["Revision"]||0);
  $("suggestionWorksheets").textContent=groups["Worksheets"]||0;
@@ -806,13 +914,8 @@ function renderSuggestions(){
 
  const chart=$("suggestionChart");
  chart.innerHTML="";
-
  const sorted=Object.entries(groups).sort((a,b)=>b[1]-a[1]);
-
- if(!sorted.length){
-  chart.innerHTML='<p class="empty">No suggestions received yet.</p>';
- }
-
+ if(!sorted.length)chart.innerHTML='<p class="empty">No suggestions received yet.</p>';
  sorted.forEach(([name,count])=>{
   const wrapper=document.createElement("div");
   wrapper.innerHTML=formatCountBar(escapeHTML(name),count,total,"purple");
@@ -821,73 +924,60 @@ function renderSuggestions(){
 
  const top=sorted[0];
  let insight;
-
  if(!top){
-  insight={
-   title:"Waiting for student suggestions",
-   body:"Invite students to request notes, re-lectures, worksheets, or practice tests."
-  };
+  insight={title:"Waiting for student suggestions",body:"Invite students to request notes, re-lectures, worksheets, or practice tests for specific topics."};
  }else{
   const actions={
    "Revision notes":"Prepare a concise revision sheet and share it before the next class.",
    "Worksheets":"Create a topic-specific worksheet with basic, intermediate, and challenging questions.",
    "Re-lecture":"Plan a short revision session and ask students which step needs further explanation.",
-   "Practice tests":"Prepare a short topic-based quiz.",
+   "Practice tests":"Prepare a short topic-based quiz to help students test their understanding.",
    "Solved examples":"Share worked examples and explain the reasoning behind each step.",
-   "Revision":"Organise a focused revision session.",
-   "Other":"Review the written requests and identify the most useful resource."
+   "Revision":"Organise a focused revision session around the most requested topic.",
+   "Other":"Review the written requests and identify the most useful resource to prepare."
   };
-
   insight={
    title:"Most requested: "+top[0],
-   body:`${top[1]} of ${total} submitted requests fall into this category. Suggested next step: ${actions[top[0]]||actions.Other}`
+   body:`${top[1]} of ${total} recorded requests fall into this category. Suggested next step: ${actions[top[0]] || actions.Other}`
   };
  }
-
  $("suggestionRecommendation").innerHTML=`<h4>${insight.title}</h4><p>${insight.body}</p>`;
 
  const container=$("suggestionList");
  container.innerHTML="";
-
- if(!list.length){
-  container.innerHTML='<p class="empty">No suggestions received yet.</p>';
-  return;
- }
-
+ if(!list.length){container.innerHTML='<p class="empty">No suggestions received yet.</p>';return;}
  list.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).forEach(s=>{
-  const card=document.createElement("div");
-  card.className="card";
-
+  const card=document.createElement("div");card.className="card";
   const title=document.createElement("h4");
-  title.textContent=s.topic||suggestionType(s)||"Student resource request";
-
+  title.textContent=s.topic || suggestionType(s) || "Student resource request";
   const details=document.createElement("p");
-  details.textContent=s.message||s.description||s.request||s.suggestion||suggestionType(s);
-
+  details.textContent=s.message || s.description || s.request || s.suggestion || suggestionType(s);
   const id=document.createElement("p");
   id.textContent="Anonymous ID: "+(getStudentId(s)||"Not supplied");
-
-  card.append(title,details,id);
-  container.append(card);
+  card.append(title,details,id);container.append(card);
  });
 }
 
 window.createResourcePoll=function(){
  const topic=$("resourceTopic").value.trim();
  const type=$("resourceType").value;
-
  if(!topic)return alert("Enter the topic for the resource poll.");
-
  const question=`Would you like ${type.toLowerCase()} for ${topic}?`;
-
  createPollRecord(topic,question,"Teacher-created resource demand poll.",[
   "Yes, I need it","Maybe, it would help","No, I do not need it"
  ]);
-
  $("resourceTopic").value="";
 };
 
-// ---------- REFRESH ----------
+// ---------- SECURITY / HTML HELPERS ----------
+
+function escapeHTML(value){
+ return safe(value).replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[char]));
+}
+
+// ---------- DATA LISTENERS ----------
 
 function refreshAll(){
  renderOverview();
@@ -897,48 +987,25 @@ function refreshAll(){
  renderSuggestions();
 }
 
-// ---------- FIREBASE CONNECTION ----------
-
-async function connectFirebase(){
- try{
-  const firebase=await import("./firebase.js");
-
-  if(!firebase.listenData || !firebase.addData || !firebase.updateData){
-   throw new Error("firebase.js must export listenData, addData and updateData.");
-  }
-
-  addData=firebase.addData;
-  updateData=firebase.updateData;
-
-  const paths=[
-   ["studentPulse",data=>pulseData=data],
-   ["studentQueries",data=>queryData=data],
-   ["studentSuggestions",data=>suggestionData=data],
-   ["teacherPolls",data=>pollData=data],
-   ["studentControls",data=>controlData=data]
-  ];
-
-  paths.forEach(([path,callback])=>{
-   firebase.listenData(path,data=>{
-    callback(data||{});
-    refreshAll();
-   });
-  });
-
-  setConnection(true);
-  refreshAll();
-
- }catch(error){
-  console.warn("Firebase unavailable. Running demonstration mode.",error);
-  loadDemoData();
-  setConnection(false);
-  refreshAll();
- }
+try{
+ listenData("studentPulse",data=>{pulseData=data;refreshAll();});
+ listenData("studentQueries",data=>{queryData=data;refreshAll();});
+ listenData("studentSuggestions",data=>{suggestionData=data;refreshAll();});
+ listenData("teacherPolls",data=>{pollData=data;refreshAll();});
+ listenData("studentControls",data=>{controlData=data;refreshAll();});
+ setConnection(true);
+}catch(error){
+ console.error("Firebase listener error:",error);
+ setConnection(false);
+ alert("Firebase could not connect. Check your firebase.js file and database permissions.");
 }
 
-loadDemoData();
-setConnection(false);
 refreshAll();
-connectFirebase();
-
 </script>
+
+</body>
+</html>
+
+
+
+do same sort of example embeddeness into this
